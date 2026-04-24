@@ -76,9 +76,9 @@
 
 <div class="calc-ctas" id="shareAfterGen" style="display:none;gap:8px">
   <button class="calc-share-btn" onclick="downloadImage()" style="background:var(--primary);color:#fff;border:none;border-radius:999px;padding:12px 20px;font-size:.9rem;font-weight:800;cursor:pointer">💾 Télécharger l'image</button>
-  <button class="calc-share-btn" onclick="shareImage('wa')" style="background:#25D366;color:#fff;border:none;border-radius:999px;padding:12px 20px;font-size:.9rem;font-weight:800;cursor:pointer">📤 WhatsApp</button>
-  <button class="calc-share-btn" onclick="shareImage('tw')" style="background:#000;color:#fff;border:none;border-radius:999px;padding:12px 20px;font-size:.9rem;font-weight:800;cursor:pointer">𝕏 Twitter</button>
-  <button class="calc-share-btn" onclick="shareImage('copy')" style="background:var(--muted);color:#fff;border:none;border-radius:999px;padding:12px 20px;font-size:.9rem;font-weight:800;cursor:pointer">📋 Copier le texte</button>
+  <button class="calc-share-btn" onclick="shareImage('wa',this)" style="background:#25D366;color:#fff;border:none;border-radius:999px;padding:12px 20px;font-size:.9rem;font-weight:800;cursor:pointer">📤 WhatsApp</button>
+  <button class="calc-share-btn" onclick="shareImage('tw',this)" style="background:#000;color:#fff;border:none;border-radius:999px;padding:12px 20px;font-size:.9rem;font-weight:800;cursor:pointer">𝕏 Twitter</button>
+  <button class="calc-share-btn" onclick="shareImageCopy(this)" style="background:var(--muted);color:#fff;border:none;border-radius:999px;padding:12px 20px;font-size:.9rem;font-weight:800;cursor:pointer">📋 Copier</button>
 </div>
 
 <p style="font-size:.85rem;color:var(--muted);margin-top:18px">Estimation basée sur un cashback moyen de 3%, une économie GamsGo de 70% sur les abonnements, 5€/mois d'apps de remboursement, et 3% de cashback crypto Plutus. Les résultats varient selon tes habitudes.</p>
@@ -306,23 +306,74 @@ function downloadImage() {
   a.click();
 }
 
-function shareImage(platform) {
+// Tentative de partage natif (mobile : image + texte ensemble)
+// Fallback : téléchargement + ouverture réseau social
+async function shareImage(platform, btn) {
   const vals = getCurrentValues();
-  const text = `💸 Je pourrais récupérer ${vals.total}€/an avec le cashback ! (${vals.kebabs} kebabs !) Calcule le tien → https://ykaracapro-ai.github.io/euromalin/calculateur.html`;
-  const encoded = encodeURIComponent(text);
+  const text = `💸 Je pourrais récupérer ${vals.total}€/an avec le cashback ! (${vals.kebabs} kebabs !)`;
+  const url = 'https://ykaracapro-ai.github.io/euromalin/calculateur.html';
+  const fullText = text + ' \nCalcule le tien : ' + url;
+
+  // 1) Essayer Web Share API (mobile) qui supporte fichiers
+  if (generatedDataUrl && navigator.share) {
+    try {
+      // Convertir data URL en blob pour le partage natif
+      const res = await fetch(generatedDataUrl);
+      const blob = await res.blob();
+      const file = new File([blob], 'euromalin-'+vals.total+'euros.png', { type: 'image/png' });
+      await navigator.share({
+        title: 'EuroMalin',
+        text: text,
+        url: url,
+        files: [file]
+      });
+      return;
+    } catch(e) {
+      // Web Share refusé ou erreur → fallback
+      if (e.name !== 'AbortError') {
+        // Continuer vers le fallback
+      } else {
+        return; // Utilisateur a annulé
+      }
+    }
+  }
+
+  // 2) Fallback : télécharger l'image + ouvrir le réseau social
+  if (generatedDataUrl) {
+    downloadImage();
+  }
+
+  const encoded = encodeURIComponent(fullText);
   const links = {
     wa: `https://wa.me/?text=${encoded}`,
-    tw: `https://twitter.com/intent/tweet?text=${encoded}`
+    tw: `https://twitter.com/intent/tweet?text=${encoded}&url=${encodeURIComponent(url)}`
   };
-  if (platform === 'copy') {
-    navigator.clipboard.writeText(text).then(() => {
-      const btn = event.target;
-      btn.textContent = '✅ Copié !';
-      setTimeout(() => btn.textContent = '📋 Copier le texte', 1500);
-    });
-    return;
-  }
   if (links[platform]) window.open(links[platform], '_blank', 'width=600,height=500');
+}
+
+async function shareImageCopy(btn) {
+  const vals = getCurrentValues();
+  const text = `💸 Je pourrais récupérer ${vals.total}€/an avec le cashback ! (${vals.kebabs} kebabs !) Calcule le tien → https://ykaracapro-ai.github.io/euromalin/calculateur.html`;
+
+  // Essayer de copier aussi l'image dans le presse-papier (Chromium 86+)
+  try {
+    if (generatedDataUrl && navigator.clipboard.write) {
+      const res = await fetch(generatedDataUrl);
+      const blob = await res.blob();
+      await navigator.clipboard.write([
+        new ClipboardItem({ 'image/png': blob })
+      ]);
+    }
+  } catch(e) { /* fallback texte seul */ }
+
+  // Copier le texte aussi
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✅ Copié !';
+    setTimeout(() => btn.textContent = '📋 Copier le texte', 1500);
+  }).catch(() => {
+    btn.textContent = '❌ Erreur';
+    setTimeout(() => btn.textContent = '📋 Copier', 1500);
+  });
 }
 
 genImgBtn.addEventListener('click', generateCalcImage);
