@@ -68,7 +68,17 @@
 <div class="calc-ctas">
   <a class="btn" href="articles/gagnez-7-euros-en-vous-inscrivant.html" style="font-size:1.15rem;padding:18px 28px;background:var(--accent);color:var(--text);box-shadow:0 10px 30px rgba(245,158,11,.4)">🔥 Activer tous les leviers maintenant →</a>
   <a class="btn secondary" href="https://fr.igraal.com/parrainage?parrain=AG_69131d3a40583&utm_medium=raf&utm_source=refer_friend" style="border:2px solid var(--accent);color:var(--accent)">💰 Commencer par iGraal (7€ de bonus)</a>
-  <button class="calc-share-btn" id="shareBtn">📤 Partager le résultat sur WhatsApp</button>
+  <button class="calc-share-btn" id="genImgBtn" style="background:linear-gradient(135deg,#f59e0b,#d94f14);color:white;border:none;border-radius:999px;padding:14px 24px;font-size:1rem;font-weight:800;cursor:pointer;transition:.2s">🖼️ Générer une image du résultat</button>
+</div>
+
+<!-- Zone où l'image apparaît -->
+<div id="generatedImageArea" style="display:none;margin:16px 0;text-align:center"></div>
+
+<div class="calc-ctas" id="shareAfterGen" style="display:none;gap:8px">
+  <button class="calc-share-btn" onclick="downloadImage()" style="background:var(--primary);color:#fff;border:none;border-radius:999px;padding:12px 20px;font-size:.9rem;font-weight:800;cursor:pointer">💾 Télécharger l'image</button>
+  <button class="calc-share-btn" onclick="shareImage('wa')" style="background:#25D366;color:#fff;border:none;border-radius:999px;padding:12px 20px;font-size:.9rem;font-weight:800;cursor:pointer">📤 WhatsApp</button>
+  <button class="calc-share-btn" onclick="shareImage('tw')" style="background:#000;color:#fff;border:none;border-radius:999px;padding:12px 20px;font-size:.9rem;font-weight:800;cursor:pointer">𝕏 Twitter</button>
+  <button class="calc-share-btn" onclick="shareImage('copy')" style="background:var(--muted);color:#fff;border:none;border-radius:999px;padding:12px 20px;font-size:.9rem;font-weight:800;cursor:pointer">📋 Copier le texte</button>
 </div>
 
 <p style="font-size:.85rem;color:var(--muted);margin-top:18px">Estimation basée sur un cashback moyen de 3%, une économie GamsGo de 70% sur les abonnements, 5€/mois d'apps de remboursement, et 3% de cashback crypto Plutus. Les résultats varient selon tes habitudes.</p>
@@ -103,8 +113,6 @@ const bieres = document.getElementById('bieres');
 const netflixMonths = document.getElementById('netflixMonths');
 const pleins = document.getElementById('pleins');
 const resultBox = document.getElementById('resultBox');
-const shareBtn = document.getElementById('shareBtn');
-
 // Taux constants
 const CASHBACK_PCT = 0.03;       // 3% cashback sur achats
 const ABO_ECONOMIE = 35;          // 35€/mois d'économie GamsGo (Netflix+Spotify+YouTube plein tarif ~40€ vs ~12€ = ~28€, arrondi à 35)
@@ -163,14 +171,128 @@ function calc() {
 input.addEventListener('input', calc);
 calc();
 
-// Partage WhatsApp
-shareBtn.addEventListener('click', function() {
-  const v = parseFloat(input.value) || 0;
-  const cashbackAn = Math.round(v * CASHBACK_PCT * 12);
-  const totalAn = cashbackAn + ABO_ECONOMIE * 12 + APPS_MOIS * 12;
-  const k = Math.floor(totalAn / PRIX.kebab);
-  const text = `💸 Je pourrais récupérer ${totalAn}€/an avec le cashback + abos moins chers + apps ! ($\{k} kebabs quand même !) Calcule le tien : https://ykaracapro-ai.github.io/euromalin/calculateur.html`;
-  window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
-});
+// ===== GÉNÉRATEUR D'IMAGE CANVAS =====
+const genImgBtn = document.getElementById('genImgBtn');
+const imgArea = document.getElementById('generatedImageArea');
+const shareAfterGen = document.getElementById('shareAfterGen');
+let generatedDataUrl = null;
+
+function getCurrentValues() {
+  let v = parseFloat(input.value) || 0;
+  const total = Math.round(v * 0.03 * 12) + 35*12 + 5*12;
+  return {
+    total,
+    month: Math.round(total/12),
+    kebabs: Math.floor(total/7),
+    coffees: Math.floor(total/3.5),
+    pizzas: Math.floor(total/12),
+    bieres: Math.floor(total/6),
+    netflix: Math.floor(total/18),
+    pleins: Math.floor(total/70)
+  };
+}
+
+function generateCalcImage() {
+  const vals = getCurrentValues();
+  const c = document.createElement('canvas');
+  c.width = 600;
+  c.height = 420;
+  const ctx = c.getContext('2d');
+
+  // Dégradé fond
+  const grad = ctx.createLinearGradient(0,0,600,420);
+  grad.addColorStop(0,'#d94f14');
+  grad.addColorStop(1,'#b91c1c');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0,0,600,420);
+
+  // Carte blanche arrondie
+  ctx.fillStyle = 'rgba(255,255,255,.96)';
+  ctx.beginPath();
+  ctx.roundRect(25,40,550,340,20);
+  ctx.fill();
+
+  // Titre
+  ctx.fillStyle = '#d94f14';
+  ctx.font = 'bold 44px Georgia, "Times New Roman", serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('💸 Tu perds ' + vals.total + '€/an', 300, 120);
+
+  // Sous-titre
+  ctx.fillStyle = '#6b7280';
+  ctx.font = '20px Arial, sans-serif';
+  ctx.fillText('Sans cashback, sans bons plans, sans optimiser tes abonnements', 300, 160);
+
+  // Ligne séparatrice
+  ctx.strokeStyle = '#fde68a';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(80, 185);
+  ctx.lineTo(520, 185);
+  ctx.stroke();
+
+  // Équivalences
+  ctx.fillStyle = '#1a1a2e';
+  ctx.font = 'bold 22px Arial, sans-serif';
+  ctx.fillText('Avec cet argent tu pourrais t\'offrir :', 300, 225);
+
+  ctx.fillStyle = '#d94f14';
+  ctx.font = '20px Arial, sans-serif';
+  ctx.fillText('🥙 ' + vals.kebabs + ' kebabs    ☕ ' + vals.coffees + ' cafés    🍺 ' + vals.bieres + ' pintes', 300, 265);
+
+  ctx.fillStyle = '#f59e0b';
+  ctx.font = '20px Arial, sans-serif';
+  ctx.fillText('🍕 ' + vals.pizzas + ' pizzas    🎬 ' + vals.netflix + ' mois Netflix    ⛽ ' + vals.pleins + ' pleins essence', 300, 300);
+
+  // Lien
+  ctx.fillStyle = '#b91c1c';
+  ctx.font = 'bold 16px Arial, sans-serif';
+  ctx.fillText('→ ykaracapro-ai.github.io/euromalin/calculateur.html', 300, 345);
+
+  // Logo EuroMalin
+  ctx.fillStyle = '#d94f14';
+  ctx.font = 'bold 13px Arial, sans-serif';
+  ctx.fillText('EuroMalin — le site qui te rend ton argent', 300, 375);
+
+  generatedDataUrl = c.toDataURL('image/png');
+
+  // Afficher l'image
+  imgArea.innerHTML = '<img src="'+generatedDataUrl+'" style="max-width:100%;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.15)"/>';
+  imgArea.style.display = 'block';
+  shareAfterGen.style.display = 'flex';
+  genImgBtn.textContent = '🖼️ Régénérer l\'image';
+
+  // Scroll jusqu'à l'image
+  imgArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function downloadImage() {
+  if (!generatedDataUrl) return;
+  const a = document.createElement('a');
+  a.href = generatedDataUrl;
+  a.download = 'euromalin-calcul-'+getCurrentValues().total+'euros.png';
+  a.click();
+}
+
+function shareImage(platform) {
+  const vals = getCurrentValues();
+  const text = `💸 Je pourrais récupérer ${vals.total}€/an avec le cashback ! (${vals.kebabs} kebabs !) Calcule le tien → https://ykaracapro-ai.github.io/euromalin/calculateur.html`;
+  const encoded = encodeURIComponent(text);
+  const links = {
+    wa: `https://wa.me/?text=${encoded}`,
+    tw: `https://twitter.com/intent/tweet?text=${encoded}`
+  };
+  if (platform === 'copy') {
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = event.target;
+      btn.textContent = '✅ Copié !';
+      setTimeout(() => btn.textContent = '📋 Copier le texte', 1500);
+    });
+    return;
+  }
+  if (links[platform]) window.open(links[platform], '_blank', 'width=600,height=500');
+}
+
+genImgBtn.addEventListener('click', generateCalcImage);
 </script>
 </body></html>
