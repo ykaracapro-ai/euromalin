@@ -37,11 +37,11 @@
   <a class="btn" href="articles/gagnez-7-euros-en-vous-inscrivant.html" style="flex:1;font-size:.85rem;padding:10px 12px">💸 Récupérer</a>
 </div>
 <div style="display:flex;gap:6px;margin-top:10px">
-  <button class="calc-share-btn" onclick="shareCalc('wa')" style="flex:1;font-size:.78rem;padding:10px 8px;background:#25D366;color:#fff;border:none;border-radius:999px;font-weight:800;cursor:pointer">📤 WhatsApp</button>
-  <button class="calc-share-btn" onclick="shareCalc('fb')" style="flex:1;font-size:.78rem;padding:10px 8px;background:#1877F2;color:#fff;border:none;border-radius:999px;font-weight:800;cursor:pointer">📘 Facebook</button>
-  <button class="calc-share-btn" onclick="shareCalc('tw')" style="flex:1;font-size:.78rem;padding:10px 8px;background:#000;color:#fff;border:none;border-radius:999px;font-weight:800;cursor:pointer">𝕏 Twitter</button>
-  <button class="calc-share-btn" onclick="shareCalc('msg')" style="flex:1;font-size:.78rem;padding:10px 8px;background:#007AFF;color:#fff;border:none;border-radius:999px;font-weight:800;cursor:pointer">💬 Messenger</button>
-  <button class="calc-share-btn" onclick="shareCalc('copy')" style="flex:1;font-size:.78rem;padding:10px 8px;background:var(--muted);color:#fff;border:none;border-radius:999px;font-weight:800;cursor:pointer">📋 Copier</button>
+  <button class="calc-share-btn" onclick="shareCalc('wa',this)" style="flex:1;font-size:.78rem;padding:10px 8px;background:#25D366;color:#fff;border:none;border-radius:999px;font-weight:800;cursor:pointer">📤 WhatsApp</button>
+  <button class="calc-share-btn" onclick="shareCalc('fb',this)" style="flex:1;font-size:.78rem;padding:10px 8px;background:#1877F2;color:#fff;border:none;border-radius:999px;font-weight:800;cursor:pointer">📘 Facebook</button>
+  <button class="calc-share-btn" onclick="shareCalc('tw',this)" style="flex:1;font-size:.78rem;padding:10px 8px;background:#000;color:#fff;border:none;border-radius:999px;font-weight:800;cursor:pointer">𝕏 Twitter</button>
+  <button class="calc-share-btn" onclick="shareCalc('msg',this)" style="flex:1;font-size:.78rem;padding:10px 8px;background:#007AFF;color:#fff;border:none;border-radius:999px;font-weight:800;cursor:pointer">💬 Messenger</button>
+  <button class="calc-share-btn" onclick="shareCalc('copy',this)" style="flex:1;font-size:.78rem;padding:10px 8px;background:var(--muted);color:#fff;border:none;border-radius:999px;font-weight:800;cursor:pointer">📋 Copier</button>
 </div>
 </div>
 <div class="highlight-card panel" style="border-color:var(--accent)">
@@ -89,7 +89,7 @@ function getCalcText() {
   return `💸 Je pourrais récupérer ${total}€/an avec le cashback ! (${k} kebabs quand même !) Calcule le tien → https://ykaracapro-ai.github.io/euromalin/calculateur.html`;
 }
 
-function shareCalc(platform) {
+function shareCalc(platform, el) {
   const text = getCalcText();
   const url = 'https://ykaracapro-ai.github.io/euromalin/calculateur.html';
   const encoded = encodeURIComponent(text);
@@ -105,10 +105,16 @@ function shareCalc(platform) {
   
   if (platform === 'copy') {
     navigator.clipboard.writeText(text).then(() => {
-      const btn = event.target;
-      const orig = btn.textContent;
-      btn.textContent = '✅ Copié !';
-      setTimeout(() => btn.textContent = orig, 1500);
+      if (el) {
+        const orig = el.textContent;
+        el.textContent = '✅ Copié !';
+        setTimeout(() => el.textContent = orig, 1500);
+      }
+    }).catch(() => {
+      if (el) {
+        el.textContent = '❌ Erreur';
+        setTimeout(() => el.textContent = '📋 Copier', 1500);
+      }
     });
     return;
   }
