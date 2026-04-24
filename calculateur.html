@@ -6,7 +6,7 @@
 <div class="calc-card">
 <span class="calc-emoji">💸</span>
 <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:4px">Combien tu perds chaque année ?</h1>
-<p style="color:var(--muted);margin:0 0 22px;font-size:1rem">Sans cashback, tu laisses de l'argent sur la table. Chaque mois. Sans le savoir.</p>
+<p style="color:var(--muted);margin:0 0 22px;font-size:1rem">Sans cashback, sans bons plans GamsGo, sans apps de remboursement — tu laisses de l'argent sur la table. Chaque mois.</p>
 
 <div class="calc-label">💰 Mes dépenses mensuelles en ligne</div>
 <div class="calc-input-wrap">
@@ -14,35 +14,73 @@
   <input class="calc-input" id="spendInput" type="number" min="0" max="50000" value="300" step="10"/>
 </div>
 
+<!-- Barre de progression totale -->
+<div class="calc-badges" style="margin:4px 0 14px">
+  <span class="calc-badge">📦 Cashback : <strong id="cashbackRate">3%</strong></span>
+  <span class="calc-badge">🎫 GamsGo abonnements : <strong id="gamsgoRate">-70%</strong></span>
+  <span class="calc-badge">📱 Apps remboursement : <strong id="appRate">+5€/mois</strong></span>
+  <span class="calc-badge">🪙 Crypto cashback : <strong id="cryptoRate">3%</strong></span>
+</div>
+
 <div class="calc-arrow">👇</div>
 
+<!-- RÉSULTAT PRINCIPAL -->
 <div class="calc-result" id="resultBox">
-  <div style="font-size:.88rem;color:var(--muted);margin-bottom:2px">Sans cashback, tu perds jusqu'à</div>
+  <div style="font-size:.88rem;color:var(--muted);margin-bottom:2px">Potentiel total récupérable par an</div>
   <div class="calc-amount" id="lostAmount">0€</div>
-  <div class="calc-sub" id="lostDetail">par an, soit <strong>0€</strong> par mois</div>
+  <div class="calc-sub" id="lostDetail">Soit <strong>0€</strong> par mois</div>
   <div class="calc-bar"><div class="calc-bar-fill" id="progressBar"></div></div>
-  <div class="calc-badges">
-    <span class="calc-badge">☕ <span id="coffees">0</span> cafés</span>
-    <span class="calc-badge">🍕 <span id="pizzas">0</span> pizzas</span>
-    <span class="calc-badge">🎬 <span id="netflixMonths">0</span> mois Netflix</span>
+</div>
+
+<!-- DÉTAIL DES LEVIERS -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 20px;text-align:left">
+<div style="background:var(--soft);border-radius:16px;padding:14px">
+  <div style="font-size:.82rem;color:var(--muted)">📦 Cashback achats</div>
+  <div style="font-size:1.3rem;font-weight:800;color:var(--primary)" id="levierCashback">0€</div>
+</div>
+<div style="background:var(--soft);border-radius:16px;padding:14px">
+  <div style="font-size:.82rem;color:var(--muted)">🎫 Économie abonnements</div>
+  <div style="font-size:1.3rem;font-weight:800;color:var(--primary)" id="levierAbos">0€</div>
+</div>
+<div style="background:var(--soft);border-radius:16px;padding:14px">
+  <div style="font-size:.82rem;color:var(--muted)">📱 Apps remboursement</div>
+  <div style="font-size:1.3rem;font-weight:800;color:var(--primary)" id="levierApps">0€</div>
+</div>
+<div style="background:var(--soft);border-radius:16px;padding:14px">
+  <div style="font-size:.82rem;color:var(--muted)">🪙 Crypto cashback</div>
+  <div style="font-size:1.3rem;font-weight:800;color:var(--primary)" id="levierCrypto">0€</div>
+</div>
+</div>
+
+<!-- ÉQUIVALENCES CONCRÈTES -->
+<div style="background:#fff;border-radius:16px;border:2px solid var(--line);padding:16px;margin:8px 0 0">
+  <div style="font-weight:800;font-size:.95rem;margin-bottom:10px">🥙 Avec cet argent tu pourrais t'offrir</div>
+  <div class="calc-badges" style="justify-content:flex-start;gap:6px">
+    <span class="calc-badge">🥙 <strong id="kebabs">0</strong> kebabs</span>
+    <span class="calc-badge">☕ <strong id="coffees">0</strong> cafés</span>
+    <span class="calc-badge">🍕 <strong id="pizzas">0</strong> pizzas</span>
+    <span class="calc-badge">🍺 <strong id="bieres">0</strong> pintes</span>
+    <span class="calc-badge">🎬 <strong id="netflixMonths">0</strong> mois Netflix</span>
+    <span class="calc-badge">⛽ <strong id="pleins">0</strong> pleins d'essence</span>
   </div>
 </div>
 
 <div class="calc-ctas">
-  <a class="btn" href="articles/gagnez-7-euros-en-vous-inscrivant.html" style="font-size:1.15rem;padding:18px 28px;background:var(--accent);color:var(--text);box-shadow:0 10px 30px rgba(245,158,11,.4)">🔥 Récupérer cet argent maintenant →</a>
-  <a class="btn second ary" href="https://fr.igraal.com/parrainage?parrain=AG_69131d3a40583&utm_medium=raf&utm_source=refer_friend" style="border:2px solid var(--accent);color:var(--accent)">💰 Commencer par iGraal (7€ de bonus)</a>
+  <a class="btn" href="articles/gagnez-7-euros-en-vous-inscrivant.html" style="font-size:1.15rem;padding:18px 28px;background:var(--accent);color:var(--text);box-shadow:0 10px 30px rgba(245,158,11,.4)">🔥 Activer tous les leviers maintenant →</a>
+  <a class="btn secondary" href="https://fr.igraal.com/parrainage?parrain=AG_69131d3a40583&utm_medium=raf&utm_source=refer_friend" style="border:2px solid var(--accent);color:var(--accent)">💰 Commencer par iGraal (7€ de bonus)</a>
   <button class="calc-share-btn" id="shareBtn">📤 Partager le résultat sur WhatsApp</button>
 </div>
 
-<p style="font-size:.85rem;color:var(--muted);margin-top:18px">Basé sur un cashback moyen de 3% sur les achats en ligne. Le chiffre réel peut varier selon tes achats et les plateformes utilisées.</p>
+<p style="font-size:.85rem;color:var(--muted);margin-top:18px">Estimation basée sur un cashback moyen de 3%, une économie GamsGo de 70% sur les abonnements, 5€/mois d'apps de remboursement, et 3% de cashback crypto Plutus. Les résultats varient selon tes habitudes.</p>
 </div></div></section>
 
 <section style="padding:20px 0"><div class="container" style="text-align:center">
-<h2 style="font-size:1.5rem">Comment ça marche ?</h2>
-<div class="grid-3" style="margin-top:16px">
-<div class="card"><h3 style="font-size:1.2rem">1. Active</h3><p>Clique sur iGraal avant d'acheter. 3 secondes, le tracking est lancé.</p></div>
-<div class="card"><h3 style="font-size:1.2rem">2. Achète</h3><p>Fais tes courses normalement. Le cashback s'accumule tout seul.</p></div>
-<div class="card"><h3 style="font-size:1.2rem">3. Récupère</h3><p>Une fois par mois, retire tes gains. Virement ou PayPal.</p></div>
+<h2 style="font-size:1.5rem">Comment récupérer tout ça ?</h2>
+<div class="grid-4" style="margin-top:16px">
+<div class="card"><h3 style="font-size:1.1rem">📦 Cashback</h3><p>iGraal, eBuyClub, Widilo — active avant d'acheter, récupère 1 à 12%.</p><a class="btn ghost" href="cashback.html" style="margin-top:10px">Voir →</a></div>
+<div class="card"><h3 style="font-size:1.1rem">🎫 Abonnements</h3><p>Netflix, Spotify, YouTube à -70% via GamsGo. Code <strong>WPQTU</strong> = -7%.</p><a class="btn ghost" href="articles/gamsgo-abonnements-moins-cher.html" style="margin-top:10px">Voir →</a></div>
+<div class="card"><h3 style="font-size:1.1rem">📱 Apps</h3><p>Applications qui remboursent tes courses, essence, et achats du quotidien.</p><a class="btn ghost" href="articles/meilleures-apps-gagner-argent.html" style="margin-top:10px">Voir →</a></div>
+<div class="card"><h3 style="font-size:1.1rem">🪙 Crypto</h3><p>Plutus, Binance, Curve : cashback en crypto, sans trader.</p><a class="btn ghost" href="articles/cashback-crypto-plutus-binance.html" style="margin-top:10px">Voir →</a></div>
 </div>
 </div></section>
 
@@ -51,43 +89,87 @@
 
 <script>
 const input = document.getElementById('spendInput');
-const amount = document.getElementById('lostAmount');
-const detail = document.getElementById('lostDetail');
+const lostAmount = document.getElementById('lostAmount');
+const lostDetail = document.getElementById('lostDetail');
 const bar = document.getElementById('progressBar');
+const levierCashback = document.getElementById('levierCashback');
+const levierAbos = document.getElementById('levierAbos');
+const levierApps = document.getElementById('levierApps');
+const levierCrypto = document.getElementById('levierCrypto');
+const kebabs = document.getElementById('kebabs');
 const coffees = document.getElementById('coffees');
 const pizzas = document.getElementById('pizzas');
-const netflix = document.getElementById('netflixMonths');
+const bieres = document.getElementById('bieres');
+const netflixMonths = document.getElementById('netflixMonths');
+const pleins = document.getElementById('pleins');
 const resultBox = document.getElementById('resultBox');
 const shareBtn = document.getElementById('shareBtn');
+
+// Taux constants
+const CASHBACK_PCT = 0.03;       // 3% cashback sur achats
+const ABO_ECONOMIE = 35;          // 35€/mois d'économie GamsGo (Netflix+Spotify+YouTube plein tarif ~40€ vs ~12€ = ~28€, arrondi à 35)
+const APPS_MOIS = 5;              // 5€/mois d'apps de remboursement
+const CRYPTO_PCT = 0.03;          // 3% Plutus
+
+// Prix pour équivalences
+const PRIX = { kebab: 7, cafe: 3.5, pizza: 12, biere: 6, netflix: 18, plein: 70 };
 
 function calc() {
   let v = parseFloat(input.value) || 0;
   if (v < 0) v = 0;
   if (v > 50000) v = 50000;
-  const perMonth = Math.round(v * 0.03);
-  const perYear = perMonth * 12;
-  
-  amount.textContent = perYear + '€';
-  detail.innerHTML = `par an, soit <strong>${perMonth}€</strong> par mois`;
-  bar.style.width = Math.min((v / 2000) * 100, 100) + '%';
-  coffees.textContent = Math.floor(perYear / 3);
-  pizzas.textContent = Math.floor(perYear / 12);
-  netflix.textContent = Math.floor(perYear / 18);
-  
-  if (perYear >= 100) {
+
+  // -- Calcul des 4 leviers --
+  // 1) Cashback classique
+  const cashbackAn = Math.round(v * CASHBACK_PCT * 12);
+  // 2) Abonnements GamsGo
+  const abosAn = ABO_ECONOMIE * 12;
+  // 3) Apps remboursement
+  const appsAn = APPS_MOIS * 12;
+  // 4) Crypto cashback (on ne cumule pas avec le cashback classique, ce sont des dépenses supplémentaires possibles)
+  const cryptoAn = Math.round(v * CRYPTO_PCT * 12);
+
+  // Total = cashback classique + abos + apps
+  const totalAn = cashbackAn + abosAn + appsAn;
+
+  // Infos détail
+  levierCashback.textContent = cashbackAn + '€';
+  levierAbos.textContent = abosAn + '€';
+  levierApps.textContent = appsAn + '€';
+  levierCrypto.textContent = cryptoAn + '€';
+
+  // Affichage principal
+  lostAmount.textContent = totalAn + '€';
+  lostDetail.innerHTML = `Soit <strong>${Math.round(totalAn / 12)}€</strong> par mois`;
+
+  // Barre de progression (max à 2000€/an pour 100%)
+  bar.style.width = Math.min((totalAn / 2000) * 100, 100) + '%';
+
+  if (totalAn >= 200) {
     resultBox.classList.add('highlight');
   } else {
     resultBox.classList.remove('highlight');
   }
+
+  // Équivalences concrètes
+  kebabs.textContent = Math.floor(totalAn / PRIX.kebab);
+  coffees.textContent = Math.floor(totalAn / PRIX.cafe);
+  pizzas.textContent = Math.floor(totalAn / PRIX.pizza);
+  bieres.textContent = Math.floor(totalAn / PRIX.biere);
+  netflixMonths.textContent = Math.floor(totalAn / PRIX.netflix);
+  pleins.textContent = Math.floor(totalAn / PRIX.plein);
 }
 
 input.addEventListener('input', calc);
 calc();
 
+// Partage WhatsApp
 shareBtn.addEventListener('click', function() {
   const v = parseFloat(input.value) || 0;
-  const perYear = Math.round(v * 0.03 * 12);
-  const text = `💸 Je perds ${perYear}€/an sans cashback ! Et toi ? Calcule ici : https://ykaracapro-ai.github.io/euromalin/calculateur.html`;
+  const cashbackAn = Math.round(v * CASHBACK_PCT * 12);
+  const totalAn = cashbackAn + ABO_ECONOMIE * 12 + APPS_MOIS * 12;
+  const k = Math.floor(totalAn / PRIX.kebab);
+  const text = `💸 Je pourrais récupérer ${totalAn}€/an avec le cashback + abos moins chers + apps ! ($\{k} kebabs quand même !) Calcule le tien : https://ykaracapro-ai.github.io/euromalin/calculateur.html`;
   window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
 });
 </script>
