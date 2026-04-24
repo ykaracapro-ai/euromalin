@@ -1,0 +1,94 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Combien tu perds ? Le calculateur cashback • EuroMalin</title><meta name="description" content="Calcule combien d'argent tu perds chaque année sans cashback. Gratuit, instantané, bluffant."/><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/calculator.css"/></head><body><header class="topbar"><div class="container nav"><a class="brand" href="index.html"><div class="brand-mark">€</div><div><div class="brand-title">EuroMalin</div><div class="brand-sub">Cashback, économies et budget malin</div></div></a><nav class="nav-links"><a href="index.html">Accueil</a><a href="articles.html">Articles</a><a href="cashback.html">Cashback</a><a href="economies.html">Économies</a><a href="budget.html">Budget</a><a href="investissements.html">Crypto/Invest</a><a href="revenus.html">Revenus</a></nav><a class="btn" href="articles/gagnez-7-euros-en-vous-inscrivant.html">🔥 Gagne 7€</a></div></header><main>
+
+<section style="padding:40px 0 20px"><div class="container"><div class="breadcrumbs"><a href="index.html">Accueil</a> · Calculateur</div></div></section>
+
+<section style="padding:0 0 28px"><div class="container calc-wrapper">
+<div class="calc-card">
+<span class="calc-emoji">💸</span>
+<h1 style="font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:4px">Combien tu perds chaque année ?</h1>
+<p style="color:var(--muted);margin:0 0 22px;font-size:1rem">Sans cashback, tu laisses de l'argent sur la table. Chaque mois. Sans le savoir.</p>
+
+<div class="calc-label">💰 Mes dépenses mensuelles en ligne</div>
+<div class="calc-input-wrap">
+  <span style="font-size:2rem;font-weight:800;color:var(--muted)">€</span>
+  <input class="calc-input" id="spendInput" type="number" min="0" max="50000" value="300" step="10"/>
+</div>
+
+<div class="calc-arrow">👇</div>
+
+<div class="calc-result" id="resultBox">
+  <div style="font-size:.88rem;color:var(--muted);margin-bottom:2px">Sans cashback, tu perds jusqu'à</div>
+  <div class="calc-amount" id="lostAmount">0€</div>
+  <div class="calc-sub" id="lostDetail">par an, soit <strong>0€</strong> par mois</div>
+  <div class="calc-bar"><div class="calc-bar-fill" id="progressBar"></div></div>
+  <div class="calc-badges">
+    <span class="calc-badge">☕ <span id="coffees">0</span> cafés</span>
+    <span class="calc-badge">🍕 <span id="pizzas">0</span> pizzas</span>
+    <span class="calc-badge">🎬 <span id="netflixMonths">0</span> mois Netflix</span>
+  </div>
+</div>
+
+<div class="calc-ctas">
+  <a class="btn" href="articles/gagnez-7-euros-en-vous-inscrivant.html" style="font-size:1.15rem;padding:18px 28px;background:var(--accent);color:var(--text);box-shadow:0 10px 30px rgba(245,158,11,.4)">🔥 Récupérer cet argent maintenant →</a>
+  <a class="btn second ary" href="https://fr.igraal.com/parrainage?parrain=AG_69131d3a40583&utm_medium=raf&utm_source=refer_friend" style="border:2px solid var(--accent);color:var(--accent)">💰 Commencer par iGraal (7€ de bonus)</a>
+  <button class="calc-share-btn" id="shareBtn">📤 Partager le résultat sur WhatsApp</button>
+</div>
+
+<p style="font-size:.85rem;color:var(--muted);margin-top:18px">Basé sur un cashback moyen de 3% sur les achats en ligne. Le chiffre réel peut varier selon tes achats et les plateformes utilisées.</p>
+</div></div></section>
+
+<section style="padding:20px 0"><div class="container" style="text-align:center">
+<h2 style="font-size:1.5rem">Comment ça marche ?</h2>
+<div class="grid-3" style="margin-top:16px">
+<div class="card"><h3 style="font-size:1.2rem">1. Active</h3><p>Clique sur iGraal avant d'acheter. 3 secondes, le tracking est lancé.</p></div>
+<div class="card"><h3 style="font-size:1.2rem">2. Achète</h3><p>Fais tes courses normalement. Le cashback s'accumule tout seul.</p></div>
+<div class="card"><h3 style="font-size:1.2rem">3. Récupère</h3><p>Une fois par mois, retire tes gains. Virement ou PayPal.</p></div>
+</div>
+</div></section>
+
+</main>
+<footer class="footer"><div class="container footer-grid"><div><div class="brand-title" style="font-size:1.3rem">EuroMalin</div><p>Des comparatifs clairs, des articles lisibles et des idées simples pour payer moins, récupérer du cashback et mieux gérer son argent.</p></div><div><h3 style="font-size:1.05rem">Rubriques</h3><div class="small-list"><a href="cashback.html">Cashback</a><a href="economies.html">Économies</a><a href="budget.html">Budget</a><a href="investissements.html">Crypto/Invest</a><a href="revenus.html">Revenus complémentaires</a></div></div><div><h3 style="font-size:1.05rem">À parcourir</h3><div class="small-list"><a href="articles.html">Tous les articles</a><a href="articles/gagnez-7-euros-en-vous-inscrivant.html">Gagnez 7€</a><a href="articles/economiser-1500-euros-en-39-jours.html">Économiser 1500€</a><a href="articles/meilleurs-sites-cashback.html">Meilleurs sites de cashback</a></div></div></div></footer>
+
+<script>
+const input = document.getElementById('spendInput');
+const amount = document.getElementById('lostAmount');
+const detail = document.getElementById('lostDetail');
+const bar = document.getElementById('progressBar');
+const coffees = document.getElementById('coffees');
+const pizzas = document.getElementById('pizzas');
+const netflix = document.getElementById('netflixMonths');
+const resultBox = document.getElementById('resultBox');
+const shareBtn = document.getElementById('shareBtn');
+
+function calc() {
+  let v = parseFloat(input.value) || 0;
+  if (v < 0) v = 0;
+  if (v > 50000) v = 50000;
+  const perMonth = Math.round(v * 0.03);
+  const perYear = perMonth * 12;
+  
+  amount.textContent = perYear + '€';
+  detail.innerHTML = `par an, soit <strong>${perMonth}€</strong> par mois`;
+  bar.style.width = Math.min((v / 2000) * 100, 100) + '%';
+  coffees.textContent = Math.floor(perYear / 3);
+  pizzas.textContent = Math.floor(perYear / 12);
+  netflix.textContent = Math.floor(perYear / 18);
+  
+  if (perYear >= 100) {
+    resultBox.classList.add('highlight');
+  } else {
+    resultBox.classList.remove('highlight');
+  }
+}
+
+input.addEventListener('input', calc);
+calc();
+
+shareBtn.addEventListener('click', function() {
+  const v = parseFloat(input.value) || 0;
+  const perYear = Math.round(v * 0.03 * 12);
+  const text = `💸 Je perds ${perYear}€/an sans cashback ! Et toi ? Calcule ici : https://ykaracapro-ai.github.io/euromalin/calculateur.html`;
+  window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+});
+</script>
+</body></html>
