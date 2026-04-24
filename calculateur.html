@@ -36,19 +36,19 @@
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 20px;text-align:left">
 <div style="background:var(--soft);border-radius:16px;padding:14px">
   <div style="font-size:.82rem;color:var(--muted)">📦 Cashback achats</div>
-  <div style="font-size:1.3rem;font-weight:800;color:var(--primary)" id="levierCashback">0€</div>
+  <div style="font-size:1.3rem;font-weight:800;color:var(--accent)" id="levierCashback">0€</div>
 </div>
 <div style="background:var(--soft);border-radius:16px;padding:14px">
   <div style="font-size:.82rem;color:var(--muted)">🎫 Économie abonnements</div>
-  <div style="font-size:1.3rem;font-weight:800;color:var(--primary)" id="levierAbos">0€</div>
+  <div style="font-size:1.3rem;font-weight:800;color:var(--accent)" id="levierAbos">0€</div>
 </div>
 <div style="background:var(--soft);border-radius:16px;padding:14px">
   <div style="font-size:.82rem;color:var(--muted)">📱 Apps remboursement</div>
-  <div style="font-size:1.3rem;font-weight:800;color:var(--primary)" id="levierApps">0€</div>
+  <div style="font-size:1.3rem;font-weight:800;color:var(--accent)" id="levierApps">0€</div>
 </div>
 <div style="background:var(--soft);border-radius:16px;padding:14px">
   <div style="font-size:.82rem;color:var(--muted)">🪙 Crypto cashback</div>
-  <div style="font-size:1.3rem;font-weight:800;color:var(--primary)" id="levierCrypto">0€</div>
+  <div style="font-size:1.3rem;font-weight:800;color:var(--accent)" id="levierCrypto">0€</div>
 </div>
 </div>
 
@@ -68,7 +68,7 @@
 <div class="calc-ctas">
   <a class="btn" href="articles/gagnez-5-euros-en-vous-inscrivant.html" style="font-size:1.15rem;padding:18px 28px;background:var(--accent);color:var(--text);box-shadow:0 10px 30px rgba(245,158,11,.4)">🔥 Activer tous les leviers maintenant →</a>
   <a class="btn secondary" href="https://fr.igraal.com/parrainage?parrain=AG_69131d3a40583&utm_medium=raf&utm_source=refer_friend" style="border:2px solid var(--accent);color:var(--accent)">💰 Commencer par iGraal (5€ + 1€/extension)</a>
-  <button class="calc-share-btn" id="genImgBtn" style="background:linear-gradient(135deg,#f59e0b,#d94f14);color:white;border:none;border-radius:999px;padding:14px 24px;font-size:1rem;font-weight:800;cursor:pointer;transition:.2s">🖼️ Générer une image du résultat</button>
+  <button class="calc-share-btn" id="genImgBtn" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);color:white;border:none;border-radius:999px;padding:14px 24px;font-size:1rem;font-weight:800;cursor:pointer;transition:.2s">🖼️ Générer une image du résultat</button>
 </div>
 
 <!-- Zone où l'image apparaît -->
@@ -94,7 +94,7 @@
 </div>
 </div></section>
 
-<section style="padding:0 0 28px"><div class="container" style="text-align:center;max-width:620px;margin:0 auto;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:24px;padding:28px">
+<section style="padding:0 0 28px"><div class="container" style="text-align:center;max-width:620px;margin:0 auto;background:var(--soft);border-radius:24px;padding:28px">
 <h2 style="font-size:1.4rem;margin:0 0 4px">📩 Le programme 300€ en 7 jours</h2>
 <p style="color:var(--muted);margin:0 0 14px">Un email par jour. 7 actions concrètes. Cashback, abonnements, apps, banque, courses, forfait, crypto.</p>
 <a class="btn" href="newsletter.html" style="background:var(--accent);color:var(--text);box-shadow:0 10px 30px rgba(245,158,11,.4)">🚀 Je veux les 7 emails →</a>
@@ -230,8 +230,8 @@ function generateCalcImage() {
 
   // Dégradé fond
   const grad = ctx.createLinearGradient(0,0,600,420);
-  grad.addColorStop(0,'#d94f14');
-  grad.addColorStop(1,'#b91c1c');
+  grad.addColorStop(0,'#1e3a5f');
+  grad.addColorStop(1,'#2563eb');
   ctx.fillStyle = grad;
   ctx.fillRect(0,0,600,420);
 
@@ -242,7 +242,7 @@ function generateCalcImage() {
   ctx.fill();
 
   // Titre
-  ctx.fillStyle = '#d94f14';
+  ctx.fillStyle = '#1e3a5f';
   ctx.font = 'bold 44px Georgia, "Times New Roman", serif';
   ctx.textAlign = 'center';
   ctx.fillText('💸 Tu perds ' + vals.total + '€/an', 300, 120);
@@ -253,7 +253,7 @@ function generateCalcImage() {
   ctx.fillText('Sans cashback, sans bons plans, sans optimiser tes abonnements', 300, 160);
 
   // Ligne séparatrice
-  ctx.strokeStyle = '#fde68a';
+  ctx.strokeStyle = '#e2e8f0';
   ctx.lineWidth = 2;
   ctx.beginPath();
   ctx.moveTo(80, 185);
@@ -265,24 +265,24 @@ function generateCalcImage() {
   ctx.font = 'bold 22px Arial, sans-serif';
   ctx.fillText('Avec cet argent tu pourrais t\'offrir :', 300, 225);
 
-  ctx.fillStyle = '#d94f14';
+  ctx.fillStyle = '#1e3a5f';
   ctx.font = '20px Arial, sans-serif';
   ctx.fillText('🥙 ' + vals.kebabs + ' kebabs    ☕ ' + vals.coffees + ' cafés    🍺 ' + vals.bieres + ' pintes', 300, 260);
   ctx.fillStyle = '#6b7280';
   ctx.font = '16px Arial, sans-serif';
   ctx.fillText('📦 cashback ' + vals.cashback + '€ · 🎫 abos ' + vals.abos + '€ · 📱 apps ' + vals.apps + '€', 300, 290);
 
-  ctx.fillStyle = '#f59e0b';
+  ctx.fillStyle = '#2563eb';
   ctx.font = '20px Arial, sans-serif';
   ctx.fillText('🍕 ' + vals.pizzas + ' pizzas    🎬 ' + vals.netflix + ' mois Netflix    ⛽ ' + vals.pleins + ' pleins essence', 300, 320);
 
   // Lien
-  ctx.fillStyle = '#b91c1c';
+  ctx.fillStyle = '#2563eb';
   ctx.font = 'bold 16px Arial, sans-serif';
   ctx.fillText('→ ykaracapro-ai.github.io/euromalin/calculateur.html', 300, 345);
 
   // Logo EuroMalin
-  ctx.fillStyle = '#d94f14';
+  ctx.fillStyle = '#1e3a5f';
   ctx.font = 'bold 13px Arial, sans-serif';
   ctx.fillText('EuroMalin — le site qui te rend ton argent', 300, 375);
 
