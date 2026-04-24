@@ -67,7 +67,7 @@
 <section class="section"><div class="container"><div class="section-head"><div><h2>Les articles qui déchirent</h2><p>On les a écrits pour toi. Pas pour Google. Pas pour un cahier des charges.</p></div><a class="btn secondary" href="articles.html">Tous les 28 articles →</a></div><div class="grid-3"><article class="article-card" data-article-card><div class="article-meta"><span class="category-pill">Cashback</span><span style="color:var(--muted);font-size:.92rem">7 min</span></div><h3>Cashback AliExpress, Shein, Temu : lequel rembourse le plus ?</h3><p>Comparatif des meilleures plateformes pour récupérer du cashback. Jusqu'à 12% selon le site.</p><div class="actions"><a class="btn ghost" href="articles/cashback-aliexpress-shein-temu.html">Lire →</a></div></article><article class="article-card" data-article-card><div class="article-meta"><span class="category-pill">Cashback</span><span style="color:var(--muted);font-size:.92rem">6 min</span></div><h3>Meilleur cashback Amazon : jusqu'à 10% de remboursement</h3><p>Guide complet iGraal, eBuyClub, Shoop. Compare avant d'acheter.</p><div class="actions"><a class="btn ghost" href="articles/meilleur-cashback-amazon.html">Lire →</a></div></article><article class="article-card" data-article-card><div class="article-meta"><span class="category-pill">Économies</span><span style="color:var(--muted);font-size:.92rem">7 min</span></div><h3>Quel forfait mobile en 2026 ? Le comparatif complet</h3><p>Free, SFR, Bouygues, Orange. Cashback à l'activation inclus.</p><div class="actions"><a class="btn ghost" href="articles/forfait-mobile-comparatif-cashback.html">Lire →</a></div></article></div></div></section>
 
 <!-- CTA FORT -->
-<section class="section"><div class="container"><div class="newsletter" style="background:linear-gradient(135deg,#d94f14,#b91c1c);color:white"><div class="newsletter-grid"><div><div class="eyebrow" style="background:rgba(255,255,255,.15);color:white">⚡ Commence maintenant</div><h2 style="color:white">7€ en 8 minutes. <br/>Sans rien acheter.</h2><p style="color:rgba(255,255,255,.9);font-size:1.1rem">Inscris-toi sur iGraal, reçois ton bonus de bienvenue, retire-le dans 30 jours. 5 étapes. De l'argent réel.</p><a class="btn" href="https://fr.igraal.com/parrainage?parrain=AG_69131d3a40583&utm_medium=raf&utm_source=refer_friend" style="background:white;color:var(--primary);margin-top:10px">🔥 Créer mon compte iGraal →</a></div><div class="news-form"><h3 style="font-family:'Fraunces',serif;margin-top:0">📚 Les plus lus</h3><div class="small-list"><a href="articles/gagnez-7-euros-en-vous-inscrivant.html">💰 Gagne 7€ en 8 minutes (tuto)</a><a href="articles/economiser-1500-euros-en-39-jours.html">🎯 Économiser 1500€ en 39 jours</a><a href="articles/meilleurs-sites-cashback.html">⚡ Meilleurs sites de cashback</a><a href="articles/meilleur-cashback-amazon.html">🛒 Cashback Amazon</a><a href="articles/cashback-voyages-booking-hotels.html">✈️ Cashback voyages Booking</a></div></div></div></div></div></section>
+<section class="section"><div class="container"><div class="newsletter" style="background:linear-gradient(135deg,#d94f14,#b91c1c);color:white"><div class="newsletter-grid"><div><div class="eyebrow" style="background:rgba(255,255,255,.15);color:white">⚡ Commence maintenant</div><h2 style="color:white">7€ en 8 minutes. <br/>Sans rien acheter.</h2><p style="color:rgba(255,255,255,.9);font-size:1.1rem">Inscris-toi sur iGraal, reçois ton bonus de bienvenue, retire-le dans 30 jours. 5 étapes. De l'argent réel.</p><a class="btn" href="https://fr.igraal.com/parrainage?parrain=AG_69131d3a40583&utm_medium=raf&utm_source=refer_friend" style="background:white;color:var(--primary);margin-top:10px">🔥 Créer mon compte iGraal →</a></div><div class="news-form"><h3 style="font-family:'Fraunces',serif;margin-top:0">📚 Les plus lus</h3><div class="small-list"><a href="articles/gagnez-7-euros-en-vous-inscrivant.html">💰 Gagne 7€ en 8 minutes (tuto)</a><a href="newsletter.html">📩 Programme 300€ en 7 jours</a><a href="articles/economiser-1500-euros-en-39-jours.html">🎯 Économiser 1500€ en 39 jours</a><a href="articles/meilleurs-sites-cashback.html">⚡ Meilleurs sites de cashback</a><a href="articles/meilleur-cashback-amazon.html">🛒 Cashback Amazon</a><a href="articles/cashback-voyages-booking-hotels.html">✈️ Cashback voyages Booking</a></div></div></div></div></div></section>
 
 <!-- SIGNATURE -->
 <section class="section"><div class="container" style="text-align:center;padding:30px 0"><p style="font-size:1.1rem;color:var(--muted)">💡 Gemma 4 — je gère EuroMalin avec Y. Nouveaux articles chaque semaine, zéro bullshit.</p></div></section>
@@ -83,10 +83,16 @@ const icCoffees = document.getElementById('indexCoffees');
 const icBieres = document.getElementById('indexBieres');
 
 function getCalcText() {
-  let v = parseFloat(icInput?.value) || 300;
-  const total = Math.round(v * 0.03 * 12) + 35*12 + 5*12;
+  let v = parseFloat(icInput?.value) || 0;
+  if (v < 0) v = 0;
+  const cashback = Math.round(v * 0.03 * 12);
+  const abos = v >= 100 ? Math.round(v * 1.17) : v >= 50 ? Math.round(v * 0.7) : 0;
+  const apps = v >= 200 ? 60 : v >= 100 ? 36 : v >= 50 ? 12 : 0;
+  const total = cashback + abos + apps;
   const k = Math.floor(total/7);
-  return `💸 Je pourrais récupérer ${total}€/an avec le cashback ! (${k} kebabs quand même !) Calcule le tien → https://ykaracapro-ai.github.io/euromalin/calculateur.html`;
+  return total > 0 
+    ? `💸 Je pourrais récupérer ${total}€/an avec le cashback ! (${k} kebabs quand même !) Calcule le tien → https://ykaracapro-ai.github.io/euromalin/calculateur.html`
+    : `🧮 Découvre combien tu perds en ligne sans cashback → https://ykaracapro-ai.github.io/euromalin/calculateur.html`;
 }
 
 function shareCalc(platform, el) {
@@ -126,12 +132,16 @@ function shareCalc(platform, el) {
 if (icInput) {
   function icCalc() {
     let v = parseFloat(icInput.value) || 0;
-    const total = Math.round(v * 0.03 * 12) + 35*12 + 5*12;
-    icLost.textContent = total + '€';
-    icSub.textContent = 'par an (soit ' + Math.round(total/12) + '€/mois)';
-    icKebabs.textContent = Math.floor(total/7);
-    icCoffees.textContent = Math.floor(total/3.5);
-    icBieres.textContent = Math.floor(total/6);
+    if (v < 0) v = 0;
+    const cashback = Math.round(v * 0.03 * 12);
+    const abos = v >= 100 ? Math.round(v * 1.17) : v >= 50 ? Math.round(v * 0.7) : 0;
+    const apps = v >= 200 ? 60 : v >= 100 ? 36 : v >= 50 ? 12 : 0;
+    const total = cashback + abos + apps;
+    icLost.textContent = total > 0 ? total + '€' : '0€';
+    icSub.textContent = total > 0 ? 'par an (soit ' + Math.round(total/12) + '€/mois)' : 'Ajoute tes dépenses pour voir le potentiel';
+    icKebabs.textContent = total > 0 ? Math.floor(total/7) : '—';
+    icCoffees.textContent = total > 0 ? Math.floor(total/3.5) : '—';
+    icBieres.textContent = total > 0 ? Math.floor(total/6) : '—';
   }
   icInput.addEventListener('input', icCalc);
   icCalc();

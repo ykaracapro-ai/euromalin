@@ -94,6 +94,12 @@
 </div>
 </div></section>
 
+<section style="padding:0 0 28px"><div class="container" style="text-align:center;max-width:620px;margin:0 auto;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:24px;padding:28px">
+<h2 style="font-size:1.4rem;margin:0 0 4px">📩 Le programme 300€ en 7 jours</h2>
+<p style="color:var(--muted);margin:0 0 14px">Un email par jour. 7 actions concrètes. Cashback, abonnements, apps, banque, courses, forfait, crypto.</p>
+<a class="btn" href="newsletter.html" style="background:var(--accent);color:var(--text);box-shadow:0 10px 30px rgba(245,158,11,.4)">🚀 Je veux les 7 emails →</a>
+</div></section>
+
 </main>
 <footer class="footer"><div class="container footer-grid"><div><div class="brand-title" style="font-size:1.3rem">EuroMalin</div><p>Des comparatifs clairs, des articles lisibles et des idées simples pour payer moins, récupérer du cashback et mieux gérer son argent.</p></div><div><h3 style="font-size:1.05rem">Rubriques</h3><div class="small-list"><a href="cashback.html">Cashback</a><a href="economies.html">Économies</a><a href="budget.html">Budget</a><a href="investissements.html">Crypto/Invest</a><a href="revenus.html">Revenus complémentaires</a></div></div><div><h3 style="font-size:1.05rem">À parcourir</h3><div class="small-list"><a href="articles.html">Tous les articles</a><a href="articles/gagnez-7-euros-en-vous-inscrivant.html">Gagnez 7€</a><a href="articles/economiser-1500-euros-en-39-jours.html">Économiser 1500€</a><a href="articles/meilleurs-sites-cashback.html">Meilleurs sites de cashback</a></div></div></div></footer>
 
@@ -127,17 +133,17 @@ function calc() {
   if (v < 0) v = 0;
   if (v > 50000) v = 50000;
 
-  // -- Calcul des 4 leviers --
-  // 1) Cashback classique
+  // -- Calcul des leviers (proportionnels aux dépenses) --
+  // 1) Cashback classique sur achats en ligne
   const cashbackAn = Math.round(v * CASHBACK_PCT * 12);
-  // 2) Abonnements GamsGo
-  const abosAn = ABO_ECONOMIE * 12;
+  // 2) Abonnements GamsGo (proportionnel aux dépenses)
+  const abosAn = v >= 100 ? Math.round(v * 1.17) : v >= 50 ? Math.round(v * 0.7) : 0;
   // 3) Apps remboursement
-  const appsAn = APPS_MOIS * 12;
-  // 4) Crypto cashback (on ne cumule pas avec le cashback classique, ce sont des dépenses supplémentaires possibles)
+  const appsAn = v >= 200 ? 60 : v >= 100 ? 36 : v >= 50 ? 12 : 0;
+  // 4) Crypto cashback (info seulement, pas dans le cumul)
   const cryptoAn = Math.round(v * CRYPTO_PCT * 12);
 
-  // Total = cashback classique + abos + apps
+  // Total = cashback + abos + apps
   const totalAn = cashbackAn + abosAn + appsAn;
 
   // Infos détail
@@ -159,6 +165,21 @@ function calc() {
     resultBox.classList.remove('highlight');
   }
 
+  // Message quand le total est trop bas
+  if (totalAn < 10) {
+    lostDetail.innerHTML = 'Pas de perte détectée. Ajoute des dépenses en ligne pour voir ton potentiel.';
+    kebabs.textContent = '—';
+    coffees.textContent = '—';
+    pizzas.textContent = '—';
+    bieres.textContent = '—';
+    netflixMonths.textContent = '—';
+    pleins.textContent = '—';
+    levierCashback.textContent = '0€';
+    levierAbos.textContent = '0€';
+    levierApps.textContent = '0€';
+    levierCrypto.textContent = '0€';
+    return;
+  }
   // Équivalences concrètes
   kebabs.textContent = Math.floor(totalAn / PRIX.kebab);
   coffees.textContent = Math.floor(totalAn / PRIX.cafe);
@@ -179,10 +200,18 @@ let generatedDataUrl = null;
 
 function getCurrentValues() {
   let v = parseFloat(input.value) || 0;
-  const total = Math.round(v * 0.03 * 12) + 35*12 + 5*12;
+  if (v < 0) v = 0;
+  if (v > 50000) v = 50000;
+  const cashbackAn = Math.round(v * 0.03 * 12);
+  const abosAn = v >= 100 ? Math.round(v * 1.17) : v >= 50 ? Math.round(v * 0.7) : 0;
+  const appsAn = v >= 200 ? 60 : v >= 100 ? 36 : v >= 50 ? 12 : 0;
+  const total = cashbackAn + abosAn + appsAn;
   return {
     total,
     month: Math.round(total/12),
+    cashback: cashbackAn,
+    abos: abosAn,
+    apps: appsAn,
     kebabs: Math.floor(total/7),
     coffees: Math.floor(total/3.5),
     pizzas: Math.floor(total/12),
@@ -238,11 +267,14 @@ function generateCalcImage() {
 
   ctx.fillStyle = '#d94f14';
   ctx.font = '20px Arial, sans-serif';
-  ctx.fillText('🥙 ' + vals.kebabs + ' kebabs    ☕ ' + vals.coffees + ' cafés    🍺 ' + vals.bieres + ' pintes', 300, 265);
+  ctx.fillText('🥙 ' + vals.kebabs + ' kebabs    ☕ ' + vals.coffees + ' cafés    🍺 ' + vals.bieres + ' pintes', 300, 260);
+  ctx.fillStyle = '#6b7280';
+  ctx.font = '16px Arial, sans-serif';
+  ctx.fillText('📦 cashback ' + vals.cashback + '€ · 🎫 abos ' + vals.abos + '€ · 📱 apps ' + vals.apps + '€', 300, 290);
 
   ctx.fillStyle = '#f59e0b';
   ctx.font = '20px Arial, sans-serif';
-  ctx.fillText('🍕 ' + vals.pizzas + ' pizzas    🎬 ' + vals.netflix + ' mois Netflix    ⛽ ' + vals.pleins + ' pleins essence', 300, 300);
+  ctx.fillText('🍕 ' + vals.pizzas + ' pizzas    🎬 ' + vals.netflix + ' mois Netflix    ⛽ ' + vals.pleins + ' pleins essence', 300, 320);
 
   // Lien
   ctx.fillStyle = '#b91c1c';
