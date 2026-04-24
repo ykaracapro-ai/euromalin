@@ -1,0 +1,6 @@
+# Système — ne pas indexer
+.DS_Store
+Thumbs.db
+*.log
+node_modules/
+.git/
