@@ -315,61 +315,96 @@ function generateCalcImage() {
   ctx.fillStyle = grad;
   ctx.fillRect(0,0,600,420);
 
-  // Carte blanche arrondie
-  ctx.fillStyle = 'rgba(255,255,255,.96)';
+  // Cercles décoratifs
+  ctx.fillStyle = 'rgba(37,99,235,0.1)';
   ctx.beginPath();
-  ctx.roundRect(25,40,550,340,20);
+  ctx.arc(100, 50, 120, 0, Math.PI*2);
   ctx.fill();
 
-  // Titre
-  ctx.fillStyle = '#1e3a5f';
-  ctx.font = 'bold 44px Georgia, "Times New Roman", serif';
+  // Logo EuroMalin (€ dans cercle bleu) en haut à droite
+  ctx.fillStyle = '#2563eb';
+  ctx.beginPath();
+  ctx.arc(550, 38, 22, 0, Math.PI*2);
+  ctx.fill();
+  ctx.fillStyle = 'white';
+  ctx.font = 'bold 24px Arial, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText('💸 Tu perds ' + vals.total + '€/an', 300, 120);
+  ctx.fillText(String.fromCharCode(8364), 550, 44);
+
+  // Texte EuroMalin en haut à gauche
+  ctx.fillStyle = 'white';
+  ctx.font = 'bold 14px Arial, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('EuroMalin', 30, 35);
+  ctx.font = '11px Arial, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.7)';
+  ctx.fillText('Cashback, economie et budget malin', 30, 52);
+
+  // Carte blanche centrale
+  var cardX = 20, cardY = 65, cardW = 560, cardH = 340;
+  ctx.fillStyle = 'rgba(255,255,255,.97)';
+  ctx.beginPath();
+  ctx.roundRect(cardX, cardY, cardW, cardH, 16);
+  ctx.fill();
+
+  // Header bleu de la carte
+  ctx.fillStyle = '#2563eb';
+  ctx.beginPath();
+  ctx.roundRect(cardX, cardY, cardW, 38, [16,16,0,0]);
+  ctx.fill();
+
+  // Texte du header
+  ctx.fillStyle = 'white';
+  ctx.font = 'bold 14px Arial, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('CALCULATEUR CASHBACK', 300, 91);
+
+  // Montant principal
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#1e3a5f';
+  ctx.font = 'bold 42px Arial, sans-serif';
+  ctx.fillText('Tu perds', 300, 155);
+  ctx.fillStyle = '#2563eb';
+  ctx.font = 'bold 54px Arial, sans-serif';
+  ctx.fillText(vals.total + String.fromCharCode(8364) + '/an', 300, 210);
 
   // Sous-titre
   ctx.fillStyle = '#6b7280';
-  ctx.font = '20px Arial, sans-serif';
-  ctx.fillText('Sans cashback, sans bons plans, sans optimiser tes abonnements', 300, 160);
+  ctx.font = '16px Arial, sans-serif';
+  ctx.fillText('Sans cashback, sans bons plans, sans optimiser tes abonnements', 300, 248);
 
-  // Ligne séparatrice
+  // Separateur
   ctx.strokeStyle = '#e2e8f0';
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.moveTo(80, 185);
-  ctx.lineTo(520, 185);
+  ctx.moveTo(80, 263);
+  ctx.lineTo(520, 263);
   ctx.stroke();
 
-  // Équivalences
+  // Titre équivalences
   ctx.fillStyle = '#1a1a2e';
   ctx.font = 'bold 22px Arial, sans-serif';
-  ctx.fillText('Avec cet argent tu pourrais t\'offrir :', 300, 225);
+  ctx.fillText('Avec cet argent tu pourrais t\'offrir :', 300, 293);
 
+  // Ligne 1 : kebabs / cafes / pintes
   ctx.fillStyle = '#1e3a5f';
-  ctx.font = '20px Arial, sans-serif';
-  ctx.fillText('🥙 ' + vals.kebabs + ' kebabs    ☕ ' + vals.coffees + ' cafés    🍺 ' + vals.bieres + ' pintes', 300, 260);
+  ctx.font = 'bold 24px Arial, sans-serif';
+  ctx.fillText(vals.kebabs + ' kebabs  \u00b7  ' + vals.coffees + ' cafes  \u00b7  ' + vals.bieres + ' pintes', 300, 330);
+
+  // Details cashback
   ctx.fillStyle = '#6b7280';
-  ctx.font = '16px Arial, sans-serif';
-  ctx.fillText('📦 cashback ' + vals.cashback + '€ · 🎫 abos ' + vals.abos + '€ · 📱 apps ' + vals.apps + '€', 300, 290);
+  ctx.font = '13px Arial, sans-serif';
+  ctx.fillText('Cashback ' + vals.cashback + String.fromCharCode(8364) + '  \u00b7  Abos ' + vals.abos + String.fromCharCode(8364) + '  \u00b7  Apps ' + vals.apps + String.fromCharCode(8364), 300, 352);
 
+  // Ligne 2 : pizzas / netflix / essence
   ctx.fillStyle = '#2563eb';
-  ctx.font = '20px Arial, sans-serif';
-  ctx.fillText('🍕 ' + vals.pizzas + ' pizzas    🎬 ' + vals.netflix + ' mois Netflix    ⛽ ' + vals.pleins + ' pleins essence', 300, 320);
-
-  // Lien
-  ctx.fillStyle = '#2563eb';
-  ctx.font = 'bold 16px Arial, sans-serif';
-  ctx.fillText('→ euromalin.com/calculateur.html', 300, 345);
-
-  // Logo EuroMalin
-  ctx.fillStyle = '#1e3a5f';
-  ctx.font = 'bold 13px Arial, sans-serif';
-  ctx.fillText('EuroMalin — le site qui te rend ton argent', 300, 375);
+  ctx.font = 'bold 24px Arial, sans-serif';
+  ctx.fillText(vals.pizzas + ' pizzas  \u00b7  ' + vals.netflix + ' mois Netflix  \u00b7  ' + vals.pleins + ' plein essence', 300, 385);
 
   generatedDataUrl = c.toDataURL('image/png');
 
   // Afficher l'image
-  imgArea.innerHTML = '<img src="'+generatedDataUrl+'" style="max-width:100%;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.15)"/>';
+  imgArea.innerHTML = '<img src="'+generatedDataUrl+'" style="max-width:100%;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.15)"/>';
 }
 
 // Bouton de partage unique
