@@ -154,13 +154,13 @@ function getCalcText() {
   const total = cashback + abos + apps;
   const k = Math.floor(total/7);
   return total > 0 
-    ? `💸 Je pourrais récupérer ${total}€/an avec le cashback ! (${k} kebabs quand même !) Calcule le tien → https://ykaracapro-ai.github.io/euromalin/calculateur.html`
-    : `🧮 Découvre combien tu perds en ligne sans cashback → https://ykaracapro-ai.github.io/euromalin/calculateur.html`;
+    ? `💸 Je pourrais récupérer ${total}€/an avec le cashback ! (${k} kebabs quand même !) Calcule le tien → https://euromalin.com/calculateur.html`
+    : `🧮 Découvre combien tu perds en ligne sans cashback → https://euromalin.com/calculateur.html`;
 }
 
 function shareCalc(platform, el) {
   const text = getCalcText();
-  const url = 'https://ykaracapro-ai.github.io/euromalin/calculateur.html';
+  const url = 'https://euromalin.com/calculateur.html';
   const encoded = encodeURIComponent(text);
   const encodedUrl = encodeURIComponent(url);
   

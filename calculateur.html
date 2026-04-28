@@ -349,7 +349,7 @@ function generateCalcImage() {
   // Lien
   ctx.fillStyle = '#2563eb';
   ctx.font = 'bold 16px Arial, sans-serif';
-  ctx.fillText('→ ykaracapro-ai.github.io/euromalin/calculateur.html', 300, 345);
+  ctx.fillText('→ euromalin.com/calculateur.html', 300, 345);
 
   // Logo EuroMalin
   ctx.fillStyle = '#1e3a5f';
@@ -381,7 +381,7 @@ function downloadImage() {
 async function shareImage(platform, btn) {
   const vals = getCurrentValues();
   const text = `💸 Je pourrais récupérer ${vals.total}€/an avec le cashback ! (${vals.kebabs} kebabs !)`;
-  const url = 'https://ykaracapro-ai.github.io/euromalin/calculateur.html';
+  const url = 'https://euromalin.com/calculateur.html';
   const fullText = text + ' \nCalcule le tien : ' + url;
 
   // 1) Essayer Web Share API (mobile) qui supporte fichiers
@@ -423,7 +423,7 @@ async function shareImage(platform, btn) {
 
 async function shareImageCopy(btn) {
   const vals = getCurrentValues();
-  const text = `💸 Je pourrais récupérer ${vals.total}€/an avec le cashback ! (${vals.kebabs} kebabs !) Calcule le tien → https://ykaracapro-ai.github.io/euromalin/calculateur.html`;
+  const text = `💸 Je pourrais récupérer ${vals.total}€/an avec le cashback ! (${vals.kebabs} kebabs !) Calcule le tien → https://euromalin.com/calculateur.html`;
 
   // Essayer de copier aussi l'image dans le presse-papier (Chromium 86+)
   try {
