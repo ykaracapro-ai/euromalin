@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a5f"/>
+      <stop offset="100%" style="stop-color:#2563eb"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="200" cy="100" r="250" fill="rgba(255,255,255,0.05)"/>
+  <circle cx="1000" cy="500" r="200" fill="rgba(255,255,255,0.08)"/>
+  <text x="600" y="170" text-anchor="middle" font-size="70" fill="white">💸</text>
+  <text x="600" y="260" text-anchor="middle" font-family="Georgia,serif" font-size="56" font-weight="bold" fill="white">Combien tu perds chaque année ?</text>
+  <text x="600" y="320" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" fill="rgba(255,255,255,0.85)">Calcule l'argent que tu laisses sur la table</text>
+  <rect x="400" y="360" width="400" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
+  <text x="600" y="420" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" fill="rgba(255,255,255,0.6)">sans cashback, sans bons plans, sans optimiser tes abonnements</text>
+  <text x="600" y="480" text-anchor="middle" font-family="Georgia,serif" font-size="20" font-weight="bold" fill="rgba(255,255,255,0.8)">euromalin.com/calculateur.html</text>
+</svg>

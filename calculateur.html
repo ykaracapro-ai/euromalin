@@ -5,7 +5,7 @@
     <meta property="og:title" content="Combien tu perds ? Le calculateur cashback" />
     <meta property="og:description" content="Sans cashback, sans bons plans GamsGo, sans apps de remboursement — tu laisses de l'argent sur la table. Chaque…" />
     <meta property="og:url" content="https://euromalin.com/calculateur.html" />
-    <meta property="og:image" content="https://euromalin.com/assets/og-igraal.jpg" />
+    <meta property="og:image" content="https://euromalin.com/assets/img/photos/calculateur.svg" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="fr_FR" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -138,13 +138,12 @@ window.cookieconsent.initialise({
 <div class="calc-ctas">
   <a class="btn" href="articles/gagnez-5-euros-en-vous-inscrivant.html" style="font-size:1.15rem;padding:18px 28px;background:var(--accent);color:var(--text);box-shadow:0 10px 30px rgba(245,158,11,.4)">🔥 Activer tous les leviers maintenant →</a>
   <a class="btn secondary" href="https://fr.igraal.com/parrainage?parrain=AG_69131d3a40583&utm_medium=raf&utm_source=refer_friend" style="border:2px solid var(--accent);color:var(--accent)">💰 Commencer par iGraal (5€ + 1€/extension)</a>
-  <button class="calc-share-btn" id="genImgBtn" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);color:white;border:none;border-radius:999px;padding:14px 24px;font-size:1rem;font-weight:800;cursor:pointer;transition:.2s">🖼️ Générer une image du résultat</button>
 </div>
 
-<!-- Zone où l'image apparaît -->
-<div id="generatedImageArea" style="display:none;margin:16px 0;text-align:center"></div>
+<!-- Image et partage (générée automatiquement) -->
+<div id="generatedImageArea" style="margin:16px 0;text-align:center"></div>
 
-<div class="calc-ctas" id="shareAfterGen" style="display:none;gap:8px">
+<div class="calc-ctas" id="shareBtns" style="gap:8px">
   <button class="calc-share-btn" onclick="downloadImage()" style="background:var(--primary);color:#fff;border:none;border-radius:999px;padding:12px 20px;font-size:.9rem;font-weight:800;cursor:pointer">💾 Télécharger l'image</button>
   <button class="calc-share-btn" onclick="shareImage('wa',this)" style="background:#25D366;color:#fff;border:none;border-radius:999px;padding:12px 20px;font-size:.9rem;font-weight:800;cursor:pointer">📤 WhatsApp</button>
   <button class="calc-share-btn" onclick="shareImage('tw',this)" style="background:#000;color:#fff;border:none;border-radius:999px;padding:12px 20px;font-size:.9rem;font-weight:800;cursor:pointer">𝕏 Twitter</button>
@@ -263,10 +262,15 @@ input.addEventListener('input', calc);
 calc();
 
 // ===== GÉNÉRATEUR D'IMAGE CANVAS =====
-const genImgBtn = document.getElementById('genImgBtn');
 const imgArea = document.getElementById('generatedImageArea');
-const shareAfterGen = document.getElementById('shareAfterGen');
 let generatedDataUrl = null;
+
+// Générer l'image automatiquement
+let _genTimer;
+function autoGenerate() {
+  clearTimeout(_genTimer);
+  _genTimer = setTimeout(generateCalcImage, 500);
+}
 
 function getCurrentValues() {
   let v = parseFloat(input.value) || 0;
