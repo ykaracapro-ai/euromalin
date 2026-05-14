@@ -1,150 +1,316 @@
-<!DOCTYPE html><html lang="fr"><head>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EuroMalin — le site qui te rend ton argent • EuroMalin</title>
 
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>EuroMalin — le site qui te rend ton argent • EuroMalin</title>
-    <!-- Open Graph -->
-    <meta property="og:title" content="EuroMalin — le site qui te rend ton argent" />
-    <meta property="og:description" content="Cashback, codes promos, drives moins chers, forfaits, banques. EuroMalin compare, teste, et te dit où cliquer pour payer moins. Pas de blabla. Des…" />
-    <meta property="og:url" content="https://euromalin.com" />
-    <meta property="og:image" content="https://euromalin.com/assets/og-igraal.jpg" />
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="fr_FR" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="EuroMalin — le site qui te rend ton argent" />
-    <meta name="twitter:description" content="Cashback, codes promos, drives moins chers, forfaits, banques. EuroMalin compare, teste, et te dit où cliquer pour payer moins. Pas de blabla. Des…" /><meta name="description" content="Cashback, astuces, comparatifs. EuroMalin te file les bons plans pour payer moins et récupérer de l'argent tous les mois."/><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/style.css"/><!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-DXH0N60DDB"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-DXH0N60DDB');
-</script>
+  <meta name="description" content="Cashback, astuces, comparatifs. EuroMalin te file les bons plans pour payer moins et récupérer de l'argent tous les mois." />
 
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css"/>
-<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
-<script data-cfasync="false">
-window.cookieconsent.initialise({
-  "palette": {
-    "popup": { "background": "#1e3a5f", "text": "#ffffff" },
-    "button": { "background": "#2563eb", "text": "#ffffff" }
-  },
-  "position": "bottom",
-  "type": "opt-out",
-  "content": {
-    "message": "Ce site utilise des cookies pour améliorer ton expérience et mesurer l'audience.",
-    "dismiss": "OK, j'accepte",
-    "link": "En savoir plus",
-    "href": "privacy.html"
-  }
-});
-</script>
-    <link rel="canonical" href="https://euromalin.com" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="EuroMalin — le site qui te rend ton argent" />
+  <meta property="og:description" content="Cashback, codes promos, drives moins chers, forfaits, banques. EuroMalin compare, teste, et te dit où cliquer pour payer moins. Pas de blabla. Des…" />
+  <meta property="og:url" content="https://euromalin.com" />
+  <meta property="og:image" content="https://euromalin.com/assets/og-igraal.jpg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="EuroMalin — le site qui te rend ton argent" />
+  <meta name="twitter:description" content="Cashback, codes promos, drives moins chers, forfaits, banques. EuroMalin compare, teste, et te dit où cliquer pour payer moins. Pas de blabla. Des…" />
 
-    <script type="application/ld+json">
-    {
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "EuroMalin — le site qui te rend ton argent",
-  "description": "Cashback, astuces, comparatifs. EuroMalin te file les bons plans pour payer moins et récupérer de l'argent tous les mois.",
-  "url": "https://euromalin.com"
-}
-    </script>
-    <script type="application/ld+json">
-    {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Accueil",
-      "item": "https://euromalin.com"
+  <link rel="canonical" href="https://euromalin.com" />
+
+  <!-- Anti-flash : applique le thème stocké avant le rendu -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('euromalin-theme');
+        if (t === 'light' || t === 'dark') {
+          document.documentElement.setAttribute('data-theme', t);
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="assets/style.css" />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DXH0N60DDB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DXH0N60DDB');
+  </script>
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+  <script data-cfasync="false">
+  window.cookieconsent.initialise({
+    "palette": {
+      "popup": { "background": "#1e3a5f", "text": "#ffffff" },
+      "button": { "background": "#2563eb", "text": "#ffffff" }
+    },
+    "position": "bottom",
+    "type": "opt-out",
+    "content": {
+      "message": "Ce site utilise des cookies pour améliorer ton expérience et mesurer l'audience.",
+      "dismiss": "OK, j'accepte",
+      "link": "En savoir plus",
+      "href": "privacy.html"
     }
-  ]
-}
-    </script>
-<script defer src="../assets/tracking.js"></script>
-</head><body>
+  });
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "EuroMalin — le site qui te rend ton argent",
+    "description": "Cashback, astuces, comparatifs. EuroMalin te file les bons plans pour payer moins et récupérer de l'argent tous les mois.",
+    "url": "https://euromalin.com"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://euromalin.com"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TP2JK32V"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) --><header class="topbar"><div class="container nav"><a class="brand" href="index.html"><div class="brand-mark">€</div><div><div class="brand-title">EuroMalin</div><div class="brand-sub">Cashback, économies et budget malin</div></div></a><nav class="nav-links"><a href="index.html">Accueil</a><a href="articles.html">Articles</a><a href="bons-plans.html">Bons Plans</a><a href="cashback.html">Cashback</a><a href="economies.html">Économies</a><a href="budget.html">Budget</a><a href="revenus.html">Revenus</a></nav><a class="btn" href="articles/gagnez-5-euros-en-vous-inscrivant.html">🔥 Gagne 5€ maintenant</a></div></header><main>
 
-<!-- HERO — Positionnement réflexe avant achat -->
-<section class="hero"><div class="container hero-grid">
-<div class="hero-card" style="display:flex;flex-direction:column;justify-content:center">
-<h1 style="font-size:clamp(1.8rem, 4.5vw, 2.8rem);line-height:1.15;margin-bottom:12px">💸 Ne paie plus jamais le prix fort.<br/>Avant d'acheter, passe par EuroMalin<br/>et récupère du cash.</h1>
-<p style="font-size:1.1rem;color:var(--muted);margin-bottom:24px;max-width:520px">Cashback, bons plans, comparatifs et astuces simples pour payer moins sans perdre ton temps.</p>
-<div style="display:flex;gap:12px;flex-wrap:wrap">
-<a class="btn" href="articles/gagnez-5-euros-en-vous-inscrivant.html" style="font-size:1rem;padding:14px 32px;background:var(--accent);color:var(--text)">🔥 Je récupère mes 5€</a>
-<a class="btn secondary" href="meilleurs-sites-cashback.html" style="font-size:1rem;padding:14px 28px">Comparer les meilleurs cashback</a>
-</div>
-<p style="margin-top:16px;font-size:.82rem;color:var(--muted);opacity:.75">Simple à utiliser • Gratuit • Bons plans utiles • Mis à jour régulièrement</p>
-</div>
-<div class="hero-side">
+<header class="site-header">
+  <div class="container">
+    <nav class="nav" aria-label="Principale">
+      <a href="/" class="brand">
+        <span class="brand-mark">€</span>
+        <span>EuroMalin</span>
+      </a>
 
-<div class="highlight-card panel" style="border-color:var(--accent);padding:24px 24px 18px">
-<div class="highlight-head"><span class="badge" style="background:rgba(245,158,11,.18)">🧮 Avant d'aller plus loin</span><span class="badge">Interactif</span></div>
-<h2 style="font-size:1.6rem;margin-bottom:4px">Combien tu perds par mois ?</h2>
-<p style="font-size:.9rem;color:var(--muted);margin:0 0 14px">Sans cashback, sans GamsGo, sans apps de remboursement.</p>
-<div style="display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:8px">
-  <span style="font-size:1.4rem;font-weight:800;color:var(--muted)">€</span>
-  <input id="indexCalcInput" type="number" min="0" max="50000" value="300" step="10" style="width:140px;padding:12px 14px;font-size:1.3rem;font-weight:800;text-align:center;border:3px solid var(--accent);border-radius:14px;background:#fff;color:var(--primary);outline:none;font-family:'Fraunces',serif"/>
-</div>
-<div style="text-align:center;padding:2px 0 0">
-  <div style="font-size:.82rem;color:var(--muted);margin-bottom:2px">Tu perds</div>
-  <div style="font-size:2rem;font-weight:800;color:var(--accent-2);line-height:1;font-family:'Fraunces',serif" id="indexLostAmount">0€</div>
-  <div style="font-size:.88rem;color:var(--muted)" id="indexLostSub">par an</div>
-  <div class="calc-badges" style="margin-top:6px">
-    <span class="calc-badge" style="font-size:.78rem">🥙 <span id="indexKebabs">0</span> kebabs</span>
-    <span class="calc-badge" style="font-size:.78rem">☕ <span id="indexCoffees">0</span> cafés</span>
-    <span class="calc-badge" style="font-size:.78rem">🍺 <span id="indexBieres">0</span> pintes</span>
+      <ul class="nav-links">
+        <li><a href="index.html" aria-current="page">Accueil</a></li>
+        <li><a href="articles.html">Articles</a></li>
+        <li><a href="cashback.html">Cashback</a></li>
+        <li><a href="economies.html">Économies</a></li>
+        <li><a href="budget.html">Budget</a></li>
+        <li><a href="revenus.html">Revenus</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="theme-toggle" data-theme-toggle aria-label="Changer de thème">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        </button>
+        <button class="nav-toggle" data-nav-toggle aria-label="Menu">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </nav>
   </div>
-</div>
-<div style="display:flex;gap:8px;margin-top:14px">
-  <a class="btn" href="calculateur.html" style="flex:1;font-size:.85rem;padding:10px 12px;background:var(--accent);color:var(--text);box-shadow:0 10px 30px rgba(245,158,11,.4)">🔥 Voir le détail</a>
-  <a class="btn" href="articles/gagnez-5-euros-en-vous-inscrivant.html" style="flex:1;font-size:.85rem;padding:10px 12px">💸 Récupérer</a>
-</div>
-<div style="display:flex;gap:6px;margin-top:10px">
-  <button class="calc-share-btn" onclick="shareCalc('wa',this)" style="flex:1;font-size:.78rem;padding:10px 8px;background:#25D366;color:#fff;border:none;border-radius:999px;font-weight:800;cursor:pointer">📤 WhatsApp</button>
-  <button class="calc-share-btn" onclick="shareCalc('fb',this)" style="flex:1;font-size:.78rem;padding:10px 8px;background:#1877F2;color:#fff;border:none;border-radius:999px;font-weight:800;cursor:pointer">📘 Facebook</button>
-  <button class="calc-share-btn" onclick="shareCalc('tw',this)" style="flex:1;font-size:.78rem;padding:10px 8px;background:#000;color:#fff;border:none;border-radius:999px;font-weight:800;cursor:pointer">𝕏 Twitter</button>
-  <button class="calc-share-btn" onclick="shareCalc('msg',this)" style="flex:1;font-size:.78rem;padding:10px 8px;background:#007AFF;color:#fff;border:none;border-radius:999px;font-weight:800;cursor:pointer">💬 Messenger</button>
-  <button class="calc-share-btn" onclick="shareCalc('copy',this)" style="flex:1;font-size:.78rem;padding:10px 8px;background:var(--muted);color:#fff;border:none;border-radius:999px;font-weight:800;cursor:pointer">📋 Copier</button>
-</div>
-</div>
-<div class="highlight-card panel" style="border-color:var(--accent)">
-<div class="highlight-head"><span class="badge" style="background:rgba(245,158,11,.18)">🔥 Le top du mois</span><span class="badge">Cashback</span></div>
-<h2 style="font-size:1.5rem">Les meilleurs taux du moment</h2>
-<div class="offer-list">
-<div class="offer" style="border-color:var(--accent)"><h4 style="font-size:1.05rem">🥇 iGraal</h4><div class="best">Bonus jusqu'à 10€ offert</div><div class="meta">Le réflexe avant tout achat. 3 secondes.</div><a class="btn ghost" href="https://fr.igraal.com/parrainage?parrain=AG_69131d3a40583&utm_medium=raf&utm_source=refer_friend" style="margin-top:6px;display:inline-flex;font-size:.85rem;padding:8px 14px">S'inscrire →</a></div>
-<div class="offer"><h4>AliExpress</h4><div class="best">Jusqu'à 12%</div><div class="meta">iGraal et eBuyClub en tête.</div></div>
-<div class="offer"><h4>Amazon</h4><div class="best">Jusqu'à 10%</div><div class="meta">Shoop et eBuyClub devant.</div></div>
-<div class="offer"><h4>Booking</h4><div class="best">Jusqu'à 7%</div><div class="meta">eBuyClub domine.</div></div>
-</div></div>
-</div></div></section>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <span class="eyebrow reveal"><span class="dot"></span>Mis à jour aujourd'hui</span>
+    <h1 class="reveal" style="--delay: 80ms">
+      Ne paie plus jamais<br>le <span class="accent">prix fort.</span>
+    </h1>
+    <p class="lead reveal" style="--delay: 160ms">
+      Cashback, bons plans, comparatifs et astuces simples pour payer moins
+      et récupérer de l'argent tous les mois.
+    </p>
+    <div class="hero-cta reveal" style="--delay: 240ms">
+      <a href="articles/gagnez-5-euros-en-vous-inscrivant.html" class="btn btn-primary btn-lg">🔥 Je récupère mes 5€</a>
+      <a href="cashback.html" class="btn btn-secondary btn-lg">Comparer les cashbacks</a>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATEUR -->
+<section style="background: var(--bg-subtle); border-block: 1px solid var(--border);">
+  <div class="container">
+    <h2>Combien tu perds par mois ?</h2>
+    <p class="lead mt-2">Sans cashback, sans apps de remboursement. Calcule en 5 secondes.</p>
+
+    <div style="max-width: 480px; margin-top: 32px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 28px;">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom: 20px;">
+        <span style="font-size:1.1rem; font-weight:600; color:var(--text-muted);">€</span>
+        <input id="indexCalcInput" type="number" min="0" max="50000" value="300" step="10"
+          style="width:100%; padding:10px 14px; font-size:1.2rem; font-weight:700; text-align:center;
+                 border:2px solid var(--border-strong); border-radius: var(--radius); background:var(--bg);
+                 color:var(--text); outline:none; font-family:inherit; transition: border-color var(--dur-fast) var(--ease);"
+          onfocus="this.style.borderColor='var(--brand-600)'" onblur="this.style.borderColor='var(--border-strong)'"/>
+      </div>
+      <div style="text-align:center; margin-bottom: 20px;">
+        <div style="font-size:0.875rem; color:var(--text-subtle); margin-bottom:6px;">Tu perds environ</div>
+        <div style="font-size:2.5rem; font-weight:700; color:var(--brand-600); line-height:1;" id="indexLostAmount">0€</div>
+        <div style="font-size:0.9rem; color:var(--text-subtle); margin-top:4px;" id="indexLostSub">par an</div>
+        <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:12px;">
+          <span style="font-size:0.8rem; padding:4px 10px; background:var(--bg-muted); border-radius:999px; color:var(--text-muted);">🥙 <span id="indexKebabs">0</span> kebabs</span>
+          <span style="font-size:0.8rem; padding:4px 10px; background:var(--bg-muted); border-radius:999px; color:var(--text-muted);">☕ <span id="indexCoffees">0</span> cafés</span>
+          <span style="font-size:0.8rem; padding:4px 10px; background:var(--bg-muted); border-radius:999px; color:var(--text-muted);">🍺 <span id="indexBieres">0</span> pintes</span>
+        </div>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <a class="btn btn-primary" href="calculateur.html" style="flex:1; font-size:0.875rem;">Voir le détail</a>
+        <a class="btn btn-secondary" href="articles/gagnez-5-euros-en-vous-inscrivant.html" style="flex:1; font-size:0.875rem;">Récupérer →</a>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- CATÉGORIES -->
-<section class="section"><div class="container"><div class="section-head"><div><h2>Choisis ton kiff</h2><p>4 coins du site. 4 façons de moins dépenser ou de gagner plus.</p></div></div><div class="grid-4">
-<div class="card" style="border-top:4px solid var(--accent)"><div class="kicker" style="color:var(--accent)">⚡ Cashback</div><h3>Récupère de l'argent sur chaque achat</h3><p>Comparatifs, meilleurs taux, pièges à éviter. Tout pour ne plus jamais acheter sans cashback.</p><a class="btn ghost" href="cashback.html">Explorer →</a></div>
-<div class="card" style="border-top:4px solid var(--primary)"><div class="kicker">🎯 Économies</div><h3>Baisse tes dépenses sans effort</h3><p>Courses, forfaits, électricité, abonnements. Les astuces qui font vraiment la différence.</p><a class="btn ghost" href="economies.html">Explorer →</a></div>
-<div class="card" style="border-top:4px solid var(--primary-2)"><div class="kicker">📊 Budget</div><h3>Reprends le contrôle</h3><p>Méthodes simples pour savoir où va ton argent et arrêter les fuites invisibles.</p><a class="btn ghost" href="budget.html">Explorer →</a></div>
-<div class="card" style="border-top:4px solid var(--accent-2)"><div class="kicker">💎 Revenus</div><h3>Gagne plus sans deuxième job</h3><p>Bonus, apps, missions. Des idées réalistes pour arrondir tes fins de mois.</p><a class="btn ghost" href="revenus.html">Explorer →</a></div>
-</div></div></section>
+<section>
+  <div class="container">
+    <h2>Explorer par catégorie</h2>
+    <p class="lead mt-2">Quatre thèmes pour reprendre la main sur tes finances.</p>
 
-<!-- ARTICLES RÉCENTS -->
-<section class="section"><div class="container"><div class="section-head"><div><h2>Les articles qui déchirent</h2><p>On les a écrits pour toi. Pas pour Google. Pas pour un cahier des charges.</p></div><a class="btn secondary" href="articles.html">Tous les 28 articles →</a></div><div class="grid-3"><article class="article-card" data-article-card><div class="article-meta"><span class="category-pill">Cashback</span><span style="color:var(--muted);font-size:.92rem">7 min</span></div><h3>Cashback AliExpress, Shein, Temu : lequel rembourse le plus ?</h3><p>Comparatif des meilleures plateformes pour récupérer du cashback. Jusqu'à 12% selon le site.</p><div class="actions"><a class="btn ghost" href="articles/cashback-aliexpress-shein-temu.html">Lire →</a></div></article><article class="article-card" data-article-card><div class="article-meta"><span class="category-pill">Cashback</span><span style="color:var(--muted);font-size:.92rem">6 min</span></div><h3>Meilleur cashback Amazon : jusqu'à 10% de remboursement</h3><p>Guide complet iGraal, eBuyClub, Shoop. Compare avant d'acheter.</p><div class="actions"><a class="btn ghost" href="articles/meilleur-cashback-amazon.html">Lire →</a></div></article><article class="article-card" data-article-card><div class="article-meta"><span class="category-pill">Économies</span><span style="color:var(--muted);font-size:.92rem">7 min</span></div><h3>Quel forfait mobile en 2026 ? Le comparatif complet</h3><p>Free, SFR, Bouygues, Orange. Cashback à l'activation inclus.</p><div class="actions"><a class="btn ghost" href="articles/forfait-mobile-comparatif-cashback.html">Lire →</a></div></article></div></div></section>
+    <div class="grid grid-4 mt-6">
+      <a href="cashback.html" class="card">
+        <div class="card-meta">01 · Catégorie</div>
+        <div class="card-title">Cashback</div>
+        <p>Les meilleures plateformes pour récupérer une partie de tes achats. Comparatifs, taux, pièges.</p>
+      </a>
+      <a href="economies.html" class="card">
+        <div class="card-meta">02 · Catégorie</div>
+        <div class="card-title">Économies</div>
+        <p>Astuces concrètes pour réduire tes dépenses sans te priver. Courses, forfaits, abonnements.</p>
+      </a>
+      <a href="budget.html" class="card">
+        <div class="card-meta">03 · Catégorie</div>
+        <div class="card-title">Budget</div>
+        <p>Méthodes et outils pour piloter ton argent au quotidien et arrêter les fuites invisibles.</p>
+      </a>
+      <a href="revenus.html" class="card">
+        <div class="card-meta">04 · Catégorie</div>
+        <div class="card-title">Revenus</div>
+        <p>Idées réalistes pour générer des revenus complémentaires et arrondir tes fins de mois.</p>
+      </a>
+    </div>
+  </div>
+</section>
 
-<!-- CTA FORT -->
-<section class="section"><div class="container"><div class="newsletter" style="background:linear-gradient(135deg,#1e3a5f,#2563eb);color:white"><div class="newsletter-grid"><div><div class="eyebrow" style="background:rgba(255,255,255,.15);color:white">⚡ Commence maintenant</div><h2 style="color:white">5€ en 8 minutes. <br/>Sans rien acheter.</h2><p style="color:rgba(255,255,255,.9);font-size:1.1rem">Inscris-toi sur iGraal, reçois ton bonus de 5€ (+1€/extension), retire-le dans 30 jours. 5 étapes. De l'argent réel.</p><a class="btn" href="https://fr.igraal.com/parrainage?parrain=AG_69131d3a40583&utm_medium=raf&utm_source=refer_friend" style="background:white;color:var(--accent);margin-top:10px">🔥 Créer mon compte iGraal →</a></div><div class="news-form"><h3 style="font-family:'Fraunces',serif;margin-top:0">📚 Les plus lus</h3><div class="small-list"><a href="articles/gagnez-5-euros-en-vous-inscrivant.html">💰 Gagne 5€ en 8 minutes (tuto)</a><a href="newsletter.html">📩 Programme 300€ en 7 jours</a><a href="articles/economiser-1500-euros-en-39-jours.html">🎯 Économiser 1500€ en 39 jours</a><a href="articles/meilleurs-sites-cashback.html">⚡ Meilleurs sites de cashback</a><a href="articles/meilleur-cashback-amazon.html">🛒 Cashback Amazon</a><a href="articles/cashback-voyages-booking-hotels.html">✈️ Cashback voyages Booking</a></div></div></div></div></div></section>
+<!-- ARTICLES -->
+<section style="background: var(--bg-subtle); border-block: 1px solid var(--border);">
+  <div class="container">
+    <h2>Les articles qui déchirent</h2>
+    <p class="lead mt-2">Écrits pour toi, pas pour un algorithme.</p>
 
-<!-- SIGNATURE -->
+    <div class="grid grid-3 mt-6">
+      <article class="article-card" data-article-card>
+        <div class="article-thumb"></div>
+        <div class="article-body">
+          <span class="tag">Cashback</span>
+          <h3><a href="articles/cashback-aliexpress-shein-temu.html">Cashback AliExpress, Shein, Temu : lequel rembourse le plus ?</a></h3>
+          <p class="small">Comparatif des meilleures plateformes. Jusqu'à 12% selon le site.</p>
+        </div>
+      </article>
+      <article class="article-card" data-article-card>
+        <div class="article-thumb"></div>
+        <div class="article-body">
+          <span class="tag">Cashback</span>
+          <h3><a href="articles/meilleur-cashback-amazon.html">Meilleur cashback Amazon : jusqu'à 10% de remboursement</a></h3>
+          <p class="small">Guide complet iGraal, eBuyClub, Shoop. Compare avant d'acheter.</p>
+        </div>
+      </article>
+      <article class="article-card" data-article-card>
+        <div class="article-thumb"></div>
+        <div class="article-body">
+          <span class="tag">Économies</span>
+          <h3><a href="articles/forfait-mobile-comparatif-cashback.html">Quel forfait mobile en 2026 ? Le comparatif complet</a></h3>
+          <p class="small">Free, SFR, Bouygues, Orange. Cashback à l'activation inclus.</p>
+        </div>
+      </article>
+    </div>
 
-</main>
+    <div style="margin-top:32px; text-align:center;">
+      <a href="articles.html" class="btn btn-secondary">Tous les articles →</a>
+    </div>
+  </div>
+</section>
 
-<p class="affiliate-disclosure" style="font-size:.82rem;color:#6b7280;padding:8px 12px;background:#fff8e1;border-radius:8px;border-left:3px solid #ffb300">🔗 Certains liens sont affiliés : EuroMalin peut toucher une commission si vous passez par ces liens, sans coût supplémentaire pour vous. Nos recommandations restent basées sur l’intérêt utilisateur.</p>
-<footer class="footer"><div class="container footer-grid"><div><div class="brand-title" style="font-size:1.3rem">EuroMalin</div><p>Des comparatifs clairs, des articles lisibles et des idées simples pour payer moins, récupérer du cashback et mieux gérer son argent.</p></div><div><h3 style="font-size:1.05rem">Rubriques</h3><div class="small-list"><a href="cashback.html">Cashback</a><a href="economies.html">Économies</a><a href="budget.html">Budget</a><a href="bons-plans.html">Bons Plans</a><a href="investissements.html">Crypto/Invest</a><a href="revenus.html">Revenus complémentaires</a></div></div><div><h3 style="font-size:1.05rem">À parcourir</h3><div class="small-list"><a href="a-propos.html">À propos</a>
-<a href="privacy.html">Confidentialité</a><a href="articles.html">Tous les articles</a><a href="articles/gagnez-5-euros-en-vous-inscrivant.html">Gagnez 5€</a><a href="articles/economiser-1500-euros-en-39-jours.html">Économiser 1500€</a><a href="articles/meilleurs-sites-cashback.html">Meilleurs sites de cashback</a></div></div></div></footer><script>
-// Mini calculateur homepage
+<!-- CTA iGraal -->
+<section>
+  <div class="container">
+    <div style="background:linear-gradient(135deg, var(--brand-700), var(--brand-600)); border-radius:var(--radius-lg); padding: clamp(32px,6vw,64px); color:#fff;">
+      <span class="eyebrow" style="background:rgba(255,255,255,0.15); color:#fff; border-color:rgba(255,255,255,0.2);">⚡ Commence maintenant</span>
+      <h2 style="color:#fff; margin-top:16px;">5€ en 8 minutes.<br>Sans rien acheter.</h2>
+      <p style="color:rgba(255,255,255,0.85); font-size:1.1rem; max-width:55ch; margin-top:12px;">
+        Inscris-toi sur iGraal, reçois ton bonus de 5€ (+1€/extension), retire-le dans 30 jours. 5 étapes. De l'argent réel.
+      </p>
+      <a class="btn btn-secondary btn-lg" href="https://fr.igraal.com/parrainage?parrain=AG_69131d3a40583&utm_medium=raf&utm_source=refer_friend" style="margin-top:24px; color:var(--brand-700); font-weight:600;">
+        🔥 Créer mon compte iGraal →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- DISCLOSURE -->
+<div class="container" style="padding-block: 0 16px;">
+  <p style="font-size:0.82rem; color:var(--text-subtle); padding:8px 12px; background:var(--bg-subtle); border-radius:var(--radius-sm); border-left:3px solid var(--border-strong);">
+    🔗 Certains liens sont affiliés : EuroMalin peut toucher une commission si vous passez par ces liens, sans coût supplémentaire pour vous. Nos recommandations restent basées sur l'intérêt utilisateur.
+  </p>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="/" class="brand"><span class="brand-mark">€</span>EuroMalin</a>
+        <p class="mt-3 small">Cashback, économies et budget malin. Construit avec rigueur, lu avec plaisir.</p>
+      </div>
+      <div>
+        <h4>Catégories</h4>
+        <ul>
+          <li><a href="cashback.html">Cashback</a></li>
+          <li><a href="economies.html">Économies</a></li>
+          <li><a href="budget.html">Budget</a></li>
+          <li><a href="revenus.html">Revenus</a></li>
+          <li><a href="bons-plans.html">Bons Plans</a></li>
+          <li><a href="investissements.html">Crypto / Invest</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Le site</h4>
+        <ul>
+          <li><a href="articles.html">Tous les articles</a></li>
+          <li><a href="articles/gagnez-5-euros-en-vous-inscrivant.html">Gagne 5€</a></li>
+          <li><a href="articles/economiser-1500-euros-en-39-jours.html">Économiser 1500€</a></li>
+          <li><a href="newsletter.html">Newsletter</a></li>
+          <li><a href="a-propos.html">À propos</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Légal</h4>
+        <ul>
+          <li><a href="privacy.html">Confidentialité</a></li>
+          <li><a href="sitemap.xml">Sitemap</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 EuroMalin. Tous droits réservés.</span>
+      <span>Construit avec ❤️ et rien d'autre que HTML/CSS/JS.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
 const icInput = document.getElementById('indexCalcInput');
 const icLost = document.getElementById('indexLostAmount');
 const icSub = document.getElementById('indexLostSub');
@@ -152,70 +318,28 @@ const icKebabs = document.getElementById('indexKebabs');
 const icCoffees = document.getElementById('indexCoffees');
 const icBieres = document.getElementById('indexBieres');
 
-function getCalcText() {
-  let v = parseFloat(icInput?.value) || 0;
+function icCalc() {
+  let v = parseFloat(icInput.value) || 0;
   if (v < 0) v = 0;
   const cashback = Math.round(v * 0.03 * 12);
   const abos = v >= 100 ? Math.round(v * 1.17) : v >= 50 ? Math.round(v * 0.7) : 0;
   const apps = v >= 200 ? 60 : v >= 100 ? 36 : v >= 50 ? 12 : 0;
   const total = cashback + abos + apps;
-  const k = Math.floor(total/7);
-  return total > 0 
-    ? `💸 Je pourrais récupérer ${total}€/an avec le cashback ! (${k} kebabs quand même !) Calcule le tien → https://euromalin.com/calculateur.html`
-    : `🧮 Découvre combien tu perds en ligne sans cashback → https://euromalin.com/calculateur.html`;
-}
-
-function shareCalc(platform, el) {
-  const text = getCalcText();
-  const url = 'https://euromalin.com/calculateur.html';
-  const encoded = encodeURIComponent(text);
-  const encodedUrl = encodeURIComponent(url);
-  
-  const links = {
-    wa: `https://wa.me/?text=${encoded}`,
-    fb: `https://www.facebook.com/sharer/sharer.php?quote=${encoded}&u=${encodedUrl}`,
-    tw: `https://twitter.com/intent/tweet?text=${encoded}`,
-    msg: `fb-messenger://share?link=${encodedUrl}&quote=${encoded}`,
-    copy: null
-  };
-  
-  if (platform === 'copy') {
-    navigator.clipboard.writeText(text).then(() => {
-      if (el) {
-        const orig = el.textContent;
-        el.textContent = '✅ Copié !';
-        setTimeout(() => el.textContent = orig, 1500);
-      }
-    }).catch(() => {
-      if (el) {
-        el.textContent = '❌ Erreur';
-        setTimeout(() => el.textContent = '📋 Copier', 1500);
-      }
-    });
-    return;
-  }
-  
-  const link = links[platform];
-  if (link) window.open(link, '_blank', 'width=600,height=500');
+  icLost.textContent = total > 0 ? total + '€' : '0€';
+  icSub.textContent = total > 0
+    ? 'par an (soit ' + Math.round(total / 12) + '€/mois)'
+    : 'Ajoute tes dépenses pour voir le potentiel';
+  icKebabs.textContent  = total > 0 ? Math.floor(total / 7)   : '—';
+  icCoffees.textContent = total > 0 ? Math.floor(total / 3.5) : '—';
+  icBieres.textContent  = total > 0 ? Math.floor(total / 6)   : '—';
 }
 
 if (icInput) {
-  function icCalc() {
-    let v = parseFloat(icInput.value) || 0;
-    if (v < 0) v = 0;
-    const cashback = Math.round(v * 0.03 * 12);
-    const abos = v >= 100 ? Math.round(v * 1.17) : v >= 50 ? Math.round(v * 0.7) : 0;
-    const apps = v >= 200 ? 60 : v >= 100 ? 36 : v >= 50 ? 12 : 0;
-    const total = cashback + abos + apps;
-    icLost.textContent = total > 0 ? total + '€' : '0€';
-    icSub.textContent = total > 0 ? 'par an (soit ' + Math.round(total/12) + '€/mois)' : 'Ajoute tes dépenses pour voir le potentiel';
-    icKebabs.textContent = total > 0 ? Math.floor(total/7) : '—';
-    icCoffees.textContent = total > 0 ? Math.floor(total/3.5) : '—';
-    icBieres.textContent = total > 0 ? Math.floor(total/6) : '—';
-  }
   icInput.addEventListener('input', icCalc);
   icCalc();
 }
 </script>
+<script src="assets/theme-toggle.js"></script>
 <script src="assets/script.js"></script>
-</body></html>
+</body>
+</html>
