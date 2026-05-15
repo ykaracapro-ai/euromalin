@@ -12,7 +12,18 @@
       "Bash(python3 /tmp/patch_euromalin.py)",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git -c user.email=yusufkpro@users.noreply.github.com -c user.name=yusufkpro commit -m 'Refonte complète : design responsive mobile-first, dark mode, SEO, accessibilité *)"
+      "Bash(git -c user.email=yusufkpro@users.noreply.github.com -c user.name=yusufkpro commit -m 'Refonte complète : design responsive mobile-first, dark mode, SEO, accessibilité *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(git config *)",
+      "Read(//Users/yusufkaraca/.ssh/**)",
+      "Bash(ssh -T -o StrictHostKeyChecking=no -o ConnectTimeout=5 git@github.com)",
+      "Bash(git -c protocol.version=2 fetch origin ff6f5a1ee)",
+      "Bash(git fetch *)",
+      "Bash(git ls-tree *)",
+      "Bash(git checkout *)",
+      "Bash(python3 -c \"import sys; s=sys.stdin.read\\(\\); import re; [print\\(t\\) for t in re.findall\\(r'<\\(?:header|nav|main|section\\)[^>]*>', s\\)]\")",
+      "Bash(python3 /tmp/add_script.py)"
     ]
   }
 }
