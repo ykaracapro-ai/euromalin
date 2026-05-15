@@ -23,7 +23,13 @@
       "Bash(git ls-tree *)",
       "Bash(git checkout *)",
       "Bash(python3 -c \"import sys; s=sys.stdin.read\\(\\); import re; [print\\(t\\) for t in re.findall\\(r'<\\(?:header|nav|main|section\\)[^>]*>', s\\)]\")",
-      "Bash(python3 /tmp/add_script.py)"
+      "Bash(python3 /tmp/add_script.py)",
+      "Bash(git -c user.email=yusufkpro@users.noreply.github.com -c user.name=yusufkpro commit -m 'Restaure le contenu complet + active le menu mobile et le toggle thème *)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npx --version)",
+      "Bash(which php *)",
+      "Bash(rsync -a --exclude='.git' --exclude='.claude' /Users/yusufkaraca/Downloads/euromalin-20-articles/ /tmp/euromalin-preview/)",
+      "Bash(python3 scripts/add_unsplash_photos.py --dry-run)"
     ]
   }
 }

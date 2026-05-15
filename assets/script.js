@@ -1,7 +1,16 @@
 (function () {
   'use strict';
 
+  /* Anti-flash: apply stored theme as early as possible */
+  try {
+    var saved = localStorage.getItem('euromalin-theme');
+    if (saved === 'dark' || saved === 'light') {
+      document.documentElement.setAttribute('data-theme', saved);
+    }
+  } catch (e) {}
+
   document.addEventListener('DOMContentLoaded', function () {
+    enhanceLegacyHeader();
     initNavToggle();
     initThemeToggle();
     initSearch();
@@ -9,6 +18,38 @@
     initReveal();
     initScrollProgress();
   });
+
+  /* ----- Inject nav-toggle + theme-toggle into legacy .topbar headers ----- */
+  function enhanceLegacyHeader() {
+    var topbar = document.querySelector('.topbar');
+    if (!topbar) return; // modern .site-header already has both
+    var nav = topbar.querySelector('.container.nav') || topbar.querySelector('.nav');
+    if (!nav) return;
+
+    // If already has actions/toggles, do nothing
+    if (nav.querySelector('.nav-actions, [data-nav-toggle], [data-theme-toggle]')) return;
+
+    var actions = document.createElement('div');
+    actions.className = 'nav-actions';
+
+    // Existing CTA button (Voir les articles) — move it inside .nav-actions if present
+    var existingBtn = Array.from(nav.children).find(function (el) {
+      return el.tagName === 'A' && el.classList.contains('btn');
+    });
+
+    actions.innerHTML = [
+      '<button class="theme-toggle" data-theme-toggle aria-label="Changer de thème" type="button">',
+      '  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
+      '  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>',
+      '</button>',
+      '<button class="nav-toggle" data-nav-toggle aria-label="Menu" aria-expanded="false" type="button">',
+      '  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 12h18M3 6h18M3 18h18"/></svg>',
+      '</button>'
+    ].join('');
+
+    if (existingBtn) actions.insertBefore(existingBtn, actions.firstChild);
+    nav.appendChild(actions);
+  }
 
   /* ----- Mobile nav toggle ----- */
   function initNavToggle() {
@@ -33,7 +74,7 @@
       }
     });
     window.addEventListener('resize', function () {
-      if (window.innerWidth > 800 && links.classList.contains('is-open')) {
+      if (window.innerWidth > 900 && links.classList.contains('is-open')) {
         links.classList.remove('is-open');
         btn.setAttribute('aria-expanded', 'false');
       }
@@ -58,9 +99,9 @@
 
   /* ----- Article search ----- */
   function initSearch() {
-    var search = document.querySelector('[data-search], .search input, input[type="search"]');
+    var search = document.querySelector('[data-search], .search-wrap .search, .search input, input[type="search"]');
     if (!search) return;
-    var cards = Array.from(document.querySelectorAll('[data-article-card]'));
+    var cards = Array.from(document.querySelectorAll('[data-article-card], .article-card'));
     if (!cards.length) return;
     var empty = document.querySelector('[data-no-results]');
     var run = debounce(function () {
@@ -72,7 +113,7 @@
         card.style.display = match ? '' : 'none';
         if (match) visible++;
       });
-      if (empty) empty.style.display = visible === 0 ? '' : 'none';
+      if (empty) empty.style.display = visible === 0 ? 'block' : 'none';
     }, 80);
     search.addEventListener('input', run);
   }
@@ -115,7 +156,13 @@
   /* ----- Scroll progress for article pages ----- */
   function initScrollProgress() {
     var bar = document.querySelector('[data-scroll-progress], .scroll-progress');
-    if (!bar) return;
+    if (!bar) {
+      // Auto-create for article pages
+      if (!document.querySelector('article.article, .article.hero-card')) return;
+      bar = document.createElement('div');
+      bar.className = 'scroll-progress';
+      document.body.insertBefore(bar, document.body.firstChild);
+    }
     var ticking = false;
     function update() {
       var h = document.documentElement;

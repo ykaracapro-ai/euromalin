@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "euromalin",
+      "runtimeExecutable": "ruby",
+      "runtimeArgs": ["-run", "-e", "httpd", "/tmp/euromalin-preview", "-p", "8765"],
+      "port": 8765
+    }
+  ]
+}
