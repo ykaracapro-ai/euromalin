@@ -78,6 +78,21 @@ KEYWORD_OVERRIDES: dict[str, str] = {
     "guide-vpn-2026": "vpn security laptop",
     "quel-air-fryer-choisir": "air fryer kitchen",
     "mexc-bonus-bienvenue-crypto": "cryptocurrency wallet",
+    "payer-chatgpt-plus-moins-cher": "chatgpt openai laptop",
+    "payer-photoshop-moins-cher": "photoshop adobe creative workspace",
+    "payer-midjourney-moins-cher": "ai generated art abstract",
+    "payer-canva-pro-moins-cher": "graphic design workspace laptop",
+    "payer-disney-plus-moins-cher": "cinema popcorn movie",
+    "payer-spotify-premium-moins-cher": "headphones music listening",
+    "payer-youtube-premium-moins-cher": "youtube video streaming laptop",
+    "payer-netflix-premium-moins-cher": "tv living room streaming",
+    "payer-duolingo-super-moins-cher": "language learning books",
+    "payer-nordvpn-moins-cher": "vpn cybersecurity privacy",
+    "payer-notion-ai-moins-cher": "notion productivity laptop notes",
+    "payer-microsoft-365-moins-cher": "office desk laptop work",
+    "payer-perplexity-pro-moins-cher": "ai search interface laptop",
+    "payer-capcut-pro-moins-cher": "video editing creator",
+    "payer-grammarly-premium-moins-cher": "writing keyboard laptop typing",
 }
 
 

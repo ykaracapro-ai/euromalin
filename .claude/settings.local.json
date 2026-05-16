@@ -61,7 +61,10 @@
       "Bash(export PATH=\"$HOME/.local/bin:$PATH\")",
       "Bash(graphify cluster-only *)",
       "Bash(graphify export *)",
-      "Bash(git -c user.email=yusufkpro@users.noreply.github.com -c user.name=yusufkpro commit -m 'Ajoute le lien d'\\\\''affiliation Widilo dans 14 articles + page cashback *)"
+      "Bash(git -c user.email=yusufkpro@users.noreply.github.com -c user.name=yusufkpro commit -m 'Ajoute le lien d'\\\\''affiliation Widilo dans 14 articles + page cashback *)",
+      "Bash([ -f \"assets/img/articles/$s.jpg\" ])",
+      "Bash(python3 /tmp/download_gamsgo_images.py)",
+      "Bash(git -c user.email=yusufkpro@users.noreply.github.com -c user.name=yusufkpro commit -m 'Ajoute 15 articles SEO '\\\\''Payer X moins cher'\\\\'' avec affiliation GamsGo *)"
     ]
   }
 }
