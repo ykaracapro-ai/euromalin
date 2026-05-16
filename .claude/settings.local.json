@@ -36,7 +36,10 @@
       "Bash(curl -s -I -H \"Authorization: Client-ID ZgrEvsAe70wWQMaLP272HCekv1OP6BugfkESJhGnFIo\" \"https://api.unsplash.com/search/photos?query=test\")",
       "Bash(git -c user.email=yusufkpro@users.noreply.github.com -c user.name=yusufkpro commit -m 'Ajoute des photos Unsplash en tête de 26 articles *)",
       "Bash(chmod +x /tmp/finish_unsplash.sh)",
-      "Bash(/tmp/finish_unsplash.sh)"
+      "Bash(/tmp/finish_unsplash.sh)",
+      "Bash(git pull *)",
+      "Bash(git stash *)",
+      "Bash(git -c user.email=yusufkpro@users.noreply.github.com -c user.name=yusufkpro commit -m 'Ajoute des vignettes Unsplash edge-to-edge dans les cartes d'\\\\''articles *)"
     ]
   }
 }
