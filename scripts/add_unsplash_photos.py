@@ -169,16 +169,16 @@ def inject_hero_image(html: str, slug: str, photo: dict) -> str | None:
     )
 
     # Insert just after the opening <article ...> tag (best match) or
-    # otherwise right after the article hero card (.intro paragraph location).
-    pattern_article = re.compile(r'(<article\b[^>]*>)', re.I)
-    m = pattern_article.search(html)
-    if m:
-        return html[:m.end()] + img_tag + html[m.end():]
-    # Fallback: insert after the breadcrumb/hero card opening
-    pattern_hero = re.compile(r'(<div class="hero-card">)', re.I)
-    m = pattern_hero.search(html)
-    if m:
-        return html[:m.end()] + img_tag + html[m.end():]
+    # otherwise right after the hero card / first main section.
+    for pattern in (
+        r'(<article\b[^>]*>)',
+        r'(<div\s+class="hero-card"[^>]*>)',
+        r'(<section\s+class="section"[^>]*>\s*<div\s+class="container"[^>]*>)',
+        r'(<main[^>]*>)',
+    ):
+        m = re.search(pattern, html, re.I)
+        if m:
+            return html[:m.end()] + img_tag + html[m.end():]
     return None
 
 
