@@ -1201,6 +1201,36 @@ details[open] summary::after { content: "−"; }
   margin-top: 16px;
 }
 
+/* ----- Affiliate CTA box ----- */
+.affiliate-cta {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap;
+  margin: 24px 0;
+  padding: 18px 22px;
+  background: linear-gradient(135deg,
+    color-mix(in oklab, var(--brand-600) 8%, var(--surface)),
+    var(--surface));
+  border: 1px solid color-mix(in oklab, var(--brand-600) 25%, var(--border));
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+.affiliate-cta__copy {
+  flex: 1; min-width: 200px;
+  color: var(--text); font-size: 0.95rem; line-height: 1.5;
+}
+.affiliate-cta__copy strong {
+  display: block; font-weight: 600; margin-bottom: 2px;
+  color: var(--text);
+}
+.affiliate-cta__copy span {
+  color: var(--text-muted);
+}
+.affiliate-cta .btn {
+  flex-shrink: 0;
+  padding: 12px 22px;
+  font-weight: 600;
+}
+
 /* ----- Article hero image (Unsplash) ----- */
 .article-hero { margin: 0 0 28px; }
 .article-hero-image {
