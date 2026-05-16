@@ -34,7 +34,9 @@
       "Bash(UNSPLASH_KEY='ZgrEvsAe70wWQMaLP272HCekv1OP6BugfkESJhGnFIo' python3 scripts/add_unsplash_photos.py)",
       "Bash(curl -s -o /tmp/u.json -w \"HTTP %{http_code}\\\\n\" -H \"Authorization: Client-ID ZgrEvsAe70wWQMaLP272HCekv1OP6BugfkESJhGnFIo\" -H \"Accept-Version: v1\" \"https://api.unsplash.com/search/photos?query=running+shoes&per_page=1&orientation=landscape\")",
       "Bash(curl -s -I -H \"Authorization: Client-ID ZgrEvsAe70wWQMaLP272HCekv1OP6BugfkESJhGnFIo\" \"https://api.unsplash.com/search/photos?query=test\")",
-      "Bash(git -c user.email=yusufkpro@users.noreply.github.com -c user.name=yusufkpro commit -m 'Ajoute des photos Unsplash en tête de 26 articles *)"
+      "Bash(git -c user.email=yusufkpro@users.noreply.github.com -c user.name=yusufkpro commit -m 'Ajoute des photos Unsplash en tête de 26 articles *)",
+      "Bash(chmod +x /tmp/finish_unsplash.sh)",
+      "Bash(/tmp/finish_unsplash.sh)"
     ]
   }
 }
