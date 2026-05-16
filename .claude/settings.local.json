@@ -39,7 +39,8 @@
       "Bash(/tmp/finish_unsplash.sh)",
       "Bash(git pull *)",
       "Bash(git stash *)",
-      "Bash(git -c user.email=yusufkpro@users.noreply.github.com -c user.name=yusufkpro commit -m 'Ajoute des vignettes Unsplash edge-to-edge dans les cartes d'\\\\''articles *)"
+      "Bash(git -c user.email=yusufkpro@users.noreply.github.com -c user.name=yusufkpro commit -m 'Ajoute des vignettes Unsplash edge-to-edge dans les cartes d'\\\\''articles *)",
+      "Bash(python3 -c ' *)"
     ]
   }
 }
