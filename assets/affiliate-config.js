@@ -18,6 +18,10 @@
       url: 'https://www.widilo.fr/i/YKHR50',
       name: 'Widilo',
     },
+    IGRAAL: {
+      url: 'https://fr.igraal.com/parrainage?parrain=AG_69131d3a40583&utm_medium=raf&utm_source=refer_friend',
+      name: 'iGraal',
+    },
   });
 
   // Au chargement, on patche les ancres data-aff="<KEY>" pour qu'elles
