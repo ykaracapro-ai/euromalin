@@ -1201,6 +1201,26 @@ details[open] summary::after { content: "−"; }
   margin-top: 16px;
 }
 
+/* ----- Affiliate disclosure (transparence légale) ----- */
+.affiliate-disclosure {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin: 16px 0 24px;
+  padding: 10px 14px;
+  background: var(--surface-2);
+  border-left: 3px solid var(--brand-600);
+  border-radius: 4px;
+  color: var(--text-muted);
+  font-size: 0.82rem; line-height: 1.5;
+}
+.affiliate-disclosure::before {
+  content: "ⓘ";
+  flex-shrink: 0;
+  color: var(--brand-600);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
 /* ----- Affiliate CTA box ----- */
 .affiliate-cta {
   display: flex; align-items: center; justify-content: space-between;
