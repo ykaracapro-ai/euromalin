@@ -9,6 +9,13 @@
   'use strict';
 
   window.EUROMALIN_AFFILIATES = Object.freeze({
+    U7BUY: {
+      url: 'https://www.u7buy.com/?referral-code=CzMdAgd4',
+      referral: 'CzMdAgd4',
+      promo: 'EURO10',
+      discount: '5%',
+      name: 'U7BUY',
+    },
     GAMSGO: {
       url: 'https://www.gamsgo.com/partner/Px5AZ',
       promo: 'WPQTU',
@@ -33,7 +40,14 @@
       var key = a.getAttribute('data-aff');
       var conf = aff[key];
       if (!conf) return;
-      a.setAttribute('href', conf.url);
+      var path = a.getAttribute('data-aff-path');
+      var href = conf.url;
+      if (key === 'U7BUY' && path) {
+        href = 'https://www.u7buy.com' + path +
+          (path.indexOf('?') === -1 ? '?' : '&') +
+          'referral-code=' + encodeURIComponent(conf.referral);
+      }
+      a.setAttribute('href', href);
       a.setAttribute('target', '_blank');
       a.setAttribute('rel', 'sponsored noopener noreferrer');
     });

@@ -6,7 +6,7 @@
  * GTM ID à configurer : Remplacer GTM-XXXXXXX dans le <head>
  * 
  * Événements trackés :
- * - affiliate_click : clic sur lien iGraal, Amazon, GamsGo, eBuyClub
+ * - affiliate_click : clic sur lien iGraal, Amazon, GamsGo, U7BUY, eBuyClub
  * - cta_click : clic sur CTA interne (article, bon plan)
  * - page_view : vue de page (déjà géré par GA4)
  */
@@ -38,6 +38,9 @@
     }
     if (url.includes('gamsgo.com')) {
       return { merchant: 'gamsgo', type: 'subscription', label: 'GamsGo' };
+    }
+    if (url.includes('u7buy.com')) {
+      return { merchant: 'u7buy', type: 'marketplace', label: 'U7BUY' };
     }
     if (url.includes('ebuyclub.com')) {
       return { merchant: 'ebuyclub', type: 'cashback', label: 'eBuyClub' };

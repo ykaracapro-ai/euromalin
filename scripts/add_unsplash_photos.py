@@ -27,6 +27,11 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 ROOT = Path(__file__).resolve().parent.parent
 ARTICLES_DIR = ROOT / "articles"
 IMG_DIR = ROOT / "assets" / "img" / "articles"
@@ -94,6 +99,21 @@ KEYWORD_OVERRIDES: dict[str, str] = {
     "payer-capcut-pro-moins-cher": "video editing creator",
     "payer-grammarly-premium-moins-cher": "writing keyboard laptop typing",
 }
+
+# Editorial generators can provide precise cover queries without duplicating
+# them in this script. Invalid or missing manifests are ignored safely.
+QUERY_MANIFEST = ROOT / "scripts" / "u7buy_cover_queries.json"
+if QUERY_MANIFEST.exists():
+    try:
+        manifest_queries = json.loads(QUERY_MANIFEST.read_text(encoding="utf-8"))
+        if isinstance(manifest_queries, dict):
+            KEYWORD_OVERRIDES.update({
+                str(slug): str(query)
+                for slug, query in manifest_queries.items()
+                if slug and query
+            })
+    except (OSError, ValueError, TypeError):
+        pass
 
 
 def extract_title(html: str) -> str:
@@ -283,13 +303,14 @@ def main() -> int:
     changed = 0
     for i, path in enumerate(files, 1):
         try:
-            if process_article(path, access_key or "", args.force, args.dry_run):
+            did_change = process_article(path, access_key or "", args.force, args.dry_run)
+            if did_change:
                 changed += 1
         except KeyboardInterrupt:
             print("interrupted", file=sys.stderr)
             return 130
         # Gentle pace to respect rate limit (50/h dev mode)
-        if not args.dry_run and i < len(files):
+        if did_change and not args.dry_run and i < len(files):
             time.sleep(1.2)
 
     print(f"\nDone — {changed} article(s) updated.")
