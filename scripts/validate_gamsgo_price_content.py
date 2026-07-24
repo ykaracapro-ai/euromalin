@@ -113,8 +113,9 @@ def main() -> int:
         if f"https://euromalin.com/articles/{slug}.html" not in sitemap:
             errors.append(f"sitemap.xml misses {slug}")
 
-    if "85 articles déjà intégrés" not in index:
-        errors.append("articles.html count is not 85")
+    article_total = len(list((ROOT / "articles").glob("*.html")))
+    if f"{article_total} articles déjà intégrés" not in index:
+        errors.append(f"articles.html count is not {article_total}")
     if "articles/gamsgo-nouveautes-prix-2026.html" not in (
         ROOT / "index.html"
     ).read_text(encoding="utf-8"):

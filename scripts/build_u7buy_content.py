@@ -22,6 +22,7 @@ TODAY = date(2026, 7, 24).isoformat()
 ECB_USD_PER_EUR = 1.1694
 U7_BASE = "https://www.u7buy.com"
 U7_REFERRAL = "CzMdAgd4"
+U7_AFFILIATE = "https://www.u7buy.com?referral-code=CzMdAgd4"
 U7_CODE = "EURO10"
 GAMSGO_URL = "https://www.gamsgo.com/partner/Px5AZ"
 GAMSGO_CODE = "WPQTU"
@@ -77,7 +78,7 @@ class Subscription:
 
     @property
     def u7_url(self) -> str:
-        return f"{U7_BASE}{self.u7_path}?referral-code={U7_REFERRAL}"
+        return U7_AFFILIATE
 
 
 SUBSCRIPTIONS = [
@@ -302,7 +303,7 @@ class ServiceGuide:
 
     @property
     def u7_url(self) -> str:
-        return f"{U7_BASE}{self.u7_path}?referral-code={U7_REFERRAL}"
+        return U7_AFFILIATE
 
 
 SERVICE_GUIDES = [
@@ -437,7 +438,7 @@ def json_ld(data: dict) -> str:
 
 
 def u7_url(path: str = "/") -> str:
-    return f"{U7_BASE}{path}?referral-code={U7_REFERRAL}"
+    return U7_AFFILIATE
 
 
 def head(title: str, description: str, slug: str, faq: list[tuple[str, str]]) -> str:

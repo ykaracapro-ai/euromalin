@@ -14,6 +14,7 @@ from urllib.parse import unquote, urlparse
 ROOT = Path(__file__).resolve().parent.parent
 ARTICLES = ROOT / "articles"
 MANIFEST = ROOT / "scripts" / "u7buy_cover_queries.json"
+U7_AFFILIATE = "https://www.u7buy.com?referral-code=CzMdAgd4"
 
 
 class PageParser(HTMLParser):
@@ -134,8 +135,8 @@ def validate_page(path: Path) -> list[str]:
                 or u7_path.startswith("/terms")
             )
             if not is_reference:
-                if "referral-code=CzMdAgd4" not in href:
-                    errors.append(f"{path.name}: U7BUY link misses referral code")
+                if href != U7_AFFILIATE:
+                    errors.append(f"{path.name}: U7BUY affiliate URL is not approved")
                 if not {"sponsored", "noopener", "noreferrer"}.issubset(rel):
                     errors.append(f"{path.name}: U7BUY affiliate rel is incomplete")
         if "gamsgo.com/partner/" in href:

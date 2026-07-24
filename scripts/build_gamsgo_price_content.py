@@ -36,7 +36,7 @@ ECB_SOURCE = (
     "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/"
     "euro_reference_exchange_rates/html/eurofxref-graph-usd.fr.html"
 )
-U7_AFFILIATE = "https://www.u7buy.com/?referral-code=CzMdAgd4"
+U7_AFFILIATE = "https://www.u7buy.com?referral-code=CzMdAgd4"
 
 
 @dataclass(frozen=True)

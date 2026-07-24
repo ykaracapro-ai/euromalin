@@ -124,6 +124,32 @@ MANUAL_TRANSLATIONS = {
         "to any connector, document or professional secret until you have verified "
         "who controls the recovery email."
     ),
+    "U7BUY 2026 : guide d’achat sécurisé et code EURO10": (
+        "U7BUY 2026: safe buying guide and EURO10 code"
+    ),
+    "U7BUY : comptes, objets et recharges de jeux — guide complet": (
+        "U7BUY game accounts, items and top-ups: complete guide"
+    ),
+    "GamsGo 2026 : guide des abonnements et code WPQTU": (
+        "GamsGo 2026 subscription guide and WPQTU code"
+    ),
+    "GamsGo : IA, streaming et logiciels — quels services choisir ?": (
+        "GamsGo AI, streaming and software: which services should you choose?"
+    ),
+    (
+        "Guide U7BUY des comptes, objets, coins, top up, boosting et cartes cadeaux : "
+        "différences, livraison, risques et code EURO10."
+    ): (
+        "U7BUY guide to game accounts, items, coins, top-ups, boosting and gift "
+        "cards: differences, delivery, risks and EURO10 code."
+    ),
+    (
+        "Catalogue GamsGo 2026 : comment choisir entre outils IA, streaming, "
+        "logiciels et marketplace, avec le code WPQTU."
+    ): (
+        "GamsGo 2026 catalogue: how to choose between AI tools, streaming, "
+        "software and marketplace offers with the WPQTU code."
+    ),
 }
 FRENCH_MARKERS = re.compile(
     r"(?i)\b(?:"
@@ -300,6 +326,24 @@ def translate_missing(values: set[str], cache: dict[str, str]) -> None:
     pending = sorted(value for value in values if value not in cache)
     if not pending:
         print(f"Translation cache already covers {len(values)} strings.", flush=True)
+        return
+
+    # Prefer the installed offline model for new content. This keeps builds
+    # deterministic and avoids public endpoint rate limits.
+    try:
+        from argostranslate.translate import translate as local_translate
+    except ImportError:
+        local_translate = None
+    if local_translate:
+        print(
+            f"Translating {len(pending)} new strings with the local model...",
+            flush=True,
+        )
+        for index, original in enumerate(pending, start=1):
+            cache[original] = local_translate(original, "fr", "en").strip()
+            if index % 25 == 0 or index == len(pending):
+                save_cache(cache)
+                print(f"  translated {index}/{len(pending)}", flush=True)
         return
 
     session = requests.Session()
