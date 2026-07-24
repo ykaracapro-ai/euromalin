@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Generate the U7BUY/GamsGo editorial cluster for EuroMalin.
 
-The generated pages intentionally avoid volatile price promises. They explain
-marketplace mechanics, provider-policy risks, refund limits and affiliate
-tracking in plain French while keeping the site's existing static HTML style.
+Prices are dated snapshots, never permanent promises. Pages keep the original
+USD observation, an indicative EUR conversion and the marketplace caveats.
 """
 
 from __future__ import annotations
@@ -20,6 +19,7 @@ from urllib.parse import quote
 ROOT = Path(__file__).resolve().parent.parent
 ARTICLES = ROOT / "articles"
 TODAY = date(2026, 7, 24).isoformat()
+ECB_USD_PER_EUR = 1.1694
 U7_BASE = "https://www.u7buy.com"
 U7_REFERRAL = "CzMdAgd4"
 U7_CODE = "EURO10"
@@ -39,24 +39,41 @@ class Subscription:
     official_url: str
     official_label: str
     cover_query: str
+    low_price_usd: float
+    price_source: str = "U7BUY"
 
     @property
     def title(self) -> str:
         if self.service == "IPTV":
-            return "IPTV sur U7BUY : avis, légalité et vérifications avant achat"
-        return f"{self.plan} moins cher en 2026 : U7BUY ou GamsGo ?"
+            return f"IPTV à partir de {self.price_eur} € : ce prix est-il fiable ?"
+        return f"Comment payer environ {self.price_eur} € pour {self.price_label} ?"
 
     @property
     def description(self) -> str:
         if self.service == "IPTV":
             return (
-                "IPTV sur U7BUY : comment vérifier les droits de diffusion, le vendeur, "
-                "la compatibilité et les conditions de remboursement avant de payer."
+                f"IPTV affichée dès environ {self.price_eur} € : vérifiez les droits de diffusion, "
+                "le vendeur, la compatibilité et le remboursement avant de payer."
             )
         return (
-            f"{self.plan} moins cher : comparez U7BUY et GamsGo, le code {U7_CODE} "
-            "(-5 % sur les commandes éligibles), les formats d’accès et les risques."
+            f"Comment payer environ {self.price_eur} € pour {self.price_label} : prix relevé, comparaison "
+            f"U7BUY/GamsGo, code {U7_CODE}, type d’accès, limites et risques."
         )
+
+    @property
+    def price_label(self) -> str:
+        # U7BUY exposes a category-wide minimum, not always a specific premium tier.
+        return self.plan if self.price_source == "GamsGo" else self.service
+
+    @property
+    def price_eur(self) -> str:
+        return f"{self.low_price_usd / ECB_USD_PER_EUR:.2f}".replace(".", ",")
+
+    @property
+    def price_source_url(self) -> str:
+        if self.price_source == "GamsGo":
+            return "https://www.gamsgo.com/details/chatgpt"
+        return self.u7_url
 
     @property
     def u7_url(self) -> str:
@@ -75,42 +92,47 @@ SUBSCRIPTIONS = [
         "https://www.arcom.fr/television-et-video-la-demande/proteger-la-creation/les-offres-legales",
         "ARCOM — offres légales",
         "legal television streaming remote control",
+        1.80,
     ),
     Subscription(
         "payer-chatgpt-plus-moins-cher",
         "ChatGPT",
         "ChatGPT Plus",
         "/chatgpt/chatgpt-accounts",
-        "ChatGPT est visible dans la rubrique IA de GamsGo.",
+        "ChatGPT est proposé directement par GamsGo, avec un prix public affiché à 5,00 $ par mois lors du contrôle.",
         "des comptes privés, partagés, des upgrades et parfois des sièges d’espace de travail",
         "N’envoyez jamais de documents professionnels, de mots de passe ou de données personnelles dans un compte partagé ou administré par un tiers.",
         "https://chatgpt.com/pricing/",
         "Tarifs officiels ChatGPT",
         "artificial intelligence laptop privacy",
+        5.00,
+        "GamsGo",
     ),
     Subscription(
         "payer-netflix-premium-moins-cher",
         "Netflix",
         "Netflix Premium",
         "/netflix/netflix-accounts",
-        "Netflix est visible dans la marketplace GamsGo.",
+        "Netflix est visible chez GamsGo, mais les formats et prix diffèrent entre offre directe, profil partagé et marketplace.",
         "des profils ou comptes de streaming, privés ou partagés selon l’annonce",
         "Netflix applique des règles de foyer. Un accès vendu hors du foyer peut cesser de fonctionner ou demander une vérification supplémentaire.",
         "https://help.netflix.com/node/123277",
         "Règles Netflix sur le foyer",
         "television streaming living room",
+        1.82,
     ),
     Subscription(
         "payer-youtube-premium-moins-cher",
         "YouTube",
         "YouTube Premium",
         "/youtube-premium/youtube-premium-accounts",
-        "YouTube est visible dans la rubrique SVOD de GamsGo.",
+        "YouTube Premium est proposé directement par GamsGo à partir de 4,59 $ par mois lors du contrôle.",
         "des comptes, invitations ou accès Premium dont la région et la durée varient",
         "Les groupes famille YouTube imposent des conditions de foyer et de pays. Vérifiez le mode d’accès plutôt que de supposer qu’il s’agit d’un abonnement officiel individuel.",
         "https://support.google.com/youtube/answer/7507349?hl=fr",
         "Aide YouTube — forfait famille",
         "video streaming creator laptop",
+        1.61,
     ),
     Subscription(
         "payer-nordvpn-moins-cher",
@@ -123,18 +145,20 @@ SUBSCRIPTIONS = [
         "https://my.nordaccount.com/legal/terms-of-service/",
         "Conditions officielles NordVPN",
         "cybersecurity vpn laptop lock",
+        1.07,
     ),
     Subscription(
         "payer-crunchyroll-moins-cher",
         "Crunchyroll",
         "Crunchyroll Premium",
         "/crunchyroll/crunchyroll-accounts",
-        "Crunchyroll est visible dans les rubriques SVOD et marketplace de GamsGo.",
+        "Crunchyroll est proposé directement et dans la marketplace GamsGo ; la page directe affichait 3,13 $ par mois.",
         "des comptes de streaming d’anime avec région, formule et nombre d’écrans variables",
         "Contrôlez la région, les écrans simultanés et la possibilité de modifier le profil sans perturber d’autres utilisateurs.",
         "https://www.crunchyroll.com/terms",
         "Conditions officielles Crunchyroll",
         "anime television streaming",
+        3.11,
     ),
     Subscription(
         "payer-amazon-prime-video-moins-cher",
@@ -147,18 +171,20 @@ SUBSCRIPTIONS = [
         "https://www.primevideo.com/help",
         "Aide officielle Prime Video",
         "home cinema television popcorn",
+        1.07,
     ),
     Subscription(
         "payer-gemini-advanced-moins-cher",
         "Gemini",
         "Gemini Advanced",
         "/gemini/accounts",
-        "Gemini est visible dans la rubrique IA de GamsGo.",
+        "Gemini Pro est proposé directement par GamsGo à partir de 3,50 $ par mois lors du contrôle.",
         "des comptes Google ou accès IA dont le propriétaire, la région et le stockage peuvent varier",
         "Un compte Google peut contenir e-mails, fichiers et données sensibles. Préférez un accès dédié et n’y ajoutez jamais vos moyens de récupération personnels sans en comprendre le contrôle.",
         "https://policies.google.com/terms?hl=fr",
         "Conditions d’utilisation Google",
         "artificial intelligence smartphone laptop",
+        3.21,
     ),
     Subscription(
         "payer-xbox-game-pass-moins-cher",
@@ -171,6 +197,7 @@ SUBSCRIPTIONS = [
         "https://www.microsoft.com/servicesagreement",
         "Contrat de services Microsoft",
         "gaming controller television",
+        2.35,
     ),
     Subscription(
         "payer-claude-pro-moins-cher",
@@ -183,18 +210,20 @@ SUBSCRIPTIONS = [
         "https://www.anthropic.com/legal/consumer-terms",
         "Conditions consommateurs Anthropic",
         "artificial intelligence writing laptop",
+        35.31,
     ),
     Subscription(
         "payer-perplexity-pro-moins-cher",
         "Perplexity",
         "Perplexity Pro",
         "/perplexity-ai/accounts",
-        "Perplexity AI est visible dans les rubriques IA et marketplace de GamsGo.",
+        "Perplexity AI est visible dans les rubriques IA et marketplace de GamsGo ; vérifiez le format exact avant paiement.",
         "des comptes de recherche IA privés ou partagés, avec limites et durée variables",
         "Les recherches, fichiers et espaces peuvent contenir des informations privées. Un compte partagé ne convient pas à un usage professionnel sensible.",
         "https://www.perplexity.ai/hub/legal/terms-of-service",
         "Conditions officielles Perplexity",
         "artificial intelligence search research",
+        19.26,
     ),
     Subscription(
         "payer-apple-tv-plus-moins-cher",
@@ -207,6 +236,7 @@ SUBSCRIPTIONS = [
         "https://www.apple.com/legal/internet-services/itunes/fr/terms.html",
         "Conditions des services multimédias Apple",
         "television streaming apple remote",
+        2.20,
     ),
     Subscription(
         "payer-apple-one-moins-cher",
@@ -219,6 +249,7 @@ SUBSCRIPTIONS = [
         "https://www.apple.com/fr/apple-one/",
         "Présentation officielle Apple One",
         "apple devices music television",
+        5.33,
     ),
     Subscription(
         "payer-apple-music-moins-cher",
@@ -231,18 +262,20 @@ SUBSCRIPTIONS = [
         "https://www.apple.com/fr/apple-music/",
         "Présentation officielle Apple Music",
         "headphones music smartphone",
+        3.73,
     ),
     Subscription(
         "payer-spotify-premium-moins-cher",
         "Spotify",
         "Spotify Premium",
         "/spotify/spotify-accounts",
-        "Spotify n’était pas visible dans le catalogue GamsGo consulté le 24 juillet 2026.",
+        "Une page Spotify est de nouveau visible chez GamsGo, avec une offre affichée à 4,50 $ par mois lors du contrôle.",
         "des comptes ou places Premium dont la région, la formule et la récupération varient",
         "Les formules Duo et Famille imposent des conditions d’adresse. Un compte partagé peut aussi exposer l’historique d’écoute et les playlists.",
         "https://www.spotify.com/fr/legal/end-user-agreement/",
         "Conditions d’utilisation Spotify",
         "headphones music listening",
+        1.40,
     ),
 ]
 
@@ -598,9 +631,12 @@ def subscription_page(item: Subscription) -> str:
 <section class="section"><div class="container page-grid">
 <article class="hero-card article">
 {disclosure()}
-<div class="fact-strip"><div><strong>U7BUY</strong><span>Marketplace, 15 abonnements listés</span></div><div><strong>{U7_CODE}</strong><span>-5 % si la commande est éligible</span></div><div><strong>Prix</strong><span>Variable selon vendeur, durée et région</span></div></div>
+<div class="fact-strip"><div><strong>{item.price_eur} €</strong><span>conversion indicative du prix d’appel</span></div><div><strong>{item.low_price_usd:.2f} $</strong><span>relevé chez {esc(item.price_source)}</span></div><div><strong>{U7_CODE}</strong><span>-5 % si la commande est éligible</span></div></div>
 <h2>Le verdict en 30 secondes</h2>
 <div class="verdict-box"><span class="verdict-box__label">Verdict EuroMalin</span><p>{esc(verdict)}</p></div>
+<h2>Comment arrive-t-on à environ {item.price_eur} € ?</h2>
+<p>Le prix d’appel observé le 24 juillet 2026 était de <strong>{item.low_price_usd:.2f} $ chez {esc(item.price_source)}</strong>, soit environ <strong>{item.price_eur} €</strong> avec le taux de référence BCE du jour de 1 € pour 1,1694 $. Il s’agit du tarif le plus bas affiché dans la catégorie, pas de la promesse d’un abonnement individuel standard.</p>
+<div class="warning-box"><strong>Avant de comparer :</strong> vérifiez la durée, le plan, la région, le caractère privé ou partagé et les frais du panier. Le code <code>{U7_CODE}</code> peut encore retrancher 5 % chez U7BUY si l’annonce est éligible, mais cette remise n’est pas incluse dans le titre.</div>
 {dual_cta(item.u7_url, item.plan)}
 <h2>Ce qu’on achète réellement</h2>
 <p>Sur U7BUY, {esc(item.angle)}. Ce n’est pas forcément le même produit que l’abonnement individuel acheté directement chez l’éditeur. L’annonce peut porter sur un compte privé, un compte partagé, une invitation, un upgrade ou un accès administré par un tiers.</p>
@@ -612,7 +648,7 @@ def subscription_page(item: Subscription) -> str:
 <tr><td>Choix</td><td>Souvent très large</td><td>Variable selon la rubrique</td><td>Formules standardisées</td></tr>
 <tr><td>Contrôle du compte</td><td>Dépend de l’annonce</td><td>Dépend du produit</td><td>Compte personnel</td></tr>
 <tr><td>Risque de règle fournisseur</td><td>À vérifier</td><td>À vérifier</td><td>Le plus faible</td></tr>
-<tr><td>Prix</td><td>Variable par vendeur</td><td>Variable par offre</td><td>Prix public</td></tr>
+<tr><td>Prix</td><td>À partir de {item.price_eur} € selon le relevé et le produit</td><td>Variable par offre</td><td>Prix public</td></tr>
 </tbody></table></div>
 <h2>Code promo U7BUY {U7_CODE} : mode d’emploi</h2>
 <ol>
@@ -642,14 +678,14 @@ def subscription_page(item: Subscription) -> str:
 <li>Ne confirmer la réception qu’après le test.</li>
 <li>Ne jamais utiliser un compte partagé pour des données sensibles.</li>
 </ol>
-<h2>Prix : comparez le coût total, pas seulement le bandeau</h2>
-<p>Les prix changent avec la durée, la région, les frais de paiement et le vendeur. EuroMalin ne fige donc pas un tarif qui peut devenir faux demain. Comparez le total après code, la durée réellement couverte, le type d’accès et la garantie. Un mois court est souvent préférable pour tester avant un engagement plus long.</p>
+<h2>Prix : comparez le coût total, pas seulement le titre</h2>
+<p>Le repère de {item.price_eur} € est une conversion du prix d’appel constaté, pas un tarif garanti. Les prix changent avec la durée, la région, les frais de paiement, le vendeur et le type de compte. Comparez le total après code, la durée réellement couverte, le niveau de contrôle et la garantie. Un mois court est souvent préférable pour tester avant un engagement plus long.</p>
 <h2>Questions fréquentes</h2>
 <div class="faq">
 {''.join(f'<details><summary>{esc(q)}</summary><p>{esc(a)}</p></details>' for q, a in faq)}
 </div>
 <h2>Sources et méthode</h2>
-<p>Catalogue contrôlé le 24 juillet 2026. Consultez la <a href="{esc(item.u7_url)}" target="_blank" rel="sponsored noopener noreferrer">rubrique {esc(item.service)} de U7BUY</a>, la <a href="https://www.u7buy.com/help-center/articles/u7buy-trade-protect-for-buyer" target="_blank" rel="noopener noreferrer">protection acheteur U7BUY</a>, le <a href="https://www.gamsgo.com/accounts" target="_blank" rel="noopener noreferrer">catalogue GamsGo</a> et les <a href="{esc(item.official_url)}" target="_blank" rel="noopener noreferrer">{esc(item.official_label)}</a>. Les catalogues et conditions peuvent évoluer.</p>
+<p>Prix et catalogues contrôlés le 24 juillet 2026. Le prix d’appel provient de <a href="{esc(item.price_source_url)}" target="_blank" rel="sponsored noopener noreferrer">{esc(item.price_source)}</a> et la conversion utilise le <a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.fr.html" target="_blank" rel="noopener noreferrer">taux de référence euro/dollar de la BCE</a>. Consultez aussi la <a href="{esc(item.u7_url)}" target="_blank" rel="sponsored noopener noreferrer">rubrique {esc(item.service)} de U7BUY</a>, la <a href="https://www.u7buy.com/help-center/articles/u7buy-trade-protect-for-buyer" target="_blank" rel="noopener noreferrer">protection acheteur U7BUY</a>, le <a href="https://www.gamsgo.com/accounts" target="_blank" rel="noopener noreferrer">catalogue GamsGo</a> et les <a href="{esc(item.official_url)}" target="_blank" rel="noopener noreferrer">{esc(item.official_label)}</a>. Les catalogues et conditions peuvent évoluer.</p>
 {dual_cta(item.u7_url, item.plan)}
 </article>
 <aside class="sidebar">
@@ -718,6 +754,8 @@ def comparison_page() -> tuple[str, str, str]:
 <tr><td>Protection</td><td>Litiges et remboursements encadrés ; test immédiat indispensable</td><td>Politique différente selon le type de produit et la garantie</td></tr>
 <tr><td>Code EuroMalin</td><td><code>{U7_CODE}</code> : -5 % annoncé sur commandes éligibles</td><td><code>{GAMSGO_CODE}</code> : tester au panier</td></tr>
 </tbody></table></div>
+<h2>Les nouveautés GamsGo vérifiées</h2>
+<p>GamsGo a fortement élargi son catalogue 2026 avec Genspark, Suno, Grok, Kling AI, Poe, WPS Office, Filmora, HBO Max, FOX One et une marketplace plus vaste. Consultez notre <a href="gamsgo-nouveautes-prix-2026.html">dossier des nouveautés GamsGo avec prix datés et conversions en euros</a> avant de comparer.</p>
 <h2>Les 15 abonnements U7BUY, comparés à GamsGo</h2>
 <div class="responsive-table"><table><thead><tr><th>Service</th><th>U7BUY</th><th>GamsGo au 24/07/2026</th><th>Point de vigilance</th></tr></thead><tbody>{rows}</tbody></table></div>
 <h2>Quand choisir U7BUY</h2>
@@ -956,28 +994,38 @@ def write_query_manifest(generated: list[tuple[str, str, str, str]], queries: di
     manifest.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def write_article_preserving_hero(path: Path, content: str) -> None:
+    """Keep the existing API cover and attribution when regenerating copy."""
+    if path.exists() and "article-hero-image" not in content:
+        previous = path.read_text(encoding="utf-8")
+        hero = re.search(r'<figure class="article-hero">.*?</figure>', previous, flags=re.S)
+        if hero:
+            content = content.replace(disclosure(), disclosure() + hero.group(0), 1)
+    path.write_text(content, encoding="utf-8")
+
+
 def main() -> int:
     ARTICLES.mkdir(exist_ok=True)
     generated: list[tuple[str, str, str, str]] = []
     queries: dict[str, str] = {}
 
     compare_slug, compare_title, compare_html = comparison_page()
-    (ARTICLES / f"{compare_slug}.html").write_text(compare_html, encoding="utf-8")
+    write_article_preserving_hero(ARTICLES / f"{compare_slug}.html", compare_html)
     generated.append((compare_slug, compare_title, "Le duel complet : abonnements, gaming, garanties, risques et codes promo.", "Comparatif"))
     queries[compare_slug] = "gaming streaming subscriptions comparison"
 
     review_slug, review_title, review_html = u7_review_page()
-    (ARTICLES / f"{review_slug}.html").write_text(review_html, encoding="utf-8")
+    write_article_preserving_hero(ARTICLES / f"{review_slug}.html", review_html)
     generated.append((review_slug, review_title, f"Notre analyse de la marketplace et du code {U7_CODE} : -5 % si éligible.", "Avis"))
     queries[review_slug] = "online marketplace gaming shopping"
 
     for item in SUBSCRIPTIONS:
-        (ARTICLES / f"{item.slug}.html").write_text(subscription_page(item), encoding="utf-8")
+        write_article_preserving_hero(ARTICLES / f"{item.slug}.html", subscription_page(item))
         generated.append((item.slug, item.title, item.description, "Abonnements"))
         queries[item.slug] = item.cover_query
 
     for item in SERVICE_GUIDES:
-        (ARTICLES / f"{item.slug}.html").write_text(service_page(item), encoding="utf-8")
+        write_article_preserving_hero(ARTICLES / f"{item.slug}.html", service_page(item))
         generated.append((item.slug, item.title, item.description, "Gaming"))
         queries[item.slug] = item.cover_query
 

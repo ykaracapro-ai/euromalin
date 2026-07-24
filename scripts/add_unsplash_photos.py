@@ -102,18 +102,22 @@ KEYWORD_OVERRIDES: dict[str, str] = {
 
 # Editorial generators can provide precise cover queries without duplicating
 # them in this script. Invalid or missing manifests are ignored safely.
-QUERY_MANIFEST = ROOT / "scripts" / "u7buy_cover_queries.json"
-if QUERY_MANIFEST.exists():
-    try:
-        manifest_queries = json.loads(QUERY_MANIFEST.read_text(encoding="utf-8"))
-        if isinstance(manifest_queries, dict):
-            KEYWORD_OVERRIDES.update({
-                str(slug): str(query)
-                for slug, query in manifest_queries.items()
-                if slug and query
-            })
-    except (OSError, ValueError, TypeError):
-        pass
+QUERY_MANIFESTS = (
+    ROOT / "scripts" / "u7buy_cover_queries.json",
+    ROOT / "scripts" / "gamsgo_cover_queries.json",
+)
+for query_manifest in QUERY_MANIFESTS:
+    if query_manifest.exists():
+        try:
+            manifest_queries = json.loads(query_manifest.read_text(encoding="utf-8"))
+            if isinstance(manifest_queries, dict):
+                KEYWORD_OVERRIDES.update({
+                    str(slug): str(query)
+                    for slug, query in manifest_queries.items()
+                    if slug and query
+                })
+        except (OSError, ValueError, TypeError):
+            pass
 
 
 def extract_title(html: str) -> str:
