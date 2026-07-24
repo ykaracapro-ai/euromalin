@@ -50,7 +50,11 @@ def local_target(page: Path, value: str) -> Path | None:
     clean = unquote(parsed.path)
     if not clean:
         return None
-    target = (page.parent / clean).resolve()
+    target = (
+        (ROOT / clean.lstrip("/")).resolve()
+        if clean.startswith("/")
+        else (page.parent / clean).resolve()
+    )
     if clean.endswith("/"):
         target /= "index.html"
     return target

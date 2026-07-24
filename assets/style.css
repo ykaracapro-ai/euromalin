@@ -224,6 +224,29 @@ section { padding-block: clamp(48px, 8vw, 96px); }
 }
 .nav-actions { display: flex; align-items: center; gap: 8px; }
 
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  height: 34px;
+  margin-left: 4px;
+  padding: 0 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font: 700 .74rem/1 var(--font-mono);
+  letter-spacing: .06em;
+  text-decoration: none;
+  transition: border-color var(--dur-fast), color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.language-switcher:hover {
+  border-color: var(--brand-500);
+  color: var(--brand-700);
+  box-shadow: var(--shadow-glow);
+}
+
 .theme-toggle {
   width: 36px; height: 36px;
   display: inline-grid; place-items: center;
