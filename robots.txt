@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /assets/
 Disallow: /404.html
 
 Sitemap: https://euromalin.com/sitemap.xml

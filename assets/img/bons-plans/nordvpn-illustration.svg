@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Illustration d’une connexion VPN protégée</title>
+  <desc id="desc">Bouclier bleu devant un globe et des lignes de connexion.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071b46"/>
+      <stop offset="1" stop-color="#155eef"/>
+    </linearGradient>
+    <linearGradient id="shield" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#b9d7ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" rx="36" fill="url(#bg)"/>
+  <g opacity=".2" fill="none" stroke="#fff" stroke-width="4">
+    <ellipse cx="600" cy="338" rx="360" ry="230"/>
+    <ellipse cx="600" cy="338" rx="170" ry="230"/>
+    <path d="M240 338h720M300 210h600M300 465h600"/>
+  </g>
+  <g fill="#78aefc">
+    <circle cx="225" cy="205" r="13"/>
+    <circle cx="990" cy="235" r="13"/>
+    <circle cx="925" cy="500" r="13"/>
+  </g>
+  <g stroke="#78aefc" stroke-width="5" stroke-dasharray="12 14" opacity=".8">
+    <path d="M235 210 455 300M980 240 745 305M915 495 735 390"/>
+  </g>
+  <path d="M600 150c72 50 145 66 215 77v128c0 124-76 216-215 277-139-61-215-153-215-277V227c70-11 143-27 215-77Z" fill="url(#shield)"/>
+  <path d="M600 225c47 31 94 43 139 51v79c0 81-45 145-139 194-94-49-139-113-139-194v-79c45-8 92-20 139-51Z" fill="#155eef"/>
+  <rect x="565" y="350" width="70" height="92" rx="14" fill="#fff"/>
+  <path d="M535 350v-30a65 65 0 0 1 130 0v30" fill="none" stroke="#fff" stroke-width="26" stroke-linecap="round"/>
+</svg>

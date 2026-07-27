@@ -9,6 +9,8 @@ import os
 import posixpath
 import re
 import time
+from datetime import datetime, timezone
+from email.utils import format_datetime
 from pathlib import Path, PurePosixPath
 from typing import Any, Iterable
 from urllib.parse import unquote, urlsplit, urlunsplit
@@ -21,7 +23,7 @@ ROOT = Path(__file__).resolve().parents[1]
 EN_ROOT = ROOT / "en"
 CACHE_PATH = ROOT / "scripts" / "translation_cache_fr_en.json"
 SITE_URL = "https://euromalin.com"
-BUILD_DATE = "2026-07-24"
+BUILD_DATE = "2026-07-27"
 TRANSLATE_ENDPOINT = "https://translate.googleapis.com/translate_a/single"
 MAX_BATCH_CHARS = 4_200
 MAX_RETRY_BATCH_CHARS = 850
@@ -842,6 +844,129 @@ def write_sitemap(rels: list[PurePosixPath]) -> None:
     )
 
 
+def normalize_english_seo(output_path: Path) -> None:
+    """Keep translated snippets inside practical search-result length ranges."""
+    soup = BeautifulSoup(output_path.read_text(encoding="utf-8"), "html.parser")
+    manual_titles = {
+        "index.html": "EuroMalin: Cashback, Deals & Money-Saving Guides",
+        "privacy.html": "Privacy Policy & Data Use | EuroMalin",
+        "revenus.html": "Extra Income Ideas & Side Hustles | EuroMalin",
+    }
+    rel = output_path.relative_to(EN_ROOT).as_posix()
+    title_tag = soup.find("title")
+    if title_tag:
+        title = manual_titles.get(rel, title_tag.get_text(" ", strip=True))
+        title = re.sub(r"\s+", " ", title).strip()
+        if len(title) > 65:
+            title = re.sub(r"\s*[•|–-]\s*EuroMalin\s*$", "", title, flags=re.I)
+            candidate = title[:65].rsplit(" ", 1)[0].rstrip(" :–—-|,")
+            title = candidate
+        suffix = " | EuroMalin"
+        if len(title) < 30 and len(title) + len(suffix) <= 65:
+            title += suffix
+        title_tag.string = title
+        social_title = re.sub(r"\s*[•|]\s*EuroMalin$", "", title)
+        for selector in ('meta[property="og:title"]', 'meta[name="twitter:title"]'):
+            meta = soup.select_one(selector)
+            if meta:
+                meta["content"] = social_title
+
+    description_tag = soup.select_one('meta[name="description"]')
+    if description_tag:
+        description = re.sub(r"\s+", " ", description_tag.get("content", "")).strip()
+        if len(description) < 105:
+            description += (
+                " Check the price, conditions and practical buying advice before you decide."
+            )
+        if len(description) > 180:
+            description = description[:177].rsplit(" ", 1)[0].rstrip(" ,;:") + "."
+        description_tag["content"] = description
+        for selector in (
+            'meta[property="og:description"]',
+            'meta[name="twitter:description"]',
+        ):
+            meta = soup.select_one(selector)
+            if meta:
+                meta["content"] = description
+    output_path.write_text(soup.decode(formatter="minimal"), encoding="utf-8", newline="\n")
+
+
+def write_feeds() -> None:
+    """Write small, valid FR and EN RSS feeds for the advertised feed links."""
+    curated = [
+        "gamsgo-nouveautes-prix-2026.html",
+        "gamsgo-guide-abonnements-2026.html",
+        "u7buy-guide-achat-securise-2026.html",
+        "u7buy-avis-code-promo-euro10.html",
+        "u7buy-vs-gamsgo.html",
+        "meilleurs-sites-cashback.html",
+        "economiser-200-euros-par-mois.html",
+        "gagnez-7-euros-en-vous-inscrivant.html",
+    ]
+    published = format_datetime(
+        datetime(2026, 7, 27, 12, 0, tzinfo=timezone.utc), usegmt=True
+    )
+    for lang, base, site_root, feed_title, feed_description in (
+        (
+            "fr",
+            ROOT,
+            "https://euromalin.com",
+            "EuroMalin — nouveaux guides",
+            "Guides cashback, économies, U7BUY et GamsGo publiés par EuroMalin.",
+        ),
+        (
+            "en",
+            EN_ROOT,
+            "https://euromalin.com/en",
+            "EuroMalin — latest guides",
+            "EuroMalin guides to cashback, savings, U7BUY and GamsGo.",
+        ),
+    ):
+        items = []
+        for filename in curated:
+            path = base / "articles" / filename
+            if not path.exists():
+                continue
+            soup = BeautifulSoup(path.read_text(encoding="utf-8"), "html.parser")
+            title = soup.find("h1") or soup.find("title")
+            description = soup.select_one('meta[name="description"]')
+            url = f"{site_root}/articles/{filename}"
+            items.extend(
+                [
+                    "    <item>",
+                    f"      <title>{html.escape(title.get_text(' ', strip=True))}</title>",
+                    f"      <link>{html.escape(url)}</link>",
+                    f"      <guid isPermaLink=\"true\">{html.escape(url)}</guid>",
+                    (
+                        "      <description>"
+                        + html.escape(description.get("content", "") if description else "")
+                        + "</description>"
+                    ),
+                    f"      <pubDate>{published}</pubDate>",
+                    "    </item>",
+                ]
+            )
+        feed_url = f"{site_root}/feed.xml"
+        lines = [
+            '<?xml version="1.0" encoding="UTF-8"?>',
+            (
+                '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">'
+            ),
+            "  <channel>",
+            f"    <title>{html.escape(feed_title)}</title>",
+            f"    <link>{html.escape(site_root + '/')}</link>",
+            f"    <description>{html.escape(feed_description)}</description>",
+            f"    <language>{'fr-FR' if lang == 'fr' else 'en-US'}</language>",
+            f'    <atom:link href="{html.escape(feed_url)}" rel="self" type="application/rss+xml"/>',
+            *items,
+            "  </channel>",
+            "</rss>",
+        ]
+        (base / "feed.xml").write_text(
+            "\n".join(lines) + "\n", encoding="utf-8", newline="\n"
+        )
+
+
 def main() -> None:
     paths = public_paths()
     for template in (ROOT / "bons-plans").glob("_*.html"):
@@ -900,8 +1025,10 @@ def main() -> None:
             encoding="utf-8",
             newline="\n",
         )
+        normalize_english_seo(output_path)
 
     write_sitemap(sorted(known_pages))
+    write_feeds()
     print(
         f"Built {len(documents)} English pages with {len(candidates)} translated "
         f"strings; JSON-LD parse failures: {json_failures}.",
