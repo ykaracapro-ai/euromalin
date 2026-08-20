@@ -23,7 +23,7 @@ ROOT = Path(__file__).resolve().parents[1]
 EN_ROOT = ROOT / "en"
 CACHE_PATH = ROOT / "scripts" / "translation_cache_fr_en.json"
 SITE_URL = "https://euromalin.com"
-BUILD_DATE = "2026-07-27"
+BUILD_DATE = "2026-08-20"
 TRANSLATE_ENDPOINT = "https://translate.googleapis.com/translate_a/single"
 MAX_BATCH_CHARS = 4_200
 MAX_RETRY_BATCH_CHARS = 850
@@ -50,6 +50,47 @@ STATIC_SCRIPT_TRANSLATIONS = {
     "En savoir plus": "Learn more",
 }
 MANUAL_TRANSLATIONS = {
+    "Articles": "Items",
+    "Catalogue actuel couvrant streaming, IA, logiciels et gaming.": (
+        "Current catalogue covering streaming, AI, software and gaming."
+    ),
+    "Formats variés : recharge, invitation, compte, profil ou marketplace.": (
+        "Several formats: top-up, invitation, account, profile or marketplace."
+    ),
+    "DealShield selon produit": "DealShield depending on the product",
+    "Identifier si GamsGo vend directement ou héberge un vendeur.": (
+        "Identify whether GamsGo sells directly or hosts a marketplace seller."
+    ),
+    "GTA 6 sur PS5 : sortie, leaks et GamsGo": (
+        "GTA 6 on PS5: release, leaks and GamsGo"
+    ),
+    (
+        "Date officielle, rumeurs passées au crible et offres PlayStation Plus "
+        "à comparer sur GamsGo."
+    ): (
+        "Official date, rumors checked carefully, and PlayStation Plus offers "
+        "to compare on GamsGo."
+    ),
+    (
+        "Date officielle, rumeurs passées au crible et offres PlayStation Plus "
+        "à comparer."
+    ): (
+        "Official date, rumors checked carefully, and PlayStation Plus offers "
+        "to compare."
+    ),
+    "Catalogue GamsGo complet : offres présentes et guides avec le code WPQTU": (
+        "Complete GamsGo catalogue: available offers and guides with code WPQTU"
+    ),
+    "Catalogue GamsGo complet : offres présentes et guides avec le code WPQTU • EuroMalin": (
+        "Complete GamsGo catalogue: offers and WPQTU guides • EuroMalin"
+    ),
+    (
+        "Comparatif du catalogue GamsGo vérifié le 20 août 2026 : offres déjà couvertes, "
+        "nouveaux guides EuroMalin, code WPQTU et lien partenaire."
+    ): (
+        "GamsGo catalogue comparison checked on August 20, 2026: previously covered "
+        "offers, new EuroMalin guides, code WPQTU and partner link."
+    ),
     "EuroMalin — le site qui te rend ton argent": (
         "EuroMalin — the site that puts money back in your pocket"
     ),
@@ -152,6 +193,12 @@ MANUAL_TRANSLATIONS = {
         "GamsGo 2026 catalogue: how to choose between AI tools, streaming, "
         "software and marketplace offers with the WPQTU code."
     ),
+}
+
+# This page was manually translated and fact-checked. Keep that editorial
+# version instead of replacing it with a machine translation on later builds.
+PRESERVE_ENGLISH_PAGES = {
+    PurePosixPath("articles/gta-6-sortie-leaks-ps5-gamsgo.html"),
 }
 FRENCH_MARKERS = re.compile(
     r"(?i)\b(?:"
@@ -712,6 +759,16 @@ def rewrite_document_references(
     known_pages: set[PurePosixPath],
 ) -> None:
     for tag in soup.find_all(True):
+        if (
+            tag.name == "link"
+            and tag.get("type") == "application/rss+xml"
+            and "alternate" in (tag.get("rel") or [])
+        ):
+            output_parent = PurePosixPath("en") / rel.parent
+            tag["href"] = relative_reference(
+                output_parent, PurePosixPath("en/feed.xml")
+            )
+            continue
         for attribute in ("href", "src", "poster"):
             value = tag.get(attribute)
             if isinstance(value, str):
@@ -894,6 +951,7 @@ def normalize_english_seo(output_path: Path) -> None:
 def write_feeds() -> None:
     """Write small, valid FR and EN RSS feeds for the advertised feed links."""
     curated = [
+        "catalogue-gamsgo-complet-offres-code-wpqtu.html",
         "gamsgo-nouveautes-prix-2026.html",
         "gamsgo-guide-abonnements-2026.html",
         "u7buy-guide-achat-securise-2026.html",
@@ -904,7 +962,7 @@ def write_feeds() -> None:
         "gagnez-7-euros-en-vous-inscrivant.html",
     ]
     published = format_datetime(
-        datetime(2026, 7, 27, 12, 0, tzinfo=timezone.utc), usegmt=True
+        datetime(2026, 8, 20, 12, 0, tzinfo=timezone.utc), usegmt=True
     )
     for lang, base, site_root, feed_title, feed_description in (
         (
@@ -1012,13 +1070,15 @@ def main() -> None:
     known_pages = {rel for _, rel, _ in documents}
     json_failures = 0
     for _, rel, soup in documents:
+        output_path = EN_ROOT / Path(rel.as_posix())
+        if rel in PRESERVE_ENGLISH_PAGES and output_path.exists():
+            continue
         replace_text_and_attributes(soup, cache)
         json_failures += translate_json_scripts(soup, cache, known_pages)
         translate_static_script_strings(soup)
         rewrite_document_references(soup, rel, known_pages)
         set_english_metadata(soup, rel)
 
-        output_path = EN_ROOT / Path(rel.as_posix())
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(
             soup.decode(formatter="minimal"),

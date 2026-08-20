@@ -1276,6 +1276,62 @@ details[open] summary::after { content: "−"; }
   font-weight: 600;
 }
 
+/* ----- GamsGo promo code highlight ----- */
+.gamsgo-promo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  margin: 28px 0;
+  padding: 22px;
+  color: #f7fbfb;
+  background: linear-gradient(135deg, #0f3346, #155c59);
+  border: 1px solid color-mix(in oklab, #47d0a8 55%, transparent);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+.gamsgo-promo > div { flex: 1; min-width: 220px; }
+.gamsgo-promo__eyebrow {
+  display: block;
+  margin-bottom: 7px;
+  color: #98ead1;
+  font: 700 .72rem/1.4 var(--font-mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.gamsgo-promo strong { display: block; font-size: clamp(1.1rem, 2vw, 1.35rem); }
+.gamsgo-promo code {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 4px 10px;
+  color: #142f3a;
+  background: #ffcd52;
+  border: 1px solid #ffe49a;
+  border-radius: 8px;
+  font-size: 1.08em;
+  letter-spacing: .08em;
+}
+.gamsgo-promo p { margin: 8px 0 0; color: #d7eeee; font-size: .9rem; }
+.gamsgo-promo .btn { flex-shrink: 0; background: #ffcd52; color: #142f3a; border-color: #ffcd52; }
+
+@media (max-width: 720px) {
+  .gamsgo-promo { align-items: stretch; flex-direction: column; }
+  .gamsgo-promo > div { min-width: 0; }
+  .gamsgo-promo .btn { width: 100%; text-align: center; white-space: normal; }
+}
+
+@media (max-width: 480px) {
+  :root { --gutter: 16px; }
+  .topbar .container.nav { gap: 10px; }
+  .topbar .nav-actions > .btn:not(.nav-toggle):not(.theme-toggle),
+  .topbar .nav-actions .theme-toggle { display: none; }
+  .hero-card h1,
+  article.article,
+  .gamsgo-promo { overflow-wrap: anywhere; }
+  article.article { padding-inline: 20px; }
+  .gamsgo-promo { padding: 18px; }
+}
+
 /* ----- Article hero image (Unsplash) ----- */
 .article-hero { margin: 0 0 28px; }
 .article-hero-image {
