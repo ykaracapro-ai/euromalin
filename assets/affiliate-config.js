@@ -21,6 +21,11 @@
       promo: 'WPQTU',
       name: 'GamsGo',
     },
+    GAMSGO_PLAYSTATION: {
+      url: 'https://www.gamsgo.com/fr/accounts/playstation/partner/Px5AZ',
+      promo: 'WPQTU',
+      name: 'GamsGo PlayStation',
+    },
     WIDILO: {
       url: 'https://www.widilo.fr/i/YKHR50',
       name: 'Widilo',

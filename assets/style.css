@@ -972,11 +972,13 @@ input.search:focus {
   display: grid; gap: 32px;
   grid-template-columns: minmax(0, 1fr);
 }
+.page-grid > * { min-width: 0; }
 @media (min-width: 960px) {
   .page-grid { grid-template-columns: minmax(0, 1fr) 300px; gap: 48px; }
 }
 .article.hero-card,
 article.article {
+  width: 100%;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);

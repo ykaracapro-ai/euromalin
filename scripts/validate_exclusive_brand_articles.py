@@ -50,8 +50,8 @@ def main() -> int:
 
     listing = (ROOT / "articles.html").read_text(encoding="utf-8")
     english_listing = (ROOT / "en" / "articles.html").read_text(encoding="utf-8")
-    assert "89 articles déjà intégrés" in listing
-    assert "89 articles already integrated" in english_listing
+    assert "90 articles déjà intégrés" in listing
+    assert "90 articles already integrated" in english_listing
     for slug in PAGES:
         assert f"articles/{slug}.html" in listing
         assert f"articles/{slug}.html" in english_listing
@@ -59,7 +59,7 @@ def main() -> int:
         assert image.exists() and image.stat().st_size > 50_000, image
 
     print(
-        "Validated 8 exclusive pages, 4 covers, 89 listed articles, "
+        "Validated 8 exclusive pages, 4 covers, 90 listed articles, "
         f"and {checked} exact U7BUY affiliate links."
     )
     return 0

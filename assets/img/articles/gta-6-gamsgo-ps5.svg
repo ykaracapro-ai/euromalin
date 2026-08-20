@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">GTA VI, PlayStation 5 et GamsGo</title>
+  <desc id="desc">Illustration originale d'une ville côtière aux couleurs néon avec une route, une console stylisée et la date du 19 novembre 2026.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#102b46"/>
+      <stop offset="0.48" stop-color="#5a2d78"/>
+      <stop offset="1" stop-color="#ed6e75"/>
+    </linearGradient>
+    <linearGradient id="sun" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd36a"/>
+      <stop offset="1" stop-color="#ff7895"/>
+    </linearGradient>
+    <linearGradient id="road" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#152a3a"/>
+      <stop offset="1" stop-color="#07111a"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1200" height="675" rx="28" fill="url(#sky)"/>
+  <circle cx="890" cy="215" r="132" fill="url(#sun)" opacity=".95" filter="url(#glow)"/>
+  <g fill="#0b2537" opacity=".96">
+    <path d="M0 405h105v-72h38v72h68V282h56v123h42v-95h82v95h52V240h72v165h59v-64h51v64h84v-112h68v112h84v-74h46v74h103v270H0z"/>
+    <path d="M55 405V235h16l22 170zm111 0V210h14l20 195zm773 0V226h15l22 179zm112 0V244h15l20 161z" opacity=".78"/>
+  </g>
+  <path d="M340 675 585 405h210l285 270z" fill="url(#road)"/>
+  <path d="M693 439 735 675h-78z" fill="#ffd66f" opacity=".9"/>
+  <path d="M0 505c175-52 312-40 445 5l-44 52C247 530 122 537 0 581z" fill="#1489a7" opacity=".75"/>
+  <g transform="translate(84 74)">
+    <rect x="0" y="0" width="448" height="182" rx="24" fill="#07141f" opacity=".86" stroke="#7be0d8" stroke-opacity=".55"/>
+    <text x="28" y="54" fill="#7be0d8" font-family="Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="4">EUROMALIN • GAMING</text>
+    <text x="28" y="118" fill="#ffffff" font-family="Arial, sans-serif" font-size="58" font-weight="900">GTA VI × PS5</text>
+    <text x="30" y="154" fill="#ffd36a" font-family="Arial, sans-serif" font-size="22" font-weight="700">SORTIE • LEAKS • GAMSGO</text>
+  </g>
+  <g transform="translate(850 470)">
+    <rect x="0" y="0" width="275" height="112" rx="20" fill="#ffffff" opacity=".94"/>
+    <text x="24" y="38" fill="#0f2d40" font-family="Arial, sans-serif" font-size="17" font-weight="700" letter-spacing="2">SORTIE OFFICIELLE</text>
+    <text x="24" y="81" fill="#0f2d40" font-family="Arial, sans-serif" font-size="29" font-weight="900">19 NOV. 2026</text>
+  </g>
+  <g transform="translate(78 500)" fill="none" stroke="#ffffff" stroke-width="8" opacity=".9">
+    <path d="M58 15c-23 0-39 15-43 40L5 118c-3 19 20 27 31 12l24-32h85l24 32c11 15 34 7 31-12l-10-63c-4-25-20-40-43-40z"/>
+    <circle cx="66" cy="60" r="5" fill="#ffffff"/><circle cx="151" cy="60" r="5" fill="#ffffff"/>
+    <path d="M47 61h36M65 43v36"/>
+  </g>
+</svg>
