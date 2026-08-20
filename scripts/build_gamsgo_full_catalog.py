@@ -9,6 +9,7 @@ seller, access method, region, duration, guarantee and checkout total.
 from __future__ import annotations
 
 import html
+import json
 import re
 import textwrap
 from dataclasses import dataclass
@@ -30,6 +31,50 @@ CATALOG_URL = "https://www.gamsgo.com/fr/accounts"
 HUB_SLUG = "catalogue-gamsgo-complet-offres-code-wpqtu"
 START = "<!-- GAMSGO-CATALOG-2026:START -->"
 END = "<!-- GAMSGO-CATALOG-2026:END -->"
+PRICE_SNAPSHOT = ROOT / "scripts" / "gamsgo_catalog_prices.json"
+
+
+def normalized_service(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "", value.casefold())
+
+
+PRICE_RECORDS = json.loads(PRICE_SNAPSHOT.read_text(encoding="utf-8"))
+PRICE_BY_SERVICE = {
+    normalized_service(str(record["service"])): record for record in PRICE_RECORDS
+}
+PRICE_ALIASES = {
+    "dazn": "dznsports",
+    "vixpremium": "vix",
+    "shahidvip": "shahid",
+    "vikipass": "viki",
+    "movistar": "movistarplus",
+    "gammaai": "gama",
+    "runwayai": "runway",
+    "deezerpremium": "deezer",
+    "replitcore": "replit",
+    "courseraplus": "coursera",
+    "playstationplus": "playstation",
+    "hedraai": "hedraia",
+    "lumaai": "luma",
+    "tindergold": "tinder",
+    "cursorpro": "cursor",
+    "higgsfieldai": "higgsfield",
+    "dreaminaai": "dreamina",
+    "manusai": "manus",
+    "zoompremium": "zoom",
+    "discordnitro": "discord",
+    "linkedinpremium": "linkedin",
+    "telegrampremium": "telegram",
+    "figmaprofessional": "figma",
+    "plexpass": "plex",
+    "anghamiplus": "anghami",
+    "deeplpro": "deepl",
+    "updfpro": "updf",
+}
+
+
+def format_eur(value: float) -> str:
+    return f"{value:.2f}".replace(".", ",")
 
 
 @dataclass(frozen=True)
@@ -39,16 +84,40 @@ class Offer:
     category: str
     use_case: str
     specific_check: str
+    catalog_name: str | None = None
+
+    @property
+    def price_record(self) -> dict | None:
+        key = normalized_service(self.catalog_name or self.service)
+        return PRICE_BY_SERVICE.get(PRICE_ALIASES.get(key, key))
 
     @property
     def title(self) -> str:
-        return f"{self.service} moins cher sur GamsGo : offre et code {GAMSGO_CODE}"
+        record = self.price_record
+        if record and record.get("monthly") is not None:
+            return (
+                f"Comment acheter {self.service} dès "
+                f"{format_eur(float(record['monthly']))} €/mois sur GamsGo ?"
+            )
+        if record and record.get("price") is not None:
+            return (
+                f"Comment acheter {self.service} dès "
+                f"{format_eur(float(record['price']))} € sur GamsGo ?"
+            )
+        return f"Comment acheter {self.service} sur GamsGo ? Prix à vérifier"
 
     @property
     def description(self) -> str:
+        record = self.price_record
+        if record and record.get("monthly") is not None:
+            price = f"dès {format_eur(float(record['monthly']))} €/mois"
+        elif record and record.get("price") is not None:
+            price = f"dès {format_eur(float(record['price']))} €"
+        else:
+            price = "prix à contrôler"
         return (
-            f"Guide {self.service} sur GamsGo : disponibilité, type d’accès, risques, "
-            f"vérifications avant achat, code {GAMSGO_CODE} et lien partenaire EuroMalin."
+            f"Comment acheter {self.service} sur GamsGo {price} : prix relevé le "
+            f"{DISPLAY_DATE}, durée, type d’accès, risques, code {GAMSGO_CODE} et lien partenaire."
         )
 
 
@@ -119,6 +188,60 @@ OFFERS = [
     Offer("gamsgo-ea-play-moins-cher", "EA Play", "Gaming", "accéder au catalogue et aux essais EA sur une plateforme compatible", "la plateforme PC, Xbox ou PlayStation, la région et la durée"),
 ]
 
+# Services revealed by expanding every public catalogue section on 20 August
+# 2026. They were not visible in the initially collapsed category lists.
+OFFERS += [
+    Offer("gamsgo-bloomberg-moins-cher", "Bloomberg", "Streaming", "lire l’actualité économique et suivre les marchés", "la formule Digital, la région et le caractère privé du compte"),
+    Offer("gamsgo-amc-plus-moins-cher", "AMC+", "Streaming", "regarder les séries et films du catalogue AMC+", "la région, le profil livré et les appareils compatibles"),
+    Offer("gamsgo-mediaset-infinity-moins-cher", "Mediaset Infinity", "Streaming", "regarder les chaînes et programmes italiens disponibles", "la disponibilité hors d’Italie et le type de profil"),
+    Offer("gamsgo-tod-tv-moins-cher", "TOD TV", "Streaming", "suivre les sports et contenus proposés par TOD", "le bouquet All-in, la région et les écrans simultanés"),
+    Offer("gamsgo-quillbot-premium-moins-cher", "QuillBot", "IA", "réécrire, corriger et résumer des textes", "les fonctions Premium, la confidentialité des textes et le contrôle du compte"),
+    Offer("gamsgo-windows-copilot-pro-moins-cher", "Windows Copilot", "IA", "utiliser les fonctions Copilot Pro pendant la durée annoncée", "le mode d’activation, le compte Microsoft et la durée réelle"),
+    Offer("gamsgo-meshy-ai-moins-cher", "Meshy AI", "IA", "générer des modèles et textures 3D avec l’IA", "les crédits, les formats d’export et les droits commerciaux"),
+    Offer("gamsgo-leonardo-ai-moins-cher", "Leonardo AI", "IA", "créer des images avec des modèles génératifs", "les jetons, la formule Essential et les droits d’utilisation"),
+    Offer("gamsgo-picsart-pro-moins-cher", "PicsArt", "IA", "retoucher et créer des visuels sur mobile ou ordinateur", "le plan Pro, le compte partagé et la conservation des projets"),
+    Offer("gamsgo-turnitin-moins-cher", "Turnitin", "Logiciels", "contrôler la similarité de documents", "le rôle Instructor, la confidentialité des travaux et les limites de dépôt"),
+    Offer("gamsgo-ipvanish-moins-cher", "IPVanish", "Logiciels", "utiliser un VPN sur des appareils compatibles", "le partage du compte, le nombre d’appareils et la récupération"),
+    Offer("gamsgo-blackbox-ai-moins-cher", "BlackBox AI", "IA", "obtenir une assistance IA pour le développement", "les quotas, le compte partagé et l’absence de code confidentiel"),
+    Offer("gamsgo-vidiq-max-moins-cher", "vidIQ", "Logiciels", "analyser et optimiser une chaîne YouTube", "la formule Max et l’autorisation d’accès à la chaîne"),
+    Offer("gamsgo-jetbrains-pro-moins-cher", "JetBrains", "Logiciels", "utiliser les IDE JetBrains inclus dans la licence", "les produits couverts, l’usage commercial et le compte associé"),
+    Offer("gamsgo-invideo-ai-moins-cher", "InVideo AI", "IA", "générer et monter des vidéos assistées par IA", "les minutes, crédits, exports et droits commerciaux"),
+    Offer("gamsgo-hailuo-ai-moins-cher", "Hailuo AI", "IA", "générer des vidéos à partir de textes ou d’images", "les crédits, la résolution et les droits sur les médias importés"),
+    Offer("gamsgo-storyblocks-moins-cher", "Storyblocks", "Logiciels", "télécharger des vidéos, musiques et ressources créatives", "la licence des téléchargements et l’usage commercial après expiration"),
+    Offer("gamsgo-veed-io-pro-moins-cher", "VEED.io", "Logiciels", "monter, sous-titrer et exporter des vidéos en ligne", "le compte partagé, les limites d’export et la confidentialité des médias"),
+    Offer("gamsgo-ubersuggest-business-moins-cher", "Ubersuggest", "Logiciels", "analyser des mots-clés et des sites pour le référencement", "la formule Business, les quotas et les exports"),
+    Offer("gamsgo-hedra-ai-moins-cher", "Hedra AI", "IA", "créer des personnages et vidéos avec l’IA", "les crédits, le consentement des personnes et les droits d’usage"),
+    Offer("gamsgo-luma-ai-moins-cher", "Luma AI", "IA", "générer des images et vidéos avec l’IA", "les crédits, la formule Plus et les droits commerciaux"),
+    Offer("gamsgo-moz-pro-moins-cher", "Moz Pro", "Logiciels", "suivre le référencement et les performances de sites", "le plan Standard, les campagnes et les limites d’exploration"),
+    Offer("gamsgo-jasper-pro-moins-cher", "Jasper", "IA", "rédiger et adapter des contenus marketing avec l’IA", "le compte privé, les quotas et les données de marque importées"),
+    Offer("gamsgo-ideogram-plus-moins-cher", "Ideogram", "IA", "générer des images et du texte intégré aux visuels", "les crédits, le mode privé et les droits commerciaux"),
+    Offer("gamsgo-writehuman-ultra-moins-cher", "WriteHuman", "IA", "reformuler des textes avec les outils proposés", "les quotas, la confidentialité et les règles académiques ou professionnelles"),
+    Offer("gamsgo-picwish-pro-moins-cher", "PicWish", "IA", "retoucher, détourer et améliorer des images", "les crédits, la résolution et les droits sur les images"),
+    Offer("gamsgo-nim-video-moins-cher", "Nim.video", "IA", "générer des vidéos avec les modèles disponibles", "les crédits, les modèles, la résolution et les exports"),
+    Offer("gamsgo-renderforest-lite-moins-cher", "Renderforest", "Logiciels", "créer des vidéos, logos et pages visuelles", "le plan Lite, les exports, le filigrane et les droits"),
+    Offer("gamsgo-krea-ai-moins-cher", "Krea AI", "IA", "générer et améliorer des créations visuelles", "les crédits, le plan Basic et la confidentialité des créations"),
+    Offer("gamsgo-cyberghost-vpn-moins-cher", "CyberGhost VPN", "Logiciels", "protéger sa connexion avec un VPN", "la durée, le profil privé et les appareils autorisés"),
+    Offer("gamsgo-motion-array-moins-cher", "Motion Array", "Logiciels", "télécharger des modèles et ressources pour le montage", "le compte partagé et la validité des licences de projet"),
+    Offer("gamsgo-strava-premium-moins-cher", "Strava", "Logiciels", "analyser ses activités sportives avec les fonctions Premium", "le compte personnel et la confidentialité des données de localisation"),
+    Offer("gamsgo-mcafee-advanced-moins-cher", "McAfee", "Logiciels", "protéger ses appareils avec la suite de sécurité", "le nombre d’appareils, la région et le type de licence"),
+    Offer("gamsgo-purevpn-moins-cher", "PureVPN", "Logiciels", "utiliser un VPN pendant la durée annoncée", "la durée, les appareils et le contrôle du compte"),
+    Offer("gamsgo-storytel-moins-cher", "Storytel", "Musique", "écouter des livres audio et lire des ebooks", "la région, le catalogue linguistique et le compte personnel"),
+    Offer("gamsgo-norton-standard-moins-cher", "Norton", "Logiciels", "protéger un appareil avec Norton", "l’édition Standard, la durée et le renouvellement"),
+    Offer("gamsgo-wall-street-journal-moins-cher", "The Wall Street Journal", "Streaming", "lire l’actualité économique du Wall Street Journal", "l’accès Digital, la région et le contrôle du compte"),
+    Offer("gamsgo-mobbin-pro-moins-cher", "Mobbin", "Logiciels", "consulter des références d’interfaces pour le design produit", "le compte partagé, les quotas et l’usage en équipe"),
+    Offer("gamsgo-adguard-moins-cher", "AdGuard", "Logiciels", "bloquer publicités et traqueurs sur les appareils compatibles", "la formule Individual, les appareils et le type de licence"),
+    Offer("gamsgo-miro-business-moins-cher", "Miro", "Logiciels", "collaborer sur des tableaux blancs en ligne", "l’espace Business, la propriété des tableaux et les invités"),
+    Offer("gamsgo-exitlag-moins-cher", "ExitLag", "Gaming", "optimiser le routage réseau pour les jeux compatibles", "la durée, le nombre d’appareils et les jeux réellement pris en charge"),
+    Offer("gamsgo-1password-moins-cher", "1Password", "Logiciels", "gérer ses mots de passe dans un coffre privé", "la propriété du compte et l’absence totale d’accès du vendeur au coffre"),
+    Offer("gamsgo-new-york-times-moins-cher", "The New York Times", "Streaming", "lire les articles et contenus numériques du New York Times", "l’offre Individual, la région et les contenus inclus"),
+    Offer("gamsgo-windows-server-cle-moins-cher", "Windows Server", "Logiciels", "activer l’édition Windows Server annoncée", "l’édition, le nombre de cœurs, le type de clé et l’usage commercial"),
+    Offer("gamsgo-dropbox-plus-moins-cher", "Dropbox", "Logiciels", "stocker et synchroniser des fichiers en ligne", "le compte privé, l’espace disponible et la récupération des fichiers"),
+    Offer("gamsgo-pdfelement-moins-cher", "PDFelement", "Logiciels", "modifier, convertir et signer des documents PDF", "la durée, les appareils et la confidentialité des documents"),
+    Offer("gamsgo-tinder-gold-moins-cher", "Tinder Gold", "Logiciels", "activer les fonctions Tinder Gold pendant la durée annoncée", "le mode d’activation et la sécurité du compte personnel"),
+    Offer("gamsgo-bitwarden-premium-moins-cher", "Bitwarden", "Logiciels", "utiliser les fonctions Premium d’un gestionnaire de mots de passe", "la propriété du compte et l’absence d’accès du vendeur au coffre"),
+    Offer("gamsgo-semrush-moins-cher", "SEMrush", "Logiciels", "analyser des mots-clés, concurrents et campagnes SEO", "le compte partagé, les quotas et l’absence de données client sensibles"),
+]
+
 
 # Current catalogue services already covered by a dedicated EuroMalin page.
 EXISTING = {
@@ -167,6 +290,56 @@ EXISTING = {
         "Xbox Game Pass": "payer-xbox-game-pass-moins-cher",
     },
 }
+
+# Current catalogue services whose established EuroMalin price guide should be
+# kept instead of creating a duplicate URL.
+CURRENT_EXISTING = {
+    "Netflix": ("payer-netflix-premium-moins-cher", "Streaming"),
+    "Prime Video": ("payer-amazon-prime-video-moins-cher", "Streaming"),
+    "Disney+": ("payer-disney-plus-moins-cher", "Streaming"),
+    "YouTube": ("payer-youtube-premium-moins-cher", "Streaming"),
+    "Apple": ("payer-apple-one-moins-cher", "Streaming"),
+    "Crunchyroll": ("payer-crunchyroll-moins-cher", "Streaming"),
+    "Spotify": ("payer-spotify-premium-moins-cher", "Musique"),
+    "Claude": ("payer-claude-pro-moins-cher", "IA"),
+    "Gemini": ("payer-gemini-advanced-moins-cher", "IA"),
+    "SuperGrok": ("payer-grok-ai-moins-cher", "IA"),
+    "Adobe": ("payer-photoshop-moins-cher", "IA"),
+    "Perplexity AI": ("payer-perplexity-pro-moins-cher", "IA"),
+    "Canva": ("payer-canva-pro-moins-cher", "IA"),
+    "Midjourney": ("payer-midjourney-moins-cher", "IA"),
+    "kling": ("payer-kling-ai-pro-moins-cher", "IA"),
+    "Suno": ("payer-suno-pro-moins-cher", "IA"),
+    "Poe": ("payer-poe-ai-moins-cher", "IA"),
+    "Microsoft Office": ("payer-microsoft-365-moins-cher", "Logiciels"),
+    "Notion": ("payer-notion-ai-moins-cher", "Logiciels"),
+    "Xbox": ("payer-xbox-game-pass-moins-cher", "Gaming"),
+}
+
+
+def current_catalog_rows() -> list[tuple[str, str, str, dict]]:
+    offer_by_catalog_service: dict[str, Offer] = {}
+    for offer in OFFERS:
+        record = offer.price_record
+        if record:
+            offer_by_catalog_service[normalized_service(str(record["service"]))] = offer
+
+    rows: list[tuple[str, str, str, dict]] = []
+    missing: list[str] = []
+    for record in PRICE_RECORDS:
+        service = str(record["service"])
+        if service in CURRENT_EXISTING:
+            slug, category = CURRENT_EXISTING[service]
+        else:
+            offer = offer_by_catalog_service.get(normalized_service(service))
+            if offer is None:
+                missing.append(service)
+                continue
+            slug, category = offer.slug, offer.category
+        rows.append((service, slug, category, record))
+    if missing:
+        raise RuntimeError(f"Unmapped current GamsGo services: {', '.join(missing)}")
+    return rows
 
 
 CATEGORY_COPY = {
@@ -228,10 +401,35 @@ def hero_figure(offer: Offer) -> str:
     return f"""<figure class="article-hero"><img class="article-hero-image" src="../assets/img/articles/{offer.slug}.jpg" alt="Guide EuroMalin de l’offre {esc(offer.service)} sur GamsGo" loading="eager" decoding="async" width="1200" height="675"/><figcaption class="article-hero-credit">Illustration EuroMalin • catalogue contrôlé le {DISPLAY_DATE}</figcaption></figure>"""
 
 
+def price_presentation(offer: Offer) -> tuple[str, str, str]:
+    record = offer.price_record
+    if not record or record.get("price") is None:
+        return "Prix indisponible", "offre absente du relevé actuel", ""
+    total = format_eur(float(record["price"]))
+    months = record.get("months")
+    monthly = record.get("monthly")
+    if months is not None and monthly is not None:
+        duration = "1 mois" if int(months) == 1 else f"{int(months)} mois"
+        headline = f"Dès {format_eur(float(monthly))} €/mois"
+        detail = f"{total} € pour {duration}"
+    else:
+        headline = f"Dès {total} €"
+        detail = str(record.get("descriptor") or "achat unique ou crédits")
+    snapshot = (
+        f'<div class="verdict-box"><span class="verdict-box__label">Prix relevé le {DISPLAY_DATE}</span>'
+        f'<p><strong>{esc(headline)}</strong> — {esc(detail)}. Il s’agit de l’annonce la moins '
+        f'chère repérée parmi les résultats visibles, pas d’un tarif garanti. Comparez la formule, '
+        f'le vendeur, la région, la garantie et le total au panier.</p></div>'
+    )
+    return headline, detail, snapshot
+
+
 def page(offer: Offer) -> str:
     copy = CATEGORY_COPY[offer.category]
+    price_headline, price_detail, price_snapshot = price_presentation(offer)
+    available = offer.price_record is not None
     faq = [
-        (f"GamsGo propose-t-il actuellement {offer.service} ?", f"{offer.service} apparaissait dans le catalogue public GamsGo contrôlé le {DISPLAY_DATE}. La disponibilité, les vendeurs et les formules peuvent changer."),
+        (f"GamsGo propose-t-il actuellement {offer.service} ?", f"{offer.service} {'apparaissait' if available else 'n’apparaissait pas'} dans le relevé complet du catalogue public GamsGo effectué le {DISPLAY_DATE}. La disponibilité, les vendeurs et les formules peuvent changer."),
         (f"Comment utiliser le code {GAMSGO_CODE} pour {offer.service} ?", f"Ouvrez GamsGo avec le lien EuroMalin, choisissez l’offre {offer.service}, saisissez {GAMSGO_CODE} si un champ promo est affiché, puis vérifiez le total avant paiement."),
         ("Le prix affiché est-il garanti ?", "Non. Le prix varie selon la durée, le vendeur, la devise, la région, le type d’accès et les frais éventuels. Seul le total du panier au moment de l’achat fait foi."),
         ("Que faire si l’accès ne correspond pas à la fiche ?", "Conservez la fiche et les échanges, testez immédiatement la livraison et ouvrez une demande dans la commande sans déplacer la discussion hors de GamsGo."),
@@ -245,10 +443,11 @@ def page(offer: Offer) -> str:
 <section class="hero-mini"><div class="container"><div class="breadcrumbs"><a href="../index.html">Accueil</a> · <a href="../articles.html">Articles</a> · GamsGo</div><div class="hero-card"><div class="eyebrow">Catalogue vérifié • {DISPLAY_DATE}</div><h1>{esc(title)}</h1><p class="lead">{esc(description)}</p></div></div></section>
 <section class="section"><div class="container page-grid"><article class="hero-card article">
 {disclosure()}{hero_figure(offer)}
-<div class="fact-strip"><div><strong>{esc(offer.category)}</strong><span>catégorie</span></div><div><strong>{GAMSGO_CODE}</strong><span>code à tester</span></div><div><strong>Prix variable</strong><span>contrôler le panier</span></div></div>
+<div class="fact-strip"><div><strong>{esc(price_headline)}</strong><span>{esc(price_detail)}</span></div><div><strong>{GAMSGO_CODE}</strong><span>code à tester</span></div><div><strong>Prix variable</strong><span>relevé le {DISPLAY_DATE}</span></div></div>
 {promo_cta(offer.service)}
+<h2>Combien coûte {esc(offer.service)} sur GamsGo ?</h2>{price_snapshot or '<div class="warning-box"><strong>Disponibilité à vérifier :</strong> aucune annonce tarifée n’apparaissait dans le relevé complet du catalogue lors du dernier contrôle. Ne présentez pas un ancien prix comme encore disponible.</div>'}
 <h2>L’offre {esc(offer.service)} repérée sur GamsGo</h2>
-<div class="verdict-box"><span class="verdict-box__label">Résultat de la comparaison</span><p>{esc(offer.service)} figurait bien dans le catalogue public GamsGo lors de notre contrôle. EuroMalin n’avait pas encore de guide dédié : cette page complète donc le dossier sans présenter un prix temporaire comme une promesse permanente.</p></div>
+<div class="verdict-box"><span class="verdict-box__label">Résultat de la comparaison</span><p>{esc(offer.service)} {'figurait bien' if available else 'ne figurait plus'} dans le catalogue public GamsGo lors de notre contrôle. Le prix du titre est introduit par « dès » et daté afin de ne pas transformer une annonce temporaire de marketplace en promesse permanente.</p></div>
 <p>L’offre peut intéresser les personnes qui veulent {esc(offer.use_case)}. Selon la fiche sélectionnée, GamsGo peut proposer {esc(str(copy['format']))}. Ce détail change le niveau de contrôle, de confidentialité et de simplicité de renouvellement.</p>
 <h2>Ce qu’il faut vérifier avant de commander</h2><ul class="check-list">{checked}<li>Le prix total, les frais et la devise au panier.</li><li>La note du vendeur, le délai de livraison et la protection indiquée.</li></ul>
 <div class="warning-box"><strong>Point de vigilance :</strong> {esc(str(copy['risk']))} {esc(offer.specific_check.capitalize())}.</div>
@@ -266,10 +465,12 @@ def page(offer: Offer) -> str:
 
 
 def hub_page() -> tuple[str, str, str]:
+    current_rows = current_catalog_rows()
+    new_current_count = sum(1 for _, slug, _, _ in current_rows if slug.startswith("gamsgo-"))
     title = f"Catalogue GamsGo complet : offres présentes et guides avec le code {GAMSGO_CODE}"
     description = f"Comparatif du catalogue GamsGo vérifié le {DISPLAY_DATE} : offres déjà couvertes, nouveaux guides EuroMalin, code {GAMSGO_CODE} et lien partenaire."
     faq = [
-        ("Combien d’offres ont été comparées ?", f"Le contrôle couvre {sum(len(v) for v in EXISTING.values()) + len(OFFERS)} entrées ou familles de services visibles dans le catalogue et sa navigation publique."),
+        ("Combien d’offres ont été comparées ?", f"Le contrôle couvre {len(current_rows)} familles de services visibles après ouverture de toutes les catégories du catalogue public."),
         ("Toutes les offres ont-elles un prix fixe ?", "Non. Une partie du catalogue relève de la marketplace et varie selon le vendeur, le pays, la durée, la devise et la méthode d’accès."),
         (f"Le code {GAMSGO_CODE} donne-t-il toujours une remise ?", "Non. Il faut le tester au panier et vérifier la réduction réellement appliquée avant de payer."),
         ("Pourquoi certaines offres ont-elles plusieurs pages ?", "Apple, Adobe ou YouTube peuvent apparaître dans plusieurs catégories ou formules. Le tableau renvoie vers le guide EuroMalin le plus proche de l’usage recherché."),
@@ -277,20 +478,25 @@ def hub_page() -> tuple[str, str, str]:
     groups = []
     for category in ("Streaming", "Musique", "IA", "Logiciels", "Gaming"):
         rows = []
-        for service, slug in EXISTING.get(category, {}).items():
-            rows.append((service, slug, "Déjà présent avant l’audit"))
-        for offer in (item for item in OFFERS if item.category == category):
-            rows.append((offer.service, offer.slug, f"Guide ajouté le {DISPLAY_DATE}"))
+        for service, slug, row_category, record in current_rows:
+            if row_category != category:
+                continue
+            price = (
+                f"dès {format_eur(float(record['monthly']))} €/mois"
+                if record.get("monthly") is not None
+                else f"dès {format_eur(float(record['price']))} €"
+            )
+            rows.append((service, slug, price))
         rows.sort(key=lambda row: row[0].casefold())
-        body = "".join(f'<tr><td><a href="{esc(slug)}.html">{esc(service)}</a></td><td>{esc(status)}</td><td><a href="{esc(slug)}.html">Lire le guide</a></td></tr>' for service, slug, status in rows)
-        groups.append(f'<h3>{category} — {len(rows)} offres ou familles</h3><div class="responsive-table"><table><thead><tr><th>Service</th><th>État sur EuroMalin</th><th>Page</th></tr></thead><tbody>{body}</tbody></table></div>')
+        body = "".join(f'<tr><td><a href="{esc(slug)}.html">{esc(service)}</a></td><td>{esc(price)}</td><td><a href="{esc(slug)}.html">Lire le guide</a></td></tr>' for service, slug, price in rows)
+        groups.append(f'<h3>{category} — {len(rows)} offres ou familles</h3><div class="responsive-table"><table><thead><tr><th>Service</th><th>Prix relevé</th><th>Page</th></tr></thead><tbody>{body}</tbody></table></div>')
     page_head = head(title, description, HUB_SLUG, faq).replace("2026-07-24", TODAY)
     content = page_head + header() + f"""<main id="main"><section class="hero-mini"><div class="container"><div class="breadcrumbs"><a href="../index.html">Accueil</a> · <a href="../articles.html">Articles</a> · GamsGo</div><div class="hero-card"><div class="eyebrow">Audit complet • {DISPLAY_DATE}</div><h1>{esc(title)}</h1><p class="lead">{esc(description)}</p></div></div></section>
 <section class="section"><div class="container page-grid"><article class="hero-card article">{disclosure()}
 <figure class="article-hero"><img class="article-hero-image" src="../assets/img/articles/{HUB_SLUG}.jpg" alt="Catalogue GamsGo comparé par EuroMalin" loading="eager" decoding="async" width="1200" height="675"/><figcaption class="article-hero-credit">Illustration EuroMalin • audit du {DISPLAY_DATE}</figcaption></figure>
-<div class="fact-strip"><div><strong>{sum(len(v) for v in EXISTING.values()) + len(OFFERS)}</strong><span>offres ou familles comparées</span></div><div><strong>{len(OFFERS)}</strong><span>nouveaux guides ajoutés</span></div><div><strong>{GAMSGO_CODE}</strong><span>code à tester</span></div></div>
+<div class="fact-strip"><div><strong>{len(current_rows)}</strong><span>offres ou familles comparées</span></div><div><strong>{new_current_count}</strong><span>guides GamsGo dédiés</span></div><div><strong>{GAMSGO_CODE}</strong><span>code à tester</span></div></div>
 {promo_cta("le catalogue complet")}
-<h2>Résultat de la comparaison EuroMalin / GamsGo</h2><div class="verdict-box"><span class="verdict-box__label">Couverture complétée</span><p>EuroMalin couvrait déjà {sum(len(v) for v in EXISTING.values())} offres ou familles du catalogue numérique. L’audit du {DISPLAY_DATE} a identifié {len(OFFERS)} services sans guide dédié. Ils disposent maintenant chacun d’une page avec le code {GAMSGO_CODE}, le lien partenaire standard et les contrôles adaptés.</p></div>
+<h2>Résultat de la comparaison EuroMalin / GamsGo</h2><div class="verdict-box"><span class="verdict-box__label">Catalogue entièrement déplié</span><p>L’audit du {DISPLAY_DATE} couvre {len(current_rows)} familles actuellement visibles, y compris les offres cachées derrière les boutons « Voir plus ». Chaque ligne renvoie vers un guide EuroMalin et affiche un prix « dès » daté, le code {GAMSGO_CODE}, le lien partenaire standard et les contrôles adaptés.</p></div>
 <p>Le périmètre comprend les abonnements numériques visibles dans le catalogue et dans sa navigation étendue : streaming, musique, intelligence artificielle, logiciels et abonnements gaming. Les recharges, comptes, objets, cartes cadeaux et monnaies de centaines de jeux restent des inventaires marketplace mouvants ; ils sont traités par familles dans les guides gaming existants plutôt que par une page mince pour chaque annonce vendeur.</p>
 <div class="warning-box"><strong>Important :</strong> « présent au catalogue » ne signifie pas « prix garanti ». Les vendeurs, durées, méthodes de partage, régions, délais et garanties changent. Le panier et la fiche de commande font foi.</div>
 <h2>Toutes les offres comparées</h2>{''.join(groups)}
@@ -378,24 +584,62 @@ def update_sitemap(slugs: list[str]) -> None:
     path.write_text(text, encoding="utf-8")
 
 
+def update_thumbnail_manifest(offers: list[Offer]) -> None:
+    query_groups = {
+        "Streaming": (
+            "streaming television cinema living room",
+            "news media sports television",
+        ),
+        "Musique": ("headphones music audio listening",),
+        "IA": (
+            "artificial intelligence creative workstation",
+            "coding software developer laptop",
+            "video editing creator studio",
+        ),
+        "Logiciels": (
+            "software productivity laptop desk",
+            "cybersecurity privacy laptop",
+            "digital design creative workspace",
+            "business analytics computer dashboard",
+        ),
+        "Gaming": ("gaming console controller setup",),
+    }
+    manifest: dict[str, str] = {}
+    counters = {category: 0 for category in query_groups}
+    for offer in sorted(offers, key=lambda item: item.slug):
+        choices = query_groups[offer.category]
+        index = counters[offer.category]
+        manifest[offer.slug] = choices[index % len(choices)]
+        counters[offer.category] += 1
+    manifest[HUB_SLUG] = "streaming software subscriptions laptop"
+    path = ROOT / "scripts" / "gamsgo_catalog_thumbnail_queries.json"
+    path.write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
 def main() -> int:
     ARTICLES.mkdir(exist_ok=True)
     generated: list[tuple[str, str, str, str]] = []
     for offer in OFFERS:
         (ARTICLES / f"{offer.slug}.html").write_text(page(offer), encoding="utf-8")
-        make_cover(offer.slug, offer.service, offer.category)
-        generated.append((offer.slug, offer.title, offer.description, f"GamsGo • {offer.category}"))
+        if offer.price_record:
+            generated.append((offer.slug, offer.title, offer.description, f"GamsGo • {offer.category}"))
 
     hub_title, hub_description, hub_html = hub_page()
     (ARTICLES / f"{HUB_SLUG}.html").write_text(hub_html, encoding="utf-8")
-    make_cover(HUB_SLUG, "Catalogue complet", "Logiciels")
     hub = (HUB_SLUG, hub_title, hub_description, "Catalogue GamsGo")
     generated.sort(key=lambda item: (item[3], item[1].casefold()))
     generated.insert(0, hub)
     update_listing(generated)
     update_feature_pages(hub)
-    update_sitemap([item[0] for item in generated])
-    print(f"Built {len(OFFERS)} missing GamsGo guides plus the comparison hub.")
+    update_sitemap([offer.slug for offer in OFFERS] + [HUB_SLUG])
+    update_thumbnail_manifest([offer for offer in OFFERS if offer.price_record])
+    print(
+        f"Built {len(OFFERS)} GamsGo guides, including {len(generated) - 1} "
+        "current priced offers, plus the comparison hub."
+    )
     return 0
 
 

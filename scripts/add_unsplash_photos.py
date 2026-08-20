@@ -105,6 +105,7 @@ KEYWORD_OVERRIDES: dict[str, str] = {
 QUERY_MANIFESTS = (
     ROOT / "scripts" / "u7buy_cover_queries.json",
     ROOT / "scripts" / "gamsgo_cover_queries.json",
+    ROOT / "scripts" / "gamsgo_catalog_thumbnail_queries.json",
 )
 for query_manifest in QUERY_MANIFESTS:
     if query_manifest.exists():
@@ -149,27 +150,43 @@ def http_download(url: str, dest: Path, headers: dict) -> int:
     return len(data)
 
 
+def search_unsplash_results(
+    query: str,
+    access_key: str,
+    count: int = 1,
+) -> list[dict]:
+    collected: list[dict] = []
+    page = 1
+    while len(collected) < count:
+        per_page = min(30, count - len(collected))
+        params = urllib.parse.urlencode({
+            "query": query,
+            "orientation": "landscape",
+            "per_page": per_page,
+            "page": page,
+            "content_filter": "high",
+        })
+        headers = {
+            "Authorization": f"Client-ID {access_key}",
+            "Accept-Version": "v1",
+            "User-Agent": USER_AGENT,
+        }
+        try:
+            data = http_get_json(f"{API_URL}?{params}", headers)
+        except Exception as e:
+            print(f"  ! search failed: {e}", file=sys.stderr)
+            break
+        results = data.get("results") or []
+        if not results:
+            break
+        collected.extend(results)
+        page += 1
+    return collected[:count]
+
+
 def search_unsplash(query: str, access_key: str) -> dict | None:
-    params = urllib.parse.urlencode({
-        "query": query,
-        "orientation": "landscape",
-        "per_page": 5,
-        "content_filter": "high",
-    })
-    headers = {
-        "Authorization": f"Client-ID {access_key}",
-        "Accept-Version": "v1",
-        "User-Agent": USER_AGENT,
-    }
-    try:
-        data = http_get_json(f"{API_URL}?{params}", headers)
-    except Exception as e:
-        print(f"  ! search failed: {e}", file=sys.stderr)
-        return None
-    results = data.get("results") or []
-    if not results:
-        return None
-    return results[0]
+    results = search_unsplash_results(query, access_key, 1)
+    return results[0] if results else None
 
 
 def trigger_download_event(download_location: str, access_key: str) -> None:
@@ -229,23 +246,16 @@ def html_escape_attr(s: str) -> str:
     return html_escape(s).replace('"', "&quot;")
 
 
-def process_article(path: Path, access_key: str, force: bool, dry_run: bool) -> bool:
+def process_article_with_photo(
+    path: Path,
+    access_key: str,
+    photo: dict,
+    force: bool,
+) -> bool:
     slug = path.stem
     html = path.read_text(encoding="utf-8")
     if "article-hero-image" in html and not force:
         print(f"= {slug}: already has hero image (skip; --force to overwrite)")
-        return False
-
-    title = extract_title(html)
-    query = keywords_for(slug, title)
-    print(f"→ {slug}: query='{query}'")
-
-    if dry_run:
-        return False
-
-    photo = search_unsplash(query, access_key)
-    if not photo:
-        print(f"  ! no photo for '{query}'")
         return False
     urls = photo.get("urls") or {}
     img_url = urls.get("regular") or urls.get("small") or urls.get("full")
@@ -266,22 +276,81 @@ def process_article(path: Path, access_key: str, force: bool, dry_run: bool) -> 
     if dl_loc:
         trigger_download_event(dl_loc, access_key)
 
+    if force and "article-hero-image" in html:
+        html = re.sub(
+            r'<figure class="article-hero">.*?</figure>',
+            '', html, count=1, flags=re.S,
+        )
     new_html = inject_hero_image(html, slug, photo)
     if not new_html:
         print("  ! could not find insertion point in HTML")
         return False
-    if force and "article-hero-image" in html:
-        # Strip existing hero image first
-        new_html = re.sub(
-            r'<figure class="article-hero">.*?</figure>',
-            '', new_html, count=1, flags=re.S,
-        )
-        # Re-inject
-        new_html = inject_hero_image(new_html, slug, photo) or new_html
 
     path.write_text(new_html, encoding="utf-8")
     print(f"  ✓ injected hero image")
     return True
+
+
+def process_article(path: Path, access_key: str, force: bool, dry_run: bool) -> bool:
+    slug = path.stem
+    html = path.read_text(encoding="utf-8")
+    if "article-hero-image" in html and not force:
+        print(f"= {slug}: already has hero image (skip; --force to overwrite)")
+        return False
+
+    title = extract_title(html)
+    query = keywords_for(slug, title)
+    print(f"→ {slug}: query='{query}'")
+    if dry_run:
+        return False
+    photo = search_unsplash(query, access_key)
+    if not photo:
+        print(f"  ! no photo for '{query}'")
+        return False
+    return process_article_with_photo(path, access_key, photo, force)
+
+
+def process_batch_manifest(
+    manifest_path: Path,
+    access_key: str,
+    force: bool,
+    dry_run: bool,
+    only_unattributed: bool,
+) -> int:
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if not isinstance(manifest, dict):
+        raise ValueError("batch manifest must be a JSON object")
+    grouped: dict[str, list[str]] = {}
+    for slug, query in manifest.items():
+        article_path = ARTICLES_DIR / f"{slug}.html"
+        if (
+            only_unattributed
+            and article_path.exists()
+            and "Photo :" in article_path.read_text(encoding="utf-8")
+        ):
+            continue
+        grouped.setdefault(str(query), []).append(str(slug))
+
+    changed = 0
+    for query, slugs in grouped.items():
+        print(f"→ batch query='{query}' ({len(slugs)} article(s))")
+        if dry_run:
+            continue
+        photos = search_unsplash_results(query, access_key, len(slugs))
+        if len(photos) < len(slugs):
+            print(
+                f"  ! only {len(photos)} photos returned for {len(slugs)} articles",
+                file=sys.stderr,
+            )
+        for slug, photo in zip(slugs, photos):
+            path = ARTICLES_DIR / f"{slug}.html"
+            if not path.exists():
+                print(f"  ! missing article: {path}", file=sys.stderr)
+                continue
+            print(f"  {slug}")
+            if process_article_with_photo(path, access_key, photo, force):
+                changed += 1
+    return changed
 
 
 def main() -> int:
@@ -289,12 +358,33 @@ def main() -> int:
     ap.add_argument("--force", action="store_true", help="Overwrite existing hero images")
     ap.add_argument("--dry-run", action="store_true", help="Print plan without downloading")
     ap.add_argument("--only", help="Process only this slug")
+    ap.add_argument(
+        "--batch-manifest",
+        type=Path,
+        help="JSON object mapping slugs to reusable Unsplash category queries",
+    )
+    ap.add_argument(
+        "--only-unattributed",
+        action="store_true",
+        help="In batch mode, process only pages that do not yet credit an API photo",
+    )
     args = ap.parse_args()
 
     access_key = os.environ.get("UNSPLASH_KEY") or os.environ.get("UNSPLASH_ACCESS_KEY")
     if not args.dry_run and not access_key:
         print("error: set UNSPLASH_KEY=<your-access-key> in the environment", file=sys.stderr)
         return 2
+
+    if args.batch_manifest:
+        changed = process_batch_manifest(
+            args.batch_manifest,
+            access_key or "",
+            args.force,
+            args.dry_run,
+            args.only_unattributed,
+        )
+        print(f"\nDone — {changed} article(s) updated.")
+        return 0
 
     files = sorted(ARTICLES_DIR.glob("*.html"))
     if args.only:

@@ -1,0 +1,930 @@
+[
+  {
+    "service": "Netflix",
+    "path": "netflix",
+    "price": 2.99,
+    "months": 1,
+    "monthly": 2.99,
+    "descriptor": "1 mois-1 profil privé-Premium"
+  },
+  {
+    "service": "Viki",
+    "path": "viki",
+    "price": 1.7,
+    "months": 1,
+    "monthly": 1.7,
+    "descriptor": "1 mois-Accès complet-Plus"
+  },
+  {
+    "service": "DZN SPORTS",
+    "path": "dazn",
+    "price": 26.26,
+    "months": 3,
+    "monthly": 8.75,
+    "descriptor": "3 mois-Accès complet-Espagne – Premium"
+  },
+  {
+    "service": "Cursor",
+    "path": "cursor",
+    "price": 85.55,
+    "months": 12,
+    "monthly": 7.13,
+    "descriptor": "Accès complet-Pro-1 an"
+  },
+  {
+    "service": "Higgsfield",
+    "path": "higgsfield",
+    "price": 11.23,
+    "months": 1,
+    "monthly": 11.23,
+    "descriptor": "1 mois-Accès complet-Starter"
+  },
+  {
+    "service": "Claude",
+    "path": "claude",
+    "price": 9.41,
+    "months": 1,
+    "monthly": 9.41,
+    "descriptor": "1 mois-Pro-Compte partagé"
+  },
+  {
+    "service": "Dreamina",
+    "path": "dreamina-subscription",
+    "price": 147.4,
+    "months": 12,
+    "monthly": 12.28,
+    "descriptor": "1 an-Accès complet-Basic"
+  },
+  {
+    "service": "SuperGrok",
+    "path": "grok",
+    "price": 22.52,
+    "months": 3,
+    "monthly": 7.51,
+    "descriptor": "Compte partagé-3 mois-SuperGrok"
+  },
+  {
+    "service": "Prime Video",
+    "path": "prime-video",
+    "price": 17.27,
+    "months": 12,
+    "monthly": 1.44,
+    "descriptor": "1 an-Profil partagé-Prime"
+  },
+  {
+    "service": "ExpressVPN",
+    "path": "expressvpn",
+    "price": 17.2,
+    "months": 12,
+    "monthly": 1.43,
+    "descriptor": "1 an-1 profil privé-Advanced"
+  },
+  {
+    "service": "Proton VPN",
+    "path": "proton-vpn-accounts",
+    "price": 12.72,
+    "months": 12,
+    "monthly": 1.06,
+    "descriptor": "1 an-Compte partagé-"
+  },
+  {
+    "service": "TradingView",
+    "path": "tradingview",
+    "price": 6.05,
+    "months": 1,
+    "monthly": 6.05,
+    "descriptor": "1 mois-Accès complet-Premium"
+  },
+  {
+    "service": "Zoom",
+    "path": "zoom",
+    "price": 1.71,
+    "months": 1,
+    "monthly": 1.71,
+    "descriptor": "1 mois-Accès complet-Pro"
+  },
+  {
+    "service": "Crunchyroll",
+    "path": "crunchyroll",
+    "price": 16.91,
+    "months": 12,
+    "monthly": 1.41,
+    "descriptor": "1 an-1 profil privé-Mega Fan"
+  },
+  {
+    "service": "Lovable",
+    "path": "lovavle",
+    "price": 13.81,
+    "months": 12,
+    "monthly": 1.15,
+    "descriptor": "Pro-Accès complet-1 an-400 crédits"
+  },
+  {
+    "service": "Discord",
+    "path": "discord2",
+    "price": 4.26,
+    "months": 3,
+    "monthly": 1.42,
+    "descriptor": "3 mois-Accès complet-Nitro"
+  },
+  {
+    "service": "Manus",
+    "path": "manus",
+    "price": 1.75,
+    "months": null,
+    "monthly": null,
+    "descriptor": "2300 crédits-Accès complet-Basic"
+  },
+  {
+    "service": "LinkedIn",
+    "path": "linkedin",
+    "price": 4.27,
+    "months": 3,
+    "monthly": 1.42,
+    "descriptor": "3 mois-Accès complet-Career"
+  },
+  {
+    "service": "Telegram",
+    "path": "telegram",
+    "price": 5.88,
+    "months": 1,
+    "monthly": 5.88,
+    "descriptor": "1 mois-Accès complet-Premium"
+  },
+  {
+    "service": "Google Antigravity",
+    "path": "google-antigravity-accounts",
+    "price": 4.27,
+    "months": 3,
+    "monthly": 1.42,
+    "descriptor": "Compte partagé-Pro-3 mois"
+  },
+  {
+    "service": "HeyGen",
+    "path": "heygen",
+    "price": 11.26,
+    "months": 1,
+    "monthly": 11.26,
+    "descriptor": "1 mois-Compte partagé-Creator"
+  },
+  {
+    "service": "Snapchat",
+    "path": "snapchat",
+    "price": 14.26,
+    "months": 12,
+    "monthly": 1.19,
+    "descriptor": "1 an-Accès complet-Plus"
+  },
+  {
+    "service": "Figma",
+    "path": "figma",
+    "price": 17.02,
+    "months": 12,
+    "monthly": 1.42,
+    "descriptor": "Accès complet-1 an-Student"
+  },
+  {
+    "service": "Windows 11",
+    "path": "windows-11-pro-key",
+    "price": 1.71,
+    "months": null,
+    "monthly": null,
+    "descriptor": "🛡️"
+  },
+  {
+    "service": "Windows 10",
+    "path": "windows-10-product-key",
+    "price": 1.7,
+    "months": null,
+    "monthly": null,
+    "descriptor": "🛡️"
+  },
+  {
+    "service": "Gemini",
+    "path": "gemini",
+    "price": 17.33,
+    "months": 18,
+    "monthly": 0.96,
+    "descriptor": "Accès complet-Pro-18 mois"
+  },
+  {
+    "service": "Disney+",
+    "path": "disney",
+    "price": 9.6,
+    "months": 6,
+    "monthly": 1.6,
+    "descriptor": "6 mois-1 profil privé-Premium"
+  },
+  {
+    "service": "ViX",
+    "path": "vix",
+    "price": 4.3,
+    "months": 3,
+    "monthly": 1.43,
+    "descriptor": "3 mois-1 profil privé-Premium"
+  },
+  {
+    "service": "Peacock TV",
+    "path": "peacock-premium-accounts",
+    "price": 13.11,
+    "months": 12,
+    "monthly": 1.09,
+    "descriptor": "1 an-Accès complet-Premium"
+  },
+  {
+    "service": "YouTube",
+    "path": "yotube-subscription",
+    "price": 21.58,
+    "months": 12,
+    "monthly": 1.8,
+    "descriptor": "1 an-Accès complet-Premium Individual"
+  },
+  {
+    "service": "Apple",
+    "path": "apple-one",
+    "price": 4.28,
+    "months": 3,
+    "monthly": 1.43,
+    "descriptor": "3 mois-Accès complet-Apple TV+"
+  },
+  {
+    "service": "NBA League Pass",
+    "path": "nba-league-pass",
+    "price": 5,
+    "months": 3,
+    "monthly": 1.67,
+    "descriptor": "3 mois-1 profil privé-Premium"
+  },
+  {
+    "service": "Shahid",
+    "path": "shahid",
+    "price": 4.26,
+    "months": 3,
+    "monthly": 1.42,
+    "descriptor": "3 mois-Accès complet-VIP"
+  },
+  {
+    "service": "RTL+",
+    "path": "rtl-plus",
+    "price": 4.32,
+    "months": 3,
+    "monthly": 1.44,
+    "descriptor": "3 mois-1 profil privé-Premium"
+  },
+  {
+    "service": "OSN+",
+    "path": "osn",
+    "price": 4.92,
+    "months": 3,
+    "monthly": 1.64,
+    "descriptor": "3 mois-1 profil privé-Premium"
+  },
+  {
+    "service": "Plex",
+    "path": "plex",
+    "price": 4.32,
+    "months": 3,
+    "monthly": 1.44,
+    "descriptor": "3 mois-1 profil privé-Pass"
+  },
+  {
+    "service": "Mubi",
+    "path": "mubi",
+    "price": 4.29,
+    "months": 3,
+    "monthly": 1.43,
+    "descriptor": "3 mois-1 profil privé-Go"
+  },
+  {
+    "service": "Bloomberg",
+    "path": "bloomberg",
+    "price": 3.02,
+    "months": 1,
+    "monthly": 3.02,
+    "descriptor": "1 mois-Accès complet-Digital"
+  },
+  {
+    "service": "AMC+",
+    "path": "amcplus",
+    "price": 1.72,
+    "months": 1,
+    "monthly": 1.72,
+    "descriptor": "1 mois-1 profil privé-Premium"
+  },
+  {
+    "service": "Mediaset Infinity",
+    "path": "mediaset-infinity",
+    "price": 9.45,
+    "months": 1,
+    "monthly": 9.45,
+    "descriptor": "1 mois-1 profil privé-Premium"
+  },
+  {
+    "service": "Movistar Plus",
+    "path": "compartir-cuenta-movistar-plus",
+    "price": 3.29,
+    "months": 1,
+    "monthly": 3.29,
+    "descriptor": "1 mois-Accès complet-Free Plan Movies and TV Series"
+  },
+  {
+    "service": "NOW TV",
+    "path": "now-tv",
+    "price": 12.12,
+    "months": 1,
+    "monthly": 12.12,
+    "descriptor": "1 mois-Accès complet-Pass Sport"
+  },
+  {
+    "service": "TOD TV",
+    "path": "tod-tv-accounts",
+    "price": 38.81,
+    "months": 12,
+    "monthly": 3.23,
+    "descriptor": "1 an-Accès complet-All-in"
+  },
+  {
+    "service": "AI API",
+    "path": "claude-ai-api",
+    "price": 1.71,
+    "months": null,
+    "monthly": null,
+    "descriptor": "50 dollars-Key-Chatgpt"
+  },
+  {
+    "service": "Spotify",
+    "path": "spotify",
+    "price": 21.49,
+    "months": 12,
+    "monthly": 1.79,
+    "descriptor": "1 an-Accès complet-Individual"
+  },
+  {
+    "service": "Qobuz",
+    "path": "qobuz",
+    "price": 1.7,
+    "months": 1,
+    "monthly": 1.7,
+    "descriptor": "1 mois-Accès complet-Studio"
+  },
+  {
+    "service": "ANGHAMI",
+    "path": "anghami",
+    "price": 2.57,
+    "months": 1,
+    "monthly": 2.57,
+    "descriptor": "1 mois-Plus-Accès complet"
+  },
+  {
+    "service": "DEEZER",
+    "path": "deezer-premium",
+    "price": 13,
+    "months": 12,
+    "monthly": 1.08,
+    "descriptor": "1 an-Accès complet-Family"
+  },
+  {
+    "service": "Adobe",
+    "path": "adobe-accounts",
+    "price": 2.59,
+    "months": 3,
+    "monthly": 0.86,
+    "descriptor": "3 mois-Accès complet-Creative Cloud"
+  },
+  {
+    "service": "Perplexity AI",
+    "path": "perplexity-pro-max",
+    "price": 17.32,
+    "months": 12,
+    "monthly": 1.44,
+    "descriptor": "1 an-Pro-Compte partagé"
+  },
+  {
+    "service": "Gama",
+    "path": "gama-ai-accounts",
+    "price": 1.73,
+    "months": 1,
+    "monthly": 1.73,
+    "descriptor": "1 mois-Compte partagé-Pro"
+  },
+  {
+    "service": "GitHub Copilot",
+    "path": "github-copilot-accounts",
+    "price": 55.45,
+    "months": 12,
+    "monthly": 4.62,
+    "descriptor": "1 an-Pro-Accès complet"
+  },
+  {
+    "service": "DeepL",
+    "path": "deepl",
+    "price": 1.72,
+    "months": 1,
+    "monthly": 1.72,
+    "descriptor": "1 mois-1 profil privé"
+  },
+  {
+    "service": "Canva",
+    "path": "cannva",
+    "price": 6.9,
+    "months": 12,
+    "monthly": 0.58,
+    "descriptor": "1 an-Pro-1 espace de travail"
+  },
+  {
+    "service": "Midjourney",
+    "path": "midjourney",
+    "price": 82.4,
+    "months": 12,
+    "monthly": 6.87,
+    "descriptor": "Profil partagé-Standard-1 an"
+  },
+  {
+    "service": "kling",
+    "path": "kling",
+    "price": 8.63,
+    "months": 1,
+    "monthly": 8.63,
+    "descriptor": "1 mois-Accès complet-Standard"
+  },
+  {
+    "service": "QuillBot",
+    "path": "quillbot",
+    "price": 4.26,
+    "months": 3,
+    "monthly": 1.42,
+    "descriptor": "3 mois-Accès complet-Premium"
+  },
+  {
+    "service": "Windows Copilot",
+    "path": "windows-copilot-accounts",
+    "price": 30.11,
+    "months": 12,
+    "monthly": 2.51,
+    "descriptor": "Accès complet-1 an-Pro"
+  },
+  {
+    "service": "Meshy AI",
+    "path": "meshy-ai",
+    "price": 6.04,
+    "months": 1,
+    "monthly": 6.04,
+    "descriptor": "1 mois-Accès complet-"
+  },
+  {
+    "service": "Suno",
+    "path": "suno",
+    "price": 12.78,
+    "months": 1,
+    "monthly": 12.78,
+    "descriptor": "1 mois-Accès complet-Pro"
+  },
+  {
+    "service": "Leonardo AI",
+    "path": "leonardo-ai",
+    "price": 13.01,
+    "months": 12,
+    "monthly": 1.08,
+    "descriptor": "1 an-Essential-Accès complet"
+  },
+  {
+    "service": "PicsArt",
+    "path": "picsart-accounts",
+    "price": 17.28,
+    "months": 12,
+    "monthly": 1.44,
+    "descriptor": "1 an-Pro-Compte partagé"
+  },
+  {
+    "service": "Runway",
+    "path": "runway",
+    "price": 20.78,
+    "months": 1,
+    "monthly": 20.78,
+    "descriptor": "1 mois-Accès complet-Pro"
+  },
+  {
+    "service": "Turnitin",
+    "path": "turnitin-accounts",
+    "price": 3.95,
+    "months": 1,
+    "monthly": 3.95,
+    "descriptor": "1 mois-Accès complet-Instructor"
+  },
+  {
+    "service": "IPVANISH",
+    "path": "ipvanish-accounts",
+    "price": 13,
+    "months": 12,
+    "monthly": 1.08,
+    "descriptor": "Compte partagé-Advanced-1 an"
+  },
+  {
+    "service": "BlackBox AI",
+    "path": "blackbox-ai-accounts",
+    "price": 2.57,
+    "months": 1,
+    "monthly": 2.57,
+    "descriptor": "Pro-Compte partagé-1 mois"
+  },
+  {
+    "service": "Poe",
+    "path": "poe",
+    "price": 7.27,
+    "months": 1,
+    "monthly": 7.27,
+    "descriptor": "1 mois-Accès complet"
+  },
+  {
+    "service": "vidIQ",
+    "path": "vidiq-accounts",
+    "price": 42.26,
+    "months": 12,
+    "monthly": 3.52,
+    "descriptor": "1 an-MAX-Accès complet"
+  },
+  {
+    "service": "JetBrains",
+    "path": "jetbrains-subscription-key",
+    "price": 17.04,
+    "months": 12,
+    "monthly": 1.42,
+    "descriptor": "1 an-Accès complet-Pro"
+  },
+  {
+    "service": "InVideo AI",
+    "path": "invideo-ai-accounts",
+    "price": 85.93,
+    "months": 12,
+    "monthly": 7.16,
+    "descriptor": "1 an-MAX-Accès complet"
+  },
+  {
+    "service": "Hailuo AI",
+    "path": "hailuo-ai",
+    "price": 7.64,
+    "months": 1,
+    "monthly": 7.64,
+    "descriptor": "1 mois-Accès complet-Standard"
+  },
+  {
+    "service": "Storyblocks",
+    "path": "storyblocks",
+    "price": 17.5,
+    "months": 1,
+    "monthly": 17.5,
+    "descriptor": "1 mois-Essential-Compte partagé"
+  },
+  {
+    "service": "VEED.io",
+    "path": "veed-io-accounts",
+    "price": 2.9,
+    "months": 1,
+    "monthly": 2.9,
+    "descriptor": "1 mois-Compte partagé-Pro"
+  },
+  {
+    "service": "Ubersuggest",
+    "path": "ubersuggest",
+    "price": 2.56,
+    "months": 1,
+    "monthly": 2.56,
+    "descriptor": "1 mois-Compte partagé-Business"
+  },
+  {
+    "service": "Hedra IA",
+    "path": "hedra-ai-accounts",
+    "price": 12.13,
+    "months": 1,
+    "monthly": 12.13,
+    "descriptor": "1 mois-Accès complet-Basic"
+  },
+  {
+    "service": "luma",
+    "path": "luma",
+    "price": 26.88,
+    "months": 1,
+    "monthly": 26.88,
+    "descriptor": "1 mois-1 profil privé-Plus"
+  },
+  {
+    "service": "Moz Pro",
+    "path": "moz-pro",
+    "price": 11.33,
+    "months": 1,
+    "monthly": 11.33,
+    "descriptor": "1 mois-Compte partagé-Standard"
+  },
+  {
+    "service": "Jasper",
+    "path": "jasper",
+    "price": 4.26,
+    "months": 1,
+    "monthly": 4.26,
+    "descriptor": "Pro-Accès complet-1 mois"
+  },
+  {
+    "service": "Ideogram",
+    "path": "ideogram",
+    "price": 11.2,
+    "months": 1,
+    "monthly": 11.2,
+    "descriptor": "1 mois-Accès complet-Plus"
+  },
+  {
+    "service": "WriteHuman",
+    "path": "writehuman-accounts",
+    "price": 35.01,
+    "months": 1,
+    "monthly": 35.01,
+    "descriptor": "1 mois-Ultra-Accès complet"
+  },
+  {
+    "service": "PicWish",
+    "path": "picwish",
+    "price": 8.42,
+    "months": 1,
+    "monthly": 8.42,
+    "descriptor": "1 mois-Accès complet-Pro"
+  },
+  {
+    "service": "Nim.video",
+    "path": "nim-video",
+    "price": 26.8,
+    "months": 1,
+    "monthly": 26.8,
+    "descriptor": "1 mois-Accès complet-Starter"
+  },
+  {
+    "service": "Renderforest",
+    "path": "renderforest",
+    "price": 13,
+    "months": 1,
+    "monthly": 13,
+    "descriptor": "1 mois-Lite-Accès complet"
+  },
+  {
+    "service": "Krea AI",
+    "path": "krea-ai",
+    "price": 3.5,
+    "months": 1,
+    "monthly": 3.5,
+    "descriptor": "1 mois-Accès complet-Basic"
+  },
+  {
+    "service": "Elevenlabs",
+    "path": "elevenlabs",
+    "price": 4.32,
+    "months": 3,
+    "monthly": 1.44,
+    "descriptor": "3 mois-Accès complet-Pro"
+  },
+  {
+    "service": "Microsoft Office",
+    "path": "microsoft-office-lifetime-mac-code",
+    "price": 1.7,
+    "months": null,
+    "monthly": null,
+    "descriptor": "🛡️-Accès complet-iOS-Microsoft 365 Enterprise Account"
+  },
+  {
+    "service": "SurfsharkVPN",
+    "path": "surfshark-vpn-trial-1-3-months-key",
+    "price": 17.15,
+    "months": 12,
+    "monthly": 1.43,
+    "descriptor": "1 an-1 profil privé-Starter"
+  },
+  {
+    "service": "Notion",
+    "path": "notion",
+    "price": 17.57,
+    "months": 12,
+    "monthly": 1.46,
+    "descriptor": "Accès complet-Business-1 an"
+  },
+  {
+    "service": "Autodesk",
+    "path": "autodesk",
+    "price": 16.89,
+    "months": 12,
+    "monthly": 1.41,
+    "descriptor": "Accès complet-1 an-Student"
+  },
+  {
+    "service": "replit",
+    "path": "replit",
+    "price": 12.88,
+    "months": 1,
+    "monthly": 12.88,
+    "descriptor": "1 mois-1 profil privé-Team"
+  },
+  {
+    "service": "CyberGhostVPN",
+    "path": "cyberghostvpn",
+    "price": 4.24,
+    "months": 3,
+    "monthly": 1.41,
+    "descriptor": "3 mois-1 profil privé-Adhésion"
+  },
+  {
+    "service": "Coursera",
+    "path": "coursera",
+    "price": 17.12,
+    "months": 12,
+    "monthly": 1.43,
+    "descriptor": "Accès complet-Plus-1 an"
+  },
+  {
+    "service": "Motion Array",
+    "path": "motion-array",
+    "price": 2.83,
+    "months": 1,
+    "monthly": 2.83,
+    "descriptor": "1 mois--Compte partagé"
+  },
+  {
+    "service": "Strava",
+    "path": "strava",
+    "price": 1.71,
+    "months": 1,
+    "monthly": 1.71,
+    "descriptor": "1 mois-Accès complet-Individual"
+  },
+  {
+    "service": "McAfee",
+    "path": "mcafee",
+    "price": 16.99,
+    "months": 12,
+    "monthly": 1.42,
+    "descriptor": "1 an-Accès complet-Advanced"
+  },
+  {
+    "service": "PureVPN",
+    "path": "purevpn",
+    "price": 4.29,
+    "months": 3,
+    "monthly": 1.43,
+    "descriptor": "3 mois-Accès complet-Mensuel"
+  },
+  {
+    "service": "Storytel",
+    "path": "storytel",
+    "price": 1.72,
+    "months": 1,
+    "monthly": 1.72,
+    "descriptor": "1 mois-Accès complet-"
+  },
+  {
+    "service": "Norton",
+    "path": "norton",
+    "price": 17.27,
+    "months": 12,
+    "monthly": 1.44,
+    "descriptor": "Accès complet-1 an-Standard"
+  },
+  {
+    "service": "The Wall Street Journal",
+    "path": "the-wall-street-journal",
+    "price": 25.42,
+    "months": 12,
+    "monthly": 2.12,
+    "descriptor": "1 an-Accès complet-Digital"
+  },
+  {
+    "service": "Mobbin",
+    "path": "mobbin",
+    "price": 2.82,
+    "months": 1,
+    "monthly": 2.82,
+    "descriptor": "1 mois-Pro-Compte partagé"
+  },
+  {
+    "service": "AdGuard",
+    "path": "adguard",
+    "price": 17.06,
+    "months": 12,
+    "monthly": 1.42,
+    "descriptor": "Accès complet-1 an-Individual"
+  },
+  {
+    "service": "Miro",
+    "path": "miro",
+    "price": 4.33,
+    "months": 3,
+    "monthly": 1.44,
+    "descriptor": "3 mois-1 profil privé-Business"
+  },
+  {
+    "service": "Zwift",
+    "path": "zwift",
+    "price": 14.21,
+    "months": 1,
+    "monthly": 14.21,
+    "descriptor": "1 mois-Accès complet-Individual"
+  },
+  {
+    "service": "ExitLag",
+    "path": "exitlag",
+    "price": 6.05,
+    "months": 1,
+    "monthly": 6.05,
+    "descriptor": "1 mois-Accès complet-Mensuel"
+  },
+  {
+    "service": "1Password",
+    "path": "1password",
+    "price": 13.09,
+    "months": 12,
+    "monthly": 1.09,
+    "descriptor": "Accès complet-Individual-1 an"
+  },
+  {
+    "service": "The New York Times",
+    "path": "the-new-york-times",
+    "price": 17.06,
+    "months": 12,
+    "monthly": 1.42,
+    "descriptor": "1 an-Accès complet-Individual"
+  },
+  {
+    "service": "Windows Server",
+    "path": "windows-server-key",
+    "price": 2.8,
+    "months": null,
+    "monthly": null,
+    "descriptor": "🛡️"
+  },
+  {
+    "service": "Dropbox",
+    "path": "dropbox",
+    "price": 3.01,
+    "months": 1,
+    "monthly": 3.01,
+    "descriptor": "Accès complet-Plus-1 mois"
+  },
+  {
+    "service": "UPDF",
+    "path": "updf",
+    "price": 3.05,
+    "months": 1,
+    "monthly": 3.05,
+    "descriptor": "1 mois-Accès complet-Pro"
+  },
+  {
+    "service": "PDFelement",
+    "path": "pdfelement",
+    "price": 56.54,
+    "months": 3,
+    "monthly": 18.85,
+    "descriptor": "3 mois-Accès complet-Mensuel"
+  },
+  {
+    "service": "tinder",
+    "path": "tinder-subscription-top-up",
+    "price": 13,
+    "months": 12,
+    "monthly": 1.08,
+    "descriptor": "Accès complet-Gold-1 an"
+  },
+  {
+    "service": "bitwarden",
+    "path": "bitwarden-subscription",
+    "price": 26.33,
+    "months": 12,
+    "monthly": 2.19,
+    "descriptor": "1 an-Accès complet-Premium"
+  },
+  {
+    "service": "SEMrush",
+    "path": "semrush-accounts",
+    "price": 2.07,
+    "months": 1,
+    "monthly": 2.07,
+    "descriptor": "1 mois--Compte partagé"
+  },
+  {
+    "service": "Xbox",
+    "path": "xbox",
+    "price": 1.73,
+    "months": 2,
+    "monthly": 0.86,
+    "descriptor": "2 mois-Accès complet-Ultimate"
+  },
+  {
+    "service": "PlayStation",
+    "path": "playstation",
+    "price": 38.12,
+    "months": 12,
+    "monthly": 3.18,
+    "descriptor": "1 an-Premium-Compte partagé"
+  },
+  {
+    "service": "EA Play",
+    "path": "eaplay",
+    "price": 10.42,
+    "months": 1,
+    "monthly": 10.42,
+    "descriptor": "1 mois-1 profil privé-Pro"
+  }
+]

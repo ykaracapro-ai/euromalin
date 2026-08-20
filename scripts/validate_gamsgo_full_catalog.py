@@ -17,6 +17,7 @@ REQUIRED_REL = {"sponsored", "noopener", "noreferrer"}
 def main() -> int:
     errors: list[str] = []
     slugs = [HUB_SLUG] + [offer.slug for offer in OFFERS]
+    current_slugs = [HUB_SLUG] + [offer.slug for offer in OFFERS if offer.price_record]
     for locale in ("", "en"):
         base = ROOT / locale if locale else ROOT
         for slug in slugs:
@@ -42,14 +43,21 @@ def main() -> int:
                 errors.append(f"{path}: canonical mismatch")
             if not soup.find("img", class_="article-hero-image"):
                 errors.append(f"{path}: hero image missing")
+            if slug in current_slugs:
+                title = soup.title.get_text(" ", strip=True) if soup.title else ""
+                if slug != HUB_SLUG and "dès" not in title.casefold() and "from" not in title.casefold():
+                    errors.append(f"{path}: current offer title has no dated starting price")
+                if not any("unsplash.com" in str(link.get("href")) for link in soup.find_all("a", href=True)):
+                    errors.append(f"{path}: API thumbnail attribution missing")
             if re.search(r"WPQTU.{0,40}(?:7\s*%|remise garantie)", text, re.I | re.S):
                 errors.append(f"{path}: unsupported fixed promo claim")
 
     listing = (ROOT / "articles.html").read_text(encoding="utf-8")
     sitemap = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
-    for slug in slugs:
+    for slug in current_slugs:
         if listing.count(f"articles/{slug}.html") != 2:
             errors.append(f"articles.html: bad card count for {slug}")
+    for slug in slugs:
         for prefix in ("", "en/"):
             if f"https://euromalin.com/{prefix}articles/{slug}.html" not in sitemap:
                 errors.append(f"sitemap.xml: missing {prefix}{slug}")
