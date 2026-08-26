@@ -1,6 +1,11 @@
 (function () {
   'use strict';
 
+  var currentAssetScript = document.currentScript;
+  var assetBase = currentAssetScript && currentAssetScript.src
+    ? currentAssetScript.src.replace(/script\.js(?:\?.*)?$/, '')
+    : '/assets/';
+
   /* Anti-flash: apply stored theme as early as possible */
   try {
     var saved = localStorage.getItem('euromalin-theme');
@@ -8,6 +13,8 @@
       document.documentElement.setAttribute('data-theme', saved);
     }
   } catch (e) {}
+
+  ensureTracking();
 
   document.addEventListener('DOMContentLoaded', function () {
     enhanceLegacyHeader();
@@ -17,7 +24,17 @@
     initActiveNav();
     initReveal();
     initScrollProgress();
+    initGamsGoConversionPanel();
   });
+
+  /* ----- Ensure every page benefits from the same conversion tracking ----- */
+  function ensureTracking() {
+    if (window.__euromalinTrackingReady || document.querySelector('script[src*="tracking.js"]')) return;
+    var script = document.createElement('script');
+    script.src = assetBase + 'tracking.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  }
 
   /* ----- Inject nav-toggle + theme-toggle into legacy .topbar headers ----- */
   function enhanceLegacyHeader() {
@@ -175,5 +192,52 @@
       if (!ticking) { requestAnimationFrame(update); ticking = true; }
     }, { passive: true });
     update();
+  }
+
+  /* ----- Contextual funnel on GamsGo editorial pages ----- */
+  function initGamsGoConversionPanel() {
+    if (document.querySelector('[data-conversion-panel]')) return;
+
+    var article = document.querySelector('article.article, article.hero-card');
+    var firstOffer = article && article.querySelector('.gamsgo-promo');
+    var affiliates = window.EUROMALIN_AFFILIATES;
+    var showcase = affiliates && affiliates.GAMSGO_SHOWCASE;
+    if (!article || !firstOffer || !showcase || !showcase.url) return;
+
+    var isEnglish = (document.documentElement.lang || '').toLowerCase().indexOf('en') === 0;
+    var panel = document.createElement('section');
+    panel.className = 'conversion-panel';
+    panel.setAttribute('data-conversion-panel', 'gamsgo-showcase');
+    panel.setAttribute('aria-labelledby', 'gamsgo-selection-title');
+
+    if (isEnglish) {
+      panel.innerHTML = [
+        '<div class="conversion-panel__badge">EuroMalin selection</div>',
+        '<h2 id="gamsgo-selection-title">The useful offers, all in one place</h2>',
+        '<p>Compare our selected streaming, AI and software subscriptions before choosing.</p>',
+        '<ul class="conversion-panel__proof" aria-label="Selection benefits">',
+        '<li>10 selected products</li><li>Code WPQTU</li><li>Final price checked at checkout</li>',
+        '</ul>',
+        '<div class="conversion-panel__actions">',
+        '<a class="btn btn-primary" data-cta-id="gamsgo-showcase-inline" href="' + showcase.url + '" target="_blank" rel="sponsored noopener noreferrer">View the EuroMalin selection →</a>',
+        '<a class="conversion-panel__link" data-track="cta" href="catalogue-gamsgo-complet-offres-code-wpqtu.html">Compare the full catalogue</a>',
+        '</div>'
+      ].join('');
+    } else {
+      panel.innerHTML = [
+        '<div class="conversion-panel__badge">Sélection EuroMalin</div>',
+        '<h2 id="gamsgo-selection-title">Les offres utiles, réunies au même endroit</h2>',
+        '<p>Compare notre sélection d’abonnements streaming, IA et logiciels avant de choisir.</p>',
+        '<ul class="conversion-panel__proof" aria-label="Avantages de la sélection">',
+        '<li>10 produits sélectionnés</li><li>Code WPQTU</li><li>Prix final vérifié au panier</li>',
+        '</ul>',
+        '<div class="conversion-panel__actions">',
+        '<a class="btn btn-primary" data-cta-id="gamsgo-showcase-inline" href="' + showcase.url + '" target="_blank" rel="sponsored noopener noreferrer">Voir la sélection EuroMalin →</a>',
+        '<a class="conversion-panel__link" data-track="cta" href="catalogue-gamsgo-complet-offres-code-wpqtu.html">Comparer tout le catalogue</a>',
+        '</div>'
+      ].join('');
+    }
+
+    firstOffer.insertAdjacentElement('afterend', panel);
   }
 })();

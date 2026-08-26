@@ -141,9 +141,12 @@
 and collect money every month.
     </p>
 <div class="hero-cta reveal" style="--delay: 240ms">
-<a class="btn btn-primary btn-lg" href="articles/gagnez-5-euros-en-vous-inscrivant.html">🔥 I get my €5 back</a>
-<a class="btn btn-secondary btn-lg" href="cashback.html">Compare cashbacks</a>
+<a class="btn btn-primary btn-lg" href="articles/gagnez-5-euros-en-vous-inscrivant.html" data-track="cta" data-cta-id="hero-igraal-5-euros">🔥 I get my €5 back</a>
+<a class="btn btn-secondary btn-lg" href="https://www.gamsgo.com/showcase/euromalin" data-cta-id="hero-gamsgo-showcase" target="_blank" rel="sponsored noopener noreferrer">Cut my subscription costs</a>
 </div>
+<ul class="hero-proof reveal" style="--delay: 300ms" aria-label="EuroMalin commitments">
+<li>Independent comparisons</li><li>Prices and terms checked</li><li>Affiliate links disclosed</li>
+</ul>
 </div>
 </section>
 <!-- CALCULATEUR -->
@@ -169,8 +172,25 @@ and collect money every month.
 </div>
 </div>
 <div style="display:flex; gap:10px; flex-wrap:wrap;">
-<a class="btn btn-primary" href="calculateur.html" style="flex:1; font-size:0.875rem;">See details</a>
-<a class="btn btn-secondary" href="articles/gagnez-5-euros-en-vous-inscrivant.html" style="flex:1; font-size:0.875rem;">Recover →</a>
+<a class="btn btn-primary" href="calculateur.html" data-track="cta" data-cta-id="calculator-detail" style="flex:1; font-size:0.875rem;">See details</a>
+<a class="btn btn-secondary" href="articles/gagnez-5-euros-en-vous-inscrivant.html" data-track="cta" data-cta-id="calculator-igraal" style="flex:1; font-size:0.875rem;">Recover →</a>
+</div>
+</div>
+</div>
+</section>
+<!-- CONVERSION PATH -->
+<section>
+<div class="container">
+<div class="conversion-panel" data-conversion-panel="homepage-choice" aria-labelledby="homepage-choice-title">
+<div class="conversion-panel__badge">Take action</div>
+<h2 id="homepage-choice-title">Choose the saving that suits you</h2>
+<p>Claim a shopping bonus or reduce your subscription costs through two short, clearly explained paths.</p>
+<ul class="conversion-panel__proof" aria-label="Benefits">
+<li>€5 iGraal bonus</li><li>10 selected subscriptions</li><li>No extra cost through our links</li>
+</ul>
+<div class="conversion-panel__actions">
+<a class="btn btn-primary" href="https://www.gamsgo.com/showcase/euromalin" data-cta-id="homepage-gamsgo-showcase" target="_blank" rel="sponsored noopener noreferrer">View the subscription selection →</a>
+<a class="btn btn-secondary" href="articles/gagnez-5-euros-en-vous-inscrivant.html" data-track="cta" data-cta-id="homepage-igraal-guide">Start with €5</a>
 </div>
 </div>
 </div>
@@ -273,7 +293,7 @@ and collect money every month.
 <p style="color:rgba(255,255,255,0.85); font-size:1.1rem; max-width:55ch; margin-top:12px;">
         Register on iGraal, receive your €5 bonus (€+1/extension), withdraw it in 30 days. Five steps. Real money.
       </p>
-<a class="btn btn-secondary btn-lg" href="https://fr.igraal.com/parrainage?parrain=AG_69131d3a40583&amp;utm_medium=raf&amp;utm_source=refer_friend" rel="sponsored noopener noreferrer" style="margin-top:24px; color:var(--brand-700); font-weight:600;" target="_blank">
+<a class="btn btn-secondary btn-lg" href="https://fr.igraal.com/parrainage?parrain=AG_69131d3a40583&amp;utm_medium=raf&amp;utm_source=refer_friend" data-cta-id="homepage-igraal-final" rel="sponsored noopener noreferrer" style="margin-top:24px; color:var(--brand-700); font-weight:600;" target="_blank">
         🔥 Create my iGraal account →
       </a>
 </div>
@@ -358,7 +378,8 @@ if (icInput) {
   icCalc();
 }
 </script>
-<script src="../assets/theme-toggle.js"></script>
-<script defer="" src="../assets/affiliate-config.js"></script><script src="../assets/script.js"></script>
+<script defer src="../assets/affiliate-config.js"></script>
+<script defer src="../assets/tracking.js"></script>
+<script defer src="../assets/script.js"></script>
 </body>
 </html>

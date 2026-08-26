@@ -1,135 +1,174 @@
 /**
- * EuroMalin - Affiliate Click Tracking
- * Envoie les événements à GA4 + DataLayer (prêt pour GTM)
- * 
- * Installation : GTM container à créer sur tagmanager.google.com
- * GTM ID à configurer : Remplacer GTM-XXXXXXX dans le <head>
- * 
- * Événements trackés :
- * - affiliate_click : clic sur lien iGraal, Amazon, GamsGo, U7BUY, eBuyClub
- * - cta_click : clic sur CTA interne (article, bon plan)
- * - page_view : vue de page (déjà géré par GA4)
+ * EuroMalin - suivi des conversions affiliées.
+ *
+ * Charge GA4 sur les pages qui ne possèdent pas encore le tag de base, puis
+ * mesure les clics commerciaux et les étapes fortes du parcours. Le garde-fou
+ * global permet de charger ce fichier depuis le HTML ou depuis script.js sans
+ * créer de double écouteur.
  */
-
-(function() {
+(function () {
   'use strict';
 
-  // === CONFIG ===
-  const TRACKING = {
-    ga4Enabled: typeof gtag === 'function',
-    debug: false  // Passe à true pour voir les logs en console
-  };
+  if (window.__euromalinTrackingReady) return;
+  window.__euromalinTrackingReady = true;
 
-  function log(...args) {
-    if (TRACKING.debug) console.log('[Tracking]', ...args);
+  var MEASUREMENT_ID = 'G-DXH0N60DDB';
+  var DEBUG = false;
+
+  function log() {
+    if (!DEBUG || !window.console) return;
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift('[EuroMalin tracking]');
+    console.log.apply(console, args);
   }
 
-  /**
-   * Identifie le type de lien affilié à partir de l'URL
-   */
-  function getAffiliateData(url) {
-    if (!url) return null;
+  function ensureGa4() {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
 
-    if (url.includes('fr.igraal.com')) {
-      return { merchant: 'igraal', type: 'cashback', label: 'iGraal' };
+    var selector = 'script[src*="googletagmanager.com/gtag/js?id=' + MEASUREMENT_ID + '"]';
+    if (document.querySelector(selector)) return;
+
+    var script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(MEASUREMENT_ID);
+    document.head.appendChild(script);
+
+    window.gtag('js', new Date());
+    window.gtag('config', MEASUREMENT_ID);
+  }
+
+  function getAffiliateData(rawUrl) {
+    if (!rawUrl) return null;
+    var url = rawUrl.toLowerCase();
+
+    if (url.indexOf('fr.igraal.com') !== -1) {
+      return { merchant: 'igraal', offerType: 'cashback', destinationType: 'referral' };
     }
-    if (url.includes('amazon.fr')) {
-      return { merchant: 'amazon', type: 'product', label: 'Amazon' };
+    if (url.indexOf('amazon.fr') !== -1) {
+      return { merchant: 'amazon', offerType: 'product', destinationType: 'product' };
     }
-    if (url.includes('gamsgo.com')) {
-      return { merchant: 'gamsgo', type: 'subscription', label: 'GamsGo' };
+    if (url.indexOf('gamsgo.com/showcase/') !== -1) {
+      return { merchant: 'gamsgo', offerType: 'subscription', destinationType: 'showcase' };
     }
-    if (url.includes('u7buy.com')) {
-      return { merchant: 'u7buy', type: 'marketplace', label: 'U7BUY' };
+    if (url.indexOf('gamsgo.com') !== -1) {
+      return { merchant: 'gamsgo', offerType: 'subscription', destinationType: 'store' };
     }
-    if (url.includes('ebuyclub.com')) {
-      return { merchant: 'ebuyclub', type: 'cashback', label: 'eBuyClub' };
+    if (url.indexOf('u7buy.com') !== -1) {
+      return { merchant: 'u7buy', offerType: 'marketplace', destinationType: 'store' };
+    }
+    if (url.indexOf('ebuyclub.com') !== -1) {
+      return { merchant: 'ebuyclub', offerType: 'cashback', destinationType: 'referral' };
+    }
+    if (url.indexOf('widilo.fr') !== -1) {
+      return { merchant: 'widilo', offerType: 'cashback', destinationType: 'referral' };
     }
     return null;
   }
 
-  /**
-   * Extrait le slug de l'article depuis l'URL courante
-   */
-  function getArticleSlug() {
-    const path = window.location.pathname;
-    const match = path.match(/articles\/(.+)\.html/);
-    return match ? match[1] : 'homepage';
+  function getPageKey() {
+    var path = window.location.pathname || '/';
+    if (path === '/' || path === '/index.html') return 'homepage';
+    return path.replace(/^\//, '').replace(/\.html$/, '') || 'homepage';
   }
 
-  /**
-   * Envoie l'événement à GA4 + DataLayer
-   */
+  function normaliseLabel(value) {
+    return (value || '')
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9à-ÿ]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .substring(0, 60) || 'link';
+  }
+
+  function getCtaPosition(link) {
+    if (link.closest('[data-conversion-panel]')) return 'conversion-panel';
+    if (link.closest('.hero, .hero-mini')) return 'hero';
+    if (link.closest('.gamsgo-promo, .affiliate-cta')) return 'inline-offer';
+    if (link.closest('.site-header, .topbar, header')) return 'navigation';
+    if (link.closest('footer')) return 'footer';
+    return 'content';
+  }
+
+  function getDestinationPath(rawUrl) {
+    try {
+      var url = new URL(rawUrl);
+      return (url.hostname + url.pathname).substring(0, 160);
+    } catch (e) {
+      return String(rawUrl || '').substring(0, 160);
+    }
+  }
+
   function trackEvent(eventName, params) {
-    log('Event:', eventName, params);
-    
-    // 1. DataLayer (prêt pour GTM)
-    if (window.dataLayer) {
-      window.dataLayer.push({
-        event: eventName,
-        ...params
-      });
-    }
-
-    // 2. GA4 direct (si gtag chargé)
-    if (TRACKING.ga4Enabled) {
-      gtag('event', eventName, params);
-    }
+    ensureGa4();
+    window.gtag('event', eventName, params || {});
+    log(eventName, params);
   }
 
-  /**
-   * Intercepte les clics sur les liens affiliés
-   */
   function setupClickTracking() {
-    document.addEventListener('click', function(e) {
-      const link = e.target.closest('a');
+    document.addEventListener('click', function (event) {
+      var link = event.target && event.target.closest ? event.target.closest('a') : null;
       if (!link || !link.href) return;
 
-      const affiliate = getAffiliateData(link.href);
-      const articleSlug = getArticleSlug();
-
-      // CTA position dans la page
-      const rect = link.getBoundingClientRect();
-      const viewportMid = window.innerHeight / 2;
-      const ctaPosition = rect.top < viewportMid ? 'above-fold' : 'below-fold';
-
-      // Texte du bouton
-      const buttonText = link.textContent.trim().substring(0, 60);
+      var affiliate = getAffiliateData(link.href);
+      var buttonText = (link.textContent || '').trim().replace(/\s+/g, ' ').substring(0, 80);
+      var ctaId = link.getAttribute('data-cta-id') || normaliseLabel(buttonText);
+      var common = {
+        page_key: getPageKey(),
+        page_path: window.location.pathname,
+        language: document.documentElement.lang || 'fr',
+        cta_id: ctaId,
+        cta_position: getCtaPosition(link),
+        button_text: buttonText
+      };
 
       if (affiliate) {
-        // Clic sur lien affilié
-        trackEvent('affiliate_click', {
+        trackEvent('affiliate_click', Object.assign({}, common, {
           merchant_name: affiliate.merchant,
-          merchant_label: affiliate.label,
-          offer_type: affiliate.type,
-          article_slug: articleSlug,
-          cta_position: ctaPosition,
-          button_text: buttonText,
-          link_url: link.href.substring(0, 200),
-          page_url: window.location.href
-        });
-        log(`🔗 Clic affilié: ${affiliate.label} depuis ${articleSlug}`);
-      } else if (link.href.includes(window.location.hostname) && 
-                 link.href.includes('/bons-plans/')) {
-        // Clic vers une fiche bon plan interne
-        trackEvent('cta_click', {
-          cta_type: 'bon-plan',
-          article_slug: articleSlug,
-          cta_position: ctaPosition,
-          button_text: buttonText,
-          target_url: link.href
-        });
-        log(`📄 Clic bon plan: ${buttonText} depuis ${articleSlug}`);
+          offer_type: affiliate.offerType,
+          destination_type: affiliate.destinationType,
+          destination_path: getDestinationPath(link.href)
+        }));
+        return;
       }
-    }, true); // capture phase pour intercepter avant navigation
+
+      var destination;
+      try { destination = new URL(link.href); } catch (e) { return; }
+      var isInternal = destination.hostname === window.location.hostname;
+      var isTrackedCta = link.matches('[data-track="cta"], .btn') || !!link.closest('.hero-cta, .calc-ctas');
+      if (isInternal && isTrackedCta) {
+        trackEvent('cta_click', Object.assign({}, common, {
+          destination_path: destination.pathname
+        }));
+      }
+    }, true);
   }
 
-  // === INIT ===
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupClickTracking);
-  } else {
+  function setupCalculatorTracking() {
+    var input = document.getElementById('indexCalcInput');
+    if (!input) return;
+
+    input.addEventListener('change', function () {
+      var result = document.getElementById('indexLostAmount');
+      trackEvent('calculator_complete', {
+        page_key: getPageKey(),
+        monthly_spend: Number(input.value) || 0,
+        estimated_annual_savings: result ? Number((result.textContent || '').replace(/[^0-9]/g, '')) || 0 : 0
+      });
+    });
+  }
+
+  function init() {
+    ensureGa4();
     setupClickTracking();
+    setupCalculatorTracking();
   }
 
-  log('✅ Tracking initialisé. Article:', getArticleSlug());
+  window.euromalinTrack = trackEvent;
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+  } else {
+    init();
+  }
 })();

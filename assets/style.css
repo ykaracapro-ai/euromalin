@@ -377,6 +377,22 @@ section { padding-block: clamp(48px, 8vw, 96px); }
 }
 .hero .lead { margin-top: 18px; }
 .hero-cta { margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap; }
+.hero-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 18px 0 0;
+  padding: 0;
+  color: var(--text-subtle);
+  font-size: .82rem;
+  list-style: none;
+}
+.hero-proof li::before {
+  content: '✓';
+  margin-right: 6px;
+  color: var(--brand-600);
+  font-weight: 800;
+}
 
 /* ---------- Cards / Grids ---------- */
 .grid { display: grid; gap: 20px; }
@@ -1318,6 +1334,84 @@ details[open] summary::after { content: "−"; }
   .gamsgo-promo { align-items: stretch; flex-direction: column; }
   .gamsgo-promo > div { min-width: 0; }
   .gamsgo-promo .btn { width: 100%; text-align: center; white-space: normal; }
+}
+
+/* ----- Conversion path: editorial guide -> curated GamsGo showcase ----- */
+.conversion-panel {
+  position: relative;
+  overflow: hidden;
+  margin: 32px 0;
+  padding: clamp(24px, 4vw, 38px);
+  background:
+    radial-gradient(circle at 100% 0%, color-mix(in oklab, var(--brand-500) 18%, transparent), transparent 42%),
+    var(--surface);
+  border: 1px solid color-mix(in oklab, var(--brand-500) 35%, var(--border));
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+.conversion-panel__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 6px 10px;
+  color: var(--brand-700);
+  background: color-mix(in oklab, var(--brand-500) 12%, var(--surface));
+  border: 1px solid color-mix(in oklab, var(--brand-500) 24%, var(--border));
+  border-radius: 999px;
+  font: 700 .72rem/1.3 var(--font-mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.conversion-panel h2 {
+  max-width: 22ch;
+  margin: 0;
+  font-size: clamp(1.55rem, 3vw, 2.2rem);
+}
+.conversion-panel > p {
+  max-width: 64ch;
+  margin: 12px 0 0;
+  color: var(--text-muted);
+}
+.conversion-panel__proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--text-muted);
+  font-size: .9rem;
+}
+.conversion-panel__proof li::before {
+  content: '✓';
+  margin-right: 7px;
+  color: var(--brand-600);
+  font-weight: 800;
+}
+.conversion-panel__actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px 20px;
+  margin-top: 24px;
+}
+.conversion-panel__actions .btn { text-align: center; }
+.conversion-panel__link {
+  color: var(--text-muted);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
+  text-underline-offset: 4px;
+}
+.conversion-panel__link:hover { color: var(--brand-700); }
+
+@media (max-width: 620px) {
+  .conversion-panel__proof { display: grid; }
+  .conversion-panel__actions { align-items: stretch; flex-direction: column; }
+  .conversion-panel__actions .btn,
+  .conversion-panel__link { width: 100%; }
+  .conversion-panel__link { padding: 6px 0; text-align: center; }
 }
 
 @media (max-width: 480px) {

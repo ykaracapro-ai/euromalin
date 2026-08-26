@@ -21,6 +21,11 @@
       promo: 'WPQTU',
       name: 'GamsGo',
     },
+    GAMSGO_SHOWCASE: {
+      url: 'https://www.gamsgo.com/showcase/euromalin',
+      promo: 'WPQTU',
+      name: 'Sélection EuroMalin sur GamsGo',
+    },
     GAMSGO_PLAYSTATION: {
       url: 'https://www.gamsgo.com/fr/accounts/playstation/partner/Px5AZ',
       promo: 'WPQTU',

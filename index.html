@@ -146,9 +146,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       et récupérer de l'argent tous les mois.
     </p>
     <div class="hero-cta reveal" style="--delay: 240ms">
-      <a href="articles/gagnez-5-euros-en-vous-inscrivant.html" class="btn btn-primary btn-lg">🔥 Je récupère mes 5€</a>
-      <a href="cashback.html" class="btn btn-secondary btn-lg">Comparer les cashbacks</a>
+      <a href="articles/gagnez-5-euros-en-vous-inscrivant.html" class="btn btn-primary btn-lg" data-track="cta" data-cta-id="hero-igraal-5-euros">🔥 Je récupère mes 5€</a>
+      <a href="https://www.gamsgo.com/showcase/euromalin" class="btn btn-secondary btn-lg" data-cta-id="hero-gamsgo-showcase" target="_blank" rel="sponsored noopener noreferrer">Réduire mes abonnements</a>
     </div>
+    <ul class="hero-proof reveal" style="--delay: 300ms" aria-label="Engagements EuroMalin">
+      <li>Comparatifs indépendants</li>
+      <li>Prix et conditions vérifiés</li>
+      <li>Liens affiliés signalés</li>
+    </ul>
   </div>
 </section>
 
@@ -178,8 +183,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
       <div style="display:flex; gap:10px; flex-wrap:wrap;">
-        <a class="btn btn-primary" href="calculateur.html" style="flex:1; font-size:0.875rem;">Voir le détail</a>
-        <a class="btn btn-secondary" href="articles/gagnez-5-euros-en-vous-inscrivant.html" style="flex:1; font-size:0.875rem;">Récupérer →</a>
+        <a class="btn btn-primary" href="calculateur.html" data-track="cta" data-cta-id="calculator-detail" style="flex:1; font-size:0.875rem;">Voir le détail</a>
+        <a class="btn btn-secondary" href="articles/gagnez-5-euros-en-vous-inscrivant.html" data-track="cta" data-cta-id="calculator-igraal" style="flex:1; font-size:0.875rem;">Récupérer →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARCOURS DE CONVERSION -->
+<section>
+  <div class="container">
+    <div class="conversion-panel" data-conversion-panel="homepage-choice" aria-labelledby="homepage-choice-title">
+      <div class="conversion-panel__badge">Passe à l’action</div>
+      <h2 id="homepage-choice-title">Choisis l’économie qui te ressemble</h2>
+      <p>Récupère un bonus sur tes achats ou réduis le coût de tes abonnements : deux parcours courts, expliqués étape par étape.</p>
+      <ul class="conversion-panel__proof" aria-label="Avantages">
+        <li>5 € de bonus iGraal</li>
+        <li>10 abonnements sélectionnés</li>
+        <li>Aucun surcoût via nos liens</li>
+      </ul>
+      <div class="conversion-panel__actions">
+        <a class="btn btn-primary" href="https://www.gamsgo.com/showcase/euromalin" data-cta-id="homepage-gamsgo-showcase" target="_blank" rel="sponsored noopener noreferrer">Voir la sélection abonnements →</a>
+        <a class="btn btn-secondary" href="articles/gagnez-5-euros-en-vous-inscrivant.html" data-track="cta" data-cta-id="homepage-igraal-guide">Commencer avec 5 €</a>
       </div>
     </div>
   </div>
@@ -288,7 +313,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p style="color:rgba(255,255,255,0.85); font-size:1.1rem; max-width:55ch; margin-top:12px;">
         Inscris-toi sur iGraal, reçois ton bonus de 5€ (+1€/extension), retire-le dans 30 jours. 5 étapes. De l'argent réel.
       </p>
-      <a class="btn btn-secondary btn-lg" href="https://fr.igraal.com/parrainage?parrain=AG_69131d3a40583&utm_medium=raf&utm_source=refer_friend" style="margin-top:24px; color:var(--brand-700); font-weight:600;" rel="sponsored noopener noreferrer" target="_blank">
+      <a class="btn btn-secondary btn-lg" href="https://fr.igraal.com/parrainage?parrain=AG_69131d3a40583&utm_medium=raf&utm_source=refer_friend" data-cta-id="homepage-igraal-final" style="margin-top:24px; color:var(--brand-700); font-weight:600;" rel="sponsored noopener noreferrer" target="_blank">
         🔥 Créer mon compte iGraal →
       </a>
     </div>
@@ -376,7 +401,8 @@ if (icInput) {
   icCalc();
 }
 </script>
-<script src="assets/theme-toggle.js"></script>
-<script src="assets/affiliate-config.js" defer></script><script src="assets/script.js"></script>
+<script src="assets/affiliate-config.js" defer></script>
+<script src="assets/tracking.js" defer></script>
+<script src="assets/script.js" defer></script>
 </body>
 </html>
