@@ -441,9 +441,20 @@ def u7_url(path: str = "/") -> str:
     return U7_AFFILIATE
 
 
-def head(title: str, description: str, slug: str, faq: list[tuple[str, str]]) -> str:
+def head(
+    title: str,
+    description: str,
+    slug: str,
+    faq: list[tuple[str, str]],
+    *,
+    seo_title: str | None = None,
+    seo_description: str | None = None,
+) -> str:
     canonical = f"https://euromalin.com/articles/{slug}.html"
     image = f"https://euromalin.com/assets/img/articles/{slug}.jpg"
+    document_title = seo_title or f"{title} • EuroMalin"
+    social_title = seo_title or title
+    meta_description = seo_description or description
     article_schema = {
         "@context": "https://schema.org",
         "@type": "Article",
@@ -501,8 +512,8 @@ def head(title: str, description: str, slug: str, faq: list[tuple[str, str]]) ->
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>{esc(title)} • EuroMalin</title>
-<meta name="description" content="{esc(description)}"/>
+<title>{esc(document_title)}</title>
+<meta name="description" content="{esc(meta_description)}"/>
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large"/>
 <meta name="author" content="EuroMalin"/>
 <meta name="theme-color" content="#0f2d40" media="(prefers-color-scheme: light)"/>
@@ -510,14 +521,14 @@ def head(title: str, description: str, slug: str, faq: list[tuple[str, str]]) ->
 <meta name="color-scheme" content="light dark"/>
 <meta property="og:type" content="article"/>
 <meta property="og:site_name" content="EuroMalin"/>
-<meta property="og:title" content="{esc(title)}"/>
-<meta property="og:description" content="{esc(description)}"/>
+<meta property="og:title" content="{esc(social_title)}"/>
+<meta property="og:description" content="{esc(meta_description)}"/>
 <meta property="og:url" content="{canonical}"/>
 <meta property="og:image" content="{image}"/>
 <meta property="og:locale" content="fr_FR"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:title" content="{esc(title)}"/>
-<meta name="twitter:description" content="{esc(description)}"/>
+<meta name="twitter:title" content="{esc(social_title)}"/>
+<meta name="twitter:description" content="{esc(meta_description)}"/>
 <link rel="canonical" href="{canonical}"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>

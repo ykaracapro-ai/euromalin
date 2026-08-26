@@ -120,6 +120,45 @@ class Offer:
             f"{DISPLAY_DATE}, durée, type d’accès, risques, code {GAMSGO_CODE} et lien partenaire."
         )
 
+    @property
+    def seo_title(self) -> str:
+        record = self.price_record
+        if record and record.get("monthly") is not None:
+            price = f"{format_eur(float(record['monthly']))} €/mois"
+            candidates = (
+                f"{self.service} moins cher : dès {price} sur GamsGo",
+                f"{self.service} dès {price} sur GamsGo",
+                f"{self.service} {price} | GamsGo",
+            )
+        elif record and record.get("price") is not None:
+            price = f"{format_eur(float(record['price']))} €"
+            candidates = (
+                f"{self.service} moins cher : dès {price} sur GamsGo",
+                f"{self.service} dès {price} sur GamsGo",
+                f"{self.service} {price} | GamsGo",
+            )
+        else:
+            candidates = (
+                f"{self.service} sur GamsGo : prix et avis 2026",
+                f"{self.service} sur GamsGo : notre avis",
+                f"{self.service} | GamsGo",
+            )
+        return next((candidate for candidate in candidates if len(candidate) <= 60), candidates[-1])
+
+    @property
+    def seo_description(self) -> str:
+        record = self.price_record
+        if record and record.get("monthly") is not None:
+            price = f"dès {format_eur(float(record['monthly']))} €/mois"
+        elif record and record.get("price") is not None:
+            price = f"dès {format_eur(float(record['price']))} €"
+        else:
+            price = "avec prix à vérifier"
+        return (
+            f"{self.service} sur GamsGo {price}. Prix relevé le {DISPLAY_DATE} : "
+            f"type d’accès, risques et code {GAMSGO_CODE} à contrôler avant l’achat."
+        )
+
 
 # Missing services from the public subscription catalogue and its expanded
 # navigation, compared with the 90 French articles present before this audit.
@@ -438,7 +477,14 @@ def page(offer: Offer) -> str:
     checked += f"<li>{esc(offer.specific_check.capitalize())}.</li>"
     title = offer.title
     description = offer.description
-    page_head = head(title, description, offer.slug, faq).replace("2026-07-24", TODAY)
+    page_head = head(
+        title,
+        description,
+        offer.slug,
+        faq,
+        seo_title=offer.seo_title,
+        seo_description=offer.seo_description,
+    ).replace("2026-07-24", TODAY)
     return page_head + header() + f"""<main id="main">
 <section class="hero-mini"><div class="container"><div class="breadcrumbs"><a href="../index.html">Accueil</a> · <a href="../articles.html">Articles</a> · GamsGo</div><div class="hero-card"><div class="eyebrow">Catalogue vérifié • {DISPLAY_DATE}</div><h1>{esc(title)}</h1><p class="lead">{esc(description)}</p></div></div></section>
 <section class="section"><div class="container page-grid"><article class="hero-card article">
@@ -459,9 +505,31 @@ def page(offer: Offer) -> str:
 <h2>Le code promo GamsGo {GAMSGO_CODE}</h2>
 <p>Le code partenaire EuroMalin est <strong><code>{GAMSGO_CODE}</code></strong>. Il doit rester visible avant la validation du paiement, mais EuroMalin n’annonce pas un pourcentage fixe : l’éligibilité peut dépendre du produit, du vendeur, de la période ou du compte client. Si le panier ne montre aucune économie, considérez que le code ne s’applique pas à cette commande.</p>
 {promo_cta(offer.service, compact=True)}
+{related_guides(offer)}
 <h2>Questions fréquentes</h2><div class="faq">{''.join(f'<details><summary>{esc(q)}</summary><p>{esc(a)}</p></details>' for q, a in faq)}</div>
 <h2>Sources et date de contrôle</h2><p>Comparaison effectuée le {DISPLAY_DATE} à partir du <a href="{CATALOG_URL}" target="_blank" rel="noopener noreferrer">catalogue public GamsGo en français</a>. La disponibilité et les conditions évoluent : relisez toujours la fiche et le panier. Le bouton commercial utilise le <a href="{GAMSGO_URL}" target="_blank" rel="sponsored noopener noreferrer">lien partenaire standard EuroMalin</a>.</p>
 </article><aside class="sidebar"><div class="sidebar-card"><div class="kicker">Catalogue complet</div><h3>Toutes les offres GamsGo comparées</h3><a class="btn ghost" href="{HUB_SLUG}.html">Voir le tableau</a></div><div class="sidebar-card"><div class="kicker">Code EuroMalin</div><h3>{GAMSGO_CODE}</h3><p>À tester au panier, puis vérifier sur le total.</p></div></aside></div></section></main>""" + footer()
+
+
+def related_guides(offer: Offer) -> str:
+    peers = sorted(
+        (item for item in OFFERS if item.category == offer.category and item.slug != offer.slug),
+        key=lambda item: item.service.casefold(),
+    )
+    if not peers:
+        return ""
+    insertion = next(
+        (index for index, item in enumerate(peers) if item.service.casefold() > offer.service.casefold()),
+        len(peers),
+    )
+    choices = [peers[(insertion - 1) % len(peers)], peers[insertion % len(peers)]]
+    links = "".join(
+        f'<li><a href="{item.slug}.html">{esc(item.service)} sur GamsGo : prix et précautions</a></li>'
+        for item in choices
+    )
+    return f"""<!-- seo-related-gamsgo:begin -->
+<section class="related-guides" aria-labelledby="related-gamsgo"><h2 id="related-gamsgo">Comparer des offres similaires</h2><ul>{links}<li><a href="{HUB_SLUG}.html">Catalogue GamsGo complet et prix relevés</a></li><li><a href="gamsgo-avis-2026.html">Avis GamsGo 2026 : fiabilité et risques</a></li></ul></section>
+<!-- seo-related-gamsgo:end -->"""
 
 
 def hub_page() -> tuple[str, str, str]:
@@ -490,7 +558,17 @@ def hub_page() -> tuple[str, str, str]:
         rows.sort(key=lambda row: row[0].casefold())
         body = "".join(f'<tr><td><a href="{esc(slug)}.html">{esc(service)}</a></td><td>{esc(price)}</td><td><a href="{esc(slug)}.html">Lire le guide</a></td></tr>' for service, slug, price in rows)
         groups.append(f'<h3>{category} — {len(rows)} offres ou familles</h3><div class="responsive-table"><table><thead><tr><th>Service</th><th>Prix relevé</th><th>Page</th></tr></thead><tbody>{body}</tbody></table></div>')
-    page_head = head(title, description, HUB_SLUG, faq).replace("2026-07-24", TODAY)
+    page_head = head(
+        title,
+        description,
+        HUB_SLUG,
+        faq,
+        seo_title=f"Catalogue GamsGo 2026 : offres, prix et code {GAMSGO_CODE}",
+        seo_description=(
+            f"Catalogue GamsGo vérifié le {DISPLAY_DATE} : prix relevés, guides par service, "
+            f"risques à contrôler et code {GAMSGO_CODE} à tester au panier."
+        ),
+    ).replace("2026-07-24", TODAY)
     content = page_head + header() + f"""<main id="main"><section class="hero-mini"><div class="container"><div class="breadcrumbs"><a href="../index.html">Accueil</a> · <a href="../articles.html">Articles</a> · GamsGo</div><div class="hero-card"><div class="eyebrow">Audit complet • {DISPLAY_DATE}</div><h1>{esc(title)}</h1><p class="lead">{esc(description)}</p></div></div></section>
 <section class="section"><div class="container page-grid"><article class="hero-card article">{disclosure()}
 <figure class="article-hero"><img class="article-hero-image" src="../assets/img/articles/{HUB_SLUG}.jpg" alt="Catalogue GamsGo comparé par EuroMalin" loading="eager" decoding="async" width="1200" height="675"/><figcaption class="article-hero-credit">Illustration EuroMalin • audit du {DISPLAY_DATE}</figcaption></figure>
