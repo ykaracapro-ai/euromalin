@@ -22,10 +22,11 @@
 <link href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" rel="stylesheet" type="text/css"/>
 <script data-cfasync="false" src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
 <script data-cfasync="false">
-window.cookieconsent.initialise({
+window.addEventListener('DOMContentLoaded', function () {
+  window.cookieconsent.initialise({
   "palette": {
-    "popup": { "background": "#1e3a5f", "text": "#ffffff" },
-    "button": { "background": "#2563eb", "text": "#ffffff" }
+    "popup": { "background": "#17130f", "text": "#fff8ef" },
+    "button": { "background": "#ff4f1f", "text": "#ffffff" }
   },
   "position": "bottom",
   "type": "opt-out",
@@ -35,6 +36,7 @@ window.cookieconsent.initialise({
     "link": "Learn more",
     "href": "privacy.html"
   }
+});
 });
 </script>
 <link href="https://euromalin.com/en/articles/meilleurs-sites-cashback.html" rel="canonical"/>
