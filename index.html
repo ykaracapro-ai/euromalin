@@ -19,6 +19,7 @@
   <meta name="twitter:description" content="Cashback, astuces, comparatifs. EuroMalin te file les bons plans pour payer moins et récupérer de l&#x27;argent tous les mois." />
 
   <link rel="canonical" href="https://euromalin.com/" />
+  <link rel="preconnect" href="https://assets.watermelon.sh" crossorigin />
 
   <!-- Anti-flash : applique le thème stocké avant le rendu -->
   <script>
@@ -32,7 +33,7 @@
     })();
   </script>
 
-  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/style.css?v=3" />
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-DXH0N60DDB"></script>
@@ -49,14 +50,16 @@
   window.addEventListener('DOMContentLoaded', function () {
     window.cookieconsent.initialise({
       "palette": {
-        "popup": { "background": "#1e3a5f", "text": "#ffffff" },
-        "button": { "background": "#2563eb", "text": "#ffffff" }
+        "popup": { "background": "#17130f", "text": "#fff8ef" },
+        "button": { "background": "#ff4f1f", "text": "#ffffff" }
       },
       "position": "bottom",
       "type": "opt-out",
       "content": {
         "message": "Ce site utilise des cookies pour améliorer ton expérience et mesurer l'audience.",
         "dismiss": "OK, j'accepte",
+        "allow": "Accepter",
+        "deny": "Refuser",
         "link": "En savoir plus",
         "href": "privacy.html"
       }
@@ -97,7 +100,7 @@
   <link rel="alternate" hreflang="x-default" href="https://euromalin.com/" />
   <!-- euromalin-bilingual:end -->
 </head>
-<body>
+<body class="home-page">
 
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TP2JK32V"
@@ -137,56 +140,60 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <main id="main">
 <!-- HERO -->
-<section class="hero">
+<section class="hero home-hero">
   <div class="container">
-    <span class="eyebrow reveal"><span class="dot"></span>Mis à jour aujourd'hui</span>
-    <h1 class="reveal" style="--delay: 80ms">
-      Ne paie plus jamais<br>le <span class="accent">prix fort.</span>
+    <span class="eyebrow"><span class="dot"></span>Les bons plans, sans le bruit</span>
+    <h1>
+      Ton argent mérite <span class="accent">un meilleur plan.</span>
     </h1>
-    <p class="lead reveal" style="--delay: 160ms">
-      Cashback, bons plans, comparatifs et astuces simples pour payer moins
-      et récupérer de l'argent tous les mois.
+    <p class="lead">
+      Des comparatifs clairs, des prix vérifiés et des méthodes concrètes pour payer moins — sans perdre des heures à chercher.
     </p>
-    <div class="hero-cta reveal" style="--delay: 240ms">
-      <a href="articles/gagnez-5-euros-en-vous-inscrivant.html" class="btn btn-primary btn-lg" data-track="cta" data-cta-id="hero-igraal-5-euros">🔥 Je récupère mes 5€</a>
+    <div class="hero-cta">
+      <a href="articles/gagnez-5-euros-en-vous-inscrivant.html" class="btn btn-primary btn-lg" data-track="cta" data-cta-id="hero-igraal-5-euros">Récupérer mes 5€ <span aria-hidden="true">→</span></a>
       <a href="https://www.gamsgo.com/showcase/euromalin" class="btn btn-secondary btn-lg" data-cta-id="hero-gamsgo-showcase" target="_blank" rel="sponsored noopener noreferrer">Réduire mes abonnements</a>
     </div>
-    <ul class="hero-proof reveal" style="--delay: 300ms" aria-label="Engagements EuroMalin">
-      <li>Comparatifs indépendants</li>
-      <li>Prix et conditions vérifiés</li>
-      <li>Liens affiliés signalés</li>
-    </ul>
+    <div class="hero-proof" aria-label="Les engagements EuroMalin">
+      <span>Prix vérifiés</span>
+      <span>Comparatifs utiles</span>
+      <span>Liens affiliés signalés</span>
+    </div>
   </div>
 </section>
 
 <!-- CALCULATEUR -->
-<section style="background: var(--bg-subtle); border-block: 1px solid var(--border);">
-  <div class="container">
-    <h2>Combien tu perds par mois ?</h2>
-    <p class="lead mt-2">Sans cashback, sans apps de remboursement. Calcule en 5 secondes.</p>
-
-    <div style="max-width: 480px; margin-top: 32px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 28px;">
-      <div style="display:flex; align-items:center; gap:10px; margin-bottom: 20px;">
-        <span style="font-size:1.1rem; font-weight:600; color:var(--text-muted);">€</span>
-        <input id="indexCalcInput" type="number" min="0" max="50000" value="300" step="10"
-          style="width:100%; padding:10px 14px; font-size:1.2rem; font-weight:700; text-align:center;
-                 border:2px solid var(--border-strong); border-radius: var(--radius); background:var(--bg);
-                 color:var(--text); outline:none; font-family:inherit; transition: border-color var(--dur-fast) var(--ease);"
-          onfocus="this.style.borderColor='var(--brand-600)'" onblur="this.style.borderColor='var(--border-strong)'"/>
+<section class="home-section calculator-section">
+  <div class="container calculator-layout">
+    <div class="calculator-intro">
+      <span class="section-kicker">Le test en 5 secondes</span>
+      <h2>Combien laisses-tu filer chaque année&nbsp;?</h2>
+      <p class="lead">Indique tes dépenses mensuelles. On estime le cashback, les abonnements oubliés et les remboursements que tu pourrais récupérer.</p>
+      <div class="calculator-points" aria-label="Avantages du calculateur">
+        <span>Gratuit</span>
+        <span>Sans inscription</span>
+        <span>Résultat immédiat</span>
       </div>
-      <div style="text-align:center; margin-bottom: 20px;">
-        <div style="font-size:0.875rem; color:var(--text-subtle); margin-bottom:6px;">Tu perds environ</div>
-        <div style="font-size:2.5rem; font-weight:700; color:var(--brand-600); line-height:1;" id="indexLostAmount">0€</div>
-        <div style="font-size:0.9rem; color:var(--text-subtle); margin-top:4px;" id="indexLostSub">par an</div>
-        <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:12px;">
-          <span style="font-size:0.8rem; padding:4px 10px; background:var(--bg-muted); border-radius:999px; color:var(--text-muted);">🥙 <span id="indexKebabs">0</span> kebabs</span>
-          <span style="font-size:0.8rem; padding:4px 10px; background:var(--bg-muted); border-radius:999px; color:var(--text-muted);">☕ <span id="indexCoffees">0</span> cafés</span>
-          <span style="font-size:0.8rem; padding:4px 10px; background:var(--bg-muted); border-radius:999px; color:var(--text-muted);">🍺 <span id="indexBieres">0</span> pintes</span>
+    </div>
+
+    <div class="calculator-card">
+      <label class="calc-label" for="indexCalcInput">Dépenses mensuelles</label>
+      <div class="calc-field">
+        <span aria-hidden="true">€</span>
+        <input id="indexCalcInput" type="number" min="0" max="50000" value="300" step="10" inputmode="decimal" />
+      </div>
+      <div class="calc-result" aria-live="polite">
+        <span>Potentiel estimé</span>
+        <strong id="indexLostAmount">0€</strong>
+        <p id="indexLostSub">par an</p>
+        <div class="calc-equivalents">
+          <span>🥙 <span id="indexKebabs">0</span> kebabs</span>
+          <span>☕ <span id="indexCoffees">0</span> cafés</span>
+          <span>🍺 <span id="indexBieres">0</span> pintes</span>
         </div>
       </div>
-      <div style="display:flex; gap:10px; flex-wrap:wrap;">
-        <a class="btn btn-primary" href="calculateur.html" data-track="cta" data-cta-id="calculator-detail" style="flex:1; font-size:0.875rem;">Voir le détail</a>
-        <a class="btn btn-secondary" href="articles/gagnez-5-euros-en-vous-inscrivant.html" data-track="cta" data-cta-id="calculator-igraal" style="flex:1; font-size:0.875rem;">Récupérer →</a>
+      <div class="calc-actions">
+        <a class="btn btn-primary" href="calculateur.html" data-track="cta" data-cta-id="calculator-detail">Voir le détail</a>
+        <a class="btn btn-secondary" href="articles/gagnez-5-euros-en-vous-inscrivant.html" data-track="cta" data-cta-id="calculator-igraal">Récupérer →</a>
       </div>
     </div>
   </div>
@@ -213,43 +220,57 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- CATÉGORIES -->
-<section>
+<section class="home-section category-section">
   <div class="container">
-    <h2>Explorer par catégorie</h2>
-    <p class="lead mt-2">Quatre thèmes pour reprendre la main sur tes finances.</p>
+    <div class="section-heading">
+      <div>
+        <span class="section-kicker">Choisis ton terrain de jeu</span>
+        <h2>Quatre façons de reprendre la main.</h2>
+      </div>
+      <p class="lead">Cashback, dépenses, budget ou revenus : commence par ce qui peut faire la différence dès ce mois-ci.</p>
+    </div>
 
-    <div class="grid grid-4 mt-6">
-      <a href="cashback.html" class="card">
+    <div class="grid grid-4 home-category-grid">
+      <a href="cashback.html" class="card category-card">
         <div class="card-meta">01 · Catégorie</div>
         <div class="card-title">Cashback</div>
         <p>Les meilleures plateformes pour récupérer une partie de tes achats. Comparatifs, taux, pièges.</p>
+        <span class="card-arrow" aria-hidden="true">↗</span>
       </a>
-      <a href="economies.html" class="card">
+      <a href="economies.html" class="card category-card">
         <div class="card-meta">02 · Catégorie</div>
         <div class="card-title">Économies</div>
         <p>Astuces concrètes pour réduire tes dépenses sans te priver. Courses, forfaits, abonnements.</p>
+        <span class="card-arrow" aria-hidden="true">↗</span>
       </a>
-      <a href="budget.html" class="card">
+      <a href="budget.html" class="card category-card">
         <div class="card-meta">03 · Catégorie</div>
         <div class="card-title">Budget</div>
         <p>Méthodes et outils pour piloter ton argent au quotidien et arrêter les fuites invisibles.</p>
+        <span class="card-arrow" aria-hidden="true">↗</span>
       </a>
-      <a href="revenus.html" class="card">
+      <a href="revenus.html" class="card category-card">
         <div class="card-meta">04 · Catégorie</div>
         <div class="card-title">Revenus</div>
         <p>Idées réalistes pour générer des revenus complémentaires et arrondir tes fins de mois.</p>
+        <span class="card-arrow" aria-hidden="true">↗</span>
       </a>
     </div>
   </div>
 </section>
 
 <!-- ARTICLES -->
-<section style="background: var(--bg-subtle); border-block: 1px solid var(--border);">
+<section class="home-section story-section">
   <div class="container">
-    <h2>Les articles qui déchirent</h2>
-    <p class="lead mt-2">Écrits pour toi, pas pour un algorithme.</p>
+    <div class="section-heading">
+      <div>
+        <span class="section-kicker">À lire maintenant</span>
+        <h2>Des guides qui vont droit au prix.</h2>
+      </div>
+      <p class="lead">Offres, limites et vrais coûts : l’essentiel pour décider vite, avec les informations qui comptent.</p>
+    </div>
 
-    <div class="grid grid-3 mt-6">
+    <div class="home-article-grid">
       <article class="article-card" data-article-card>
         <a class="article-thumb" href="articles/gta-6-sortie-leaks-ps5-gamsgo.html" aria-hidden="true" tabindex="-1"><img src="assets/img/articles/gta-6-gamsgo-ps5.jpg" alt="" loading="lazy" decoding="async" width="600" height="338"/></a>
         <div class="article-body">
@@ -300,31 +321,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </article>
     </div>
 
-    <div style="margin-top:32px; text-align:center;">
+    <div class="section-actions">
       <a href="articles.html" class="btn btn-secondary">Tous les articles →</a>
     </div>
   </div>
 </section>
 
 <!-- CTA iGraal -->
-<section>
+<section class="home-cta-section">
   <div class="container">
-    <div style="background:linear-gradient(135deg, var(--brand-700), var(--brand-600)); border-radius:var(--radius-lg); padding: clamp(32px,6vw,64px); color:#fff;">
-      <span class="eyebrow" style="background:rgba(255,255,255,0.15); color:#fff; border-color:rgba(255,255,255,0.2);">⚡ Commence maintenant</span>
-      <h2 style="color:#fff; margin-top:16px;">5€ en 8 minutes.<br>Sans rien acheter.</h2>
-      <p style="color:rgba(255,255,255,0.85); font-size:1.1rem; max-width:55ch; margin-top:12px;">
+    <div class="home-cta-card">
+      <span class="eyebrow">⚡ Commence maintenant</span>
+      <h2>5€ en 8 minutes. Sans rien acheter.</h2>
+      <p>
         Inscris-toi sur iGraal, reçois ton bonus de 5€ (+1€/extension), retire-le dans 30 jours. 5 étapes. De l'argent réel.
       </p>
-      <a class="btn btn-secondary btn-lg" href="https://fr.igraal.com/parrainage?parrain=AG_69131d3a40583&utm_medium=raf&utm_source=refer_friend" data-cta-id="homepage-igraal-final" style="margin-top:24px; color:var(--brand-700); font-weight:600;" rel="sponsored noopener noreferrer" target="_blank">
-        🔥 Créer mon compte iGraal →
+      <a class="btn btn-lg" href="https://fr.igraal.com/parrainage?parrain=AG_69131d3a40583&utm_medium=raf&utm_source=refer_friend" data-cta-id="homepage-igraal-final" rel="sponsored noopener noreferrer" target="_blank">
+        Créer mon compte iGraal →
       </a>
     </div>
   </div>
 </section>
 
 <!-- DISCLOSURE -->
-<div class="container" style="padding-block: 0 16px;">
-  <p style="font-size:0.82rem; color:var(--text-subtle); padding:8px 12px; background:var(--bg-subtle); border-radius:var(--radius-sm); border-left:3px solid var(--border-strong);">
+<div class="container home-disclosure">
+  <p>
     🔗 Certains liens sont affiliés : EuroMalin peut toucher une commission si vous passez par ces liens, sans coût supplémentaire pour vous. Nos recommandations restent basées sur l'intérêt utilisateur.
   </p>
 </div>
@@ -405,6 +426,6 @@ if (icInput) {
 </script>
 <script src="assets/affiliate-config.js" defer></script>
 <script src="assets/tracking.js" defer></script>
-<script src="assets/script.js" defer></script>
+<script src="assets/script.js?v=3" defer></script>
 </body>
 </html>
