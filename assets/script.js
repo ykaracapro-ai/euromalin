@@ -15,6 +15,7 @@
   } catch (e) {}
 
   ensureTracking();
+  classifyPageTemplate();
 
   document.addEventListener('DOMContentLoaded', function () {
     enhanceLegacyHeader();
@@ -26,6 +27,40 @@
     initScrollProgress();
     initGamsGoConversionPanel();
   });
+
+  /* ----- Give every legacy page a stable design template ----- */
+  function classifyPageTemplate() {
+    var body = document.body;
+    if (!body) return;
+
+    var path = (location.pathname || '/').toLowerCase();
+    var leaf = path.split('/').filter(Boolean).pop() || 'index.html';
+    var template = 'standard';
+
+    if (body.classList.contains('home-page') || leaf === 'index.html') {
+      template = 'home';
+    } else if (path.indexOf('/bons-plans/') !== -1) {
+      template = 'deal-detail';
+    } else if (leaf === 'bons-plans.html') {
+      template = 'deals';
+    } else if (body.querySelector('.calc-wrapper')) {
+      template = 'tool';
+    } else if (body.querySelector('#newsletterForm')) {
+      template = 'newsletter';
+    } else if (path.indexOf('/articles/') !== -1 || body.querySelector('article.article, .article.hero-card')) {
+      template = 'article';
+    } else if (body.querySelector('.page-grid') && !body.querySelector('.page-grid article')) {
+      template = 'legal';
+    } else if (body.querySelector('.grid-3 .article-card, [data-article-card]')) {
+      template = 'listing';
+    }
+
+    body.classList.add('site-page', 'template-' + template);
+    body.querySelectorAll('main > section').forEach(function (section, index) {
+      section.classList.add('site-section');
+      section.setAttribute('data-section-index', String(index + 1));
+    });
+  }
 
   /* ----- Ensure every page benefits from the same conversion tracking ----- */
   function ensureTracking() {
@@ -49,8 +84,9 @@
     var actions = document.createElement('div');
     actions.className = 'nav-actions';
 
-    // Existing CTA button (Voir les articles) — move it inside .nav-actions if present
-    var existingBtn = Array.from(nav.children).find(function (el) {
+    // Existing CTA buttons — group them inside .nav-actions so legacy headers
+    // never leave a loose button between the logo and the mobile controls.
+    var existingBtns = Array.from(nav.children).filter(function (el) {
       return el.tagName === 'A' && el.classList.contains('btn');
     });
 
@@ -64,7 +100,10 @@
       '</button>'
     ].join('');
 
-    if (existingBtn) actions.insertBefore(existingBtn, actions.firstChild);
+    var firstControl = actions.firstChild;
+    existingBtns.forEach(function (btn) {
+      actions.insertBefore(btn, firstControl);
+    });
     nav.appendChild(actions);
   }
 
